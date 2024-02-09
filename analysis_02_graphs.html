@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistische analyse en presentatie met R - 8&nbsp; Grafieken maken met ggplot2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./analysis_03_tables.html" rel="next">
+<link href="./analysis_01_descriptives.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Geen resultaten",
+    "search-matching-documents-text": "Gevonden documenten",
+    "search-copy-link-title": "Kopieer link om te zoeken",
+    "search-hide-matches-text": "Extra overeenkomsten verbergen",
+    "search-more-match-text": "meer overeenkomst in dit document",
+    "search-more-matches-text": "meer overeenkomsten in dit document",
+    "search-clear-button-title": "Wissen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuleren",
+    "search-submit-button-title": "Verzenden",
+    "search-label": "Zoeken"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part_statistical_analysis.html">Statistische analyse in R</a></li><li class="breadcrumb-item"><a href="./analysis_02_graphs.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Grafieken maken met ggplot2</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistische analyse en presentatie met R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Zoeken"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voorwoord</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part_working_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Werken met data in R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_01_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Werken met R en RStudio: de basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_02_filtering_selecting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Filteren, selecteren en hernoemen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_03_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variabelen maken, samenvatten en hercoderen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_04_missing_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ontbrekende gegevens</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_05_advanced_recoding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Geavanceerd hercoderen van variabelen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_06_merging_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data combineren</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part_statistical_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistische analyse in R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_01_descriptives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Centrum- en spreidingsmaten</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_02_graphs.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Grafieken maken met ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_03_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tabellen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_04_probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R en kansrekening</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_05_normal_distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Normaalverdeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_06_proportions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Inferentie voor proporties</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_07_chi_squared.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Chi-kwadraattoets en associatiematen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_08_t-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">T-toets voor het gemiddelde</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_09_power_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poweranalyse</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_10_anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./common_errors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Veelgemaakte fouten in R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix_formulas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Formules Statistiek I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix_install_all_packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Alle packages installeren</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhoudsopgave</h2>
+   
+  <ul>
+  <li><a href="#algemene-inleiding-tot-ggplot" id="toc-algemene-inleiding-tot-ggplot" class="nav-link active" data-scroll-target="#algemene-inleiding-tot-ggplot"><span class="header-section-number">8.1</span> Algemene inleiding tot ggplot</a>
+  <ul class="collapse">
+  <li><a href="#een-ggplot-opslaan-in-een-bestand" id="toc-een-ggplot-opslaan-in-een-bestand" class="nav-link" data-scroll-target="#een-ggplot-opslaan-in-een-bestand"><span class="header-section-number">8.1.1</span> Een ggplot opslaan in een bestand</a></li>
+  </ul></li>
+  <li><a href="#puntenwolk-scatterplot" id="toc-puntenwolk-scatterplot" class="nav-link" data-scroll-target="#puntenwolk-scatterplot"><span class="header-section-number">8.2</span> Puntenwolk (<em>scatterplot</em>)</a>
+  <ul class="collapse">
+  <li><a href="#puntenwolk-extra-opties" id="toc-puntenwolk-extra-opties" class="nav-link" data-scroll-target="#puntenwolk-extra-opties"><span class="header-section-number">8.2.1</span> Puntenwolk: extra opties</a></li>
+  <li><a href="#puntenwolk-meerdere-groepen" id="toc-puntenwolk-meerdere-groepen" class="nav-link" data-scroll-target="#puntenwolk-meerdere-groepen"><span class="header-section-number">8.2.2</span> Puntenwolk: meerdere groepen</a></li>
+  <li><a href="#puntenwolk-afzonderlijke-grafieken-per-groep" id="toc-puntenwolk-afzonderlijke-grafieken-per-groep" class="nav-link" data-scroll-target="#puntenwolk-afzonderlijke-grafieken-per-groep"><span class="header-section-number">8.2.3</span> Puntenwolk: afzonderlijke grafieken per groep</a></li>
+  </ul></li>
+  <li><a href="#dot-plot" id="toc-dot-plot" class="nav-link" data-scroll-target="#dot-plot"><span class="header-section-number">8.3</span> Dot plot</a>
+  <ul class="collapse">
+  <li><a href="#dot-plot-extra-opties" id="toc-dot-plot-extra-opties" class="nav-link" data-scroll-target="#dot-plot-extra-opties"><span class="header-section-number">8.3.1</span> Dot plot: extra opties</a></li>
+  </ul></li>
+  <li><a href="#histogram" id="toc-histogram" class="nav-link" data-scroll-target="#histogram"><span class="header-section-number">8.4</span> Histogram</a>
+  <ul class="collapse">
+  <li><a href="#histogram-bin-grootte-regelen" id="toc-histogram-bin-grootte-regelen" class="nav-link" data-scroll-target="#histogram-bin-grootte-regelen"><span class="header-section-number">8.4.1</span> Histogram: bin-grootte regelen</a></li>
+  <li><a href="#histogram-extra-opties" id="toc-histogram-extra-opties" class="nav-link" data-scroll-target="#histogram-extra-opties"><span class="header-section-number">8.4.2</span> Histogram: extra opties</a></li>
+  </ul></li>
+  <li><a href="#box-plot" id="toc-box-plot" class="nav-link" data-scroll-target="#box-plot"><span class="header-section-number">8.5</span> Box plot</a>
+  <ul class="collapse">
+  <li><a href="#box-plot-extra-opties" id="toc-box-plot-extra-opties" class="nav-link" data-scroll-target="#box-plot-extra-opties"><span class="header-section-number">8.5.1</span> Box plot: extra opties</a></li>
+  <li><a href="#box-plot-meerdere-groepen" id="toc-box-plot-meerdere-groepen" class="nav-link" data-scroll-target="#box-plot-meerdere-groepen"><span class="header-section-number">8.5.2</span> Box plot: meerdere groepen</a></li>
+  </ul></li>
+  <li><a href="#staafdiagram-bar-plot" id="toc-staafdiagram-bar-plot" class="nav-link" data-scroll-target="#staafdiagram-bar-plot"><span class="header-section-number">8.6</span> Staafdiagram (<em>Bar plot</em>)</a>
+  <ul class="collapse">
+  <li><a href="#bar-plot-extra-opties" id="toc-bar-plot-extra-opties" class="nav-link" data-scroll-target="#bar-plot-extra-opties"><span class="header-section-number">8.6.1</span> Bar plot: extra opties</a></li>
+  <li><a href="#bar-plot-meerdere-groepen" id="toc-bar-plot-meerdere-groepen" class="nav-link" data-scroll-target="#bar-plot-meerdere-groepen"><span class="header-section-number">8.6.2</span> Bar plot: meerdere groepen</a></li>
+  <li><a href="#staafdiagram-van-gemiddelden" id="toc-staafdiagram-van-gemiddelden" class="nav-link" data-scroll-target="#staafdiagram-van-gemiddelden"><span class="header-section-number">8.6.3</span> Staafdiagram van gemiddelden</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part_statistical_analysis.html">Statistische analyse in R</a></li><li class="breadcrumb-item"><a href="./analysis_02_graphs.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Grafieken maken met ggplot2</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-analysis-graphs" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Grafieken maken met ggplot2</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Het package <a href="https://ggplot2.tidyverse.org/">ggplot2</a> biedt de meest consistente en flexibele manier om grafieken te maken in R. We zullen ons concentreren op de basisgrafiektypes aan de hand van voorbeelden. Dit is wat we verwachten dat je in staat bent om te doen.</p>
+<p>Meer gedetailleerde opties zijn te vinden op de ggplot2 website en <a href="https://ggplot2.tidyverse.org/#cheatsheet">cheat sheet</a>, maar dit is geen examenstof.</p>
+<p>We gebruiken ook het package <a href="https://scales.r-lib.org/">scales</a>. Dit package geeft ons extra opties voor transformaties en om de labels, en kleurpaletten aan te passen.</p>
+<p>We laden de benodigde packages als volgt:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Dit laadt ggplot2, waarmee we de grafieken maken</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)    <span class="co"># Dit laadt scales</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openintro) <span class="co"># We maken gebruik van data uit het package openintro</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="algemene-inleiding-tot-ggplot" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="algemene-inleiding-tot-ggplot"><span class="header-section-number">8.1</span> Algemene inleiding tot ggplot</h2>
+<p>Plots met ggplot 2 worden ontworpen in lagen (<em>layers</em>).</p>
+<p>Elke ggplot begint met de <code>ggplot</code> functie, waarin je de dataset definieert die wordt gebruikt en de belangrijkste variabelen. Bijvoorbeeld in de grafiek hieronder definiëren we <code>loan50</code> als de <code>data</code> . Vervolgens koppelen (“mapping”) we de variabelen die we gebruiken met behulp van de <code>aes</code> functie, die variabelen koppelt aan elementen van de grafiek. In onderstaand voorbeeld geven we aan dat we de variabele <code>total_income</code> op de x-as willen gebruiken en <code>loan_amount</code> op de y-as.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50) <span class="co"># Hiermee laden we de dataset loan50 van openintro</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> total_income, <span class="at">y =</span> loan_amount))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>De bovenstaande code produceert een ‘lege’ grafiek, omdat we R nog niet hebben verteld wat voor soort grafiek we willen produceren: misschien een lijngrafiek, een puntenwolk of iets anders? We moeten een <code>geom</code>-laag aan de grafiek toevoegen om punten, lijnen of balken in de grafiek te kunnen produceren. Hieronder voegen we punten toe aan de grafiek met <code>geom_point()</code>. Merk op dat we ook een plusteken (<code>+</code>) toevoegen na de tweede regel, die ervoor zorgt dat we de punten toevoegen aan onze grafiek:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> total_income, <span class="at">y =</span> loan_amount)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We kunnen ook extra lagen toevoegen om de grafiek er anders uit te laten zien, labels te veranderen of andere elementen aan de grafiek toe te voegen. Voorbeelden hiervan vind je voor elk van de grafiektypes hieronder.</p>
+<section id="een-ggplot-opslaan-in-een-bestand" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="een-ggplot-opslaan-in-een-bestand"><span class="header-section-number">8.1.1</span> Een ggplot opslaan in een bestand</h3>
+<p>Als je een grafiek wilt gebruiken in bijvoorbeeld een Word-document of Powerpoint, kun je de ggplot exporteren met <code>ggsave</code>. Dit slaat de laatste ggplot op in een bestand:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> total_income, <span class="at">y =</span> loan_amount)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">filename =</span> <span class="st">"scatterplot_example.png"</span>, </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">width=</span><span class="dv">7</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">height=</span><span class="dv">7</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<dl>
+<dt><code>filename = "scatterplot_example.png"</code></dt>
+<dd>
+<p>Je moet het bestand een naam en een extensie geven. In dit voorbeeld is de bestandsnaam ingesteld op <code>scatterplot_example.png</code>. Dit maakt een <a href="https://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG-bestand</a>, wat vaak goed werkt als je de grafiek wilt gebruiken in een tekstdocument of presentatie. Je kunt ook andere bestandsformaten maken, zoals een <code>jpeg</code> of <code>pdf</code> bestand, door de extensie te veranderen, bijvoorbeeld <code>scatterplot_example.pdf</code>.</p>
+</dd>
+<dt><code>width = 7</code></dt>
+<dd>
+<p>Dit geeft de breedte van de grafiek in inches.</p>
+</dd>
+<dt><code>height = 7</code></dt>
+<dd>
+<p>Geeft de hoogte van de grafiek in inches.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="puntenwolk-scatterplot" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="puntenwolk-scatterplot"><span class="header-section-number">8.2</span> Puntenwolk (<em>scatterplot</em>)</h2>
+<p>Een puntenwolk geeft een overzicht van elk uniek punt voor twee numerieke waarden. Dit werkt vooral goed als er veel unieke waarden zijn.</p>
+<p>In het onderstaande voorbeeld zetten we <code>total_income</code> op de x-as (horizontaal) en <code>loan_amount</code> op de y-as (verticaal).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50) <span class="co"># This loads the dataset loan50 from openintro</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> total_income, <span class="at">y =</span> loan_amount)) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>data = loan50</code></dt>
+<dd>
+<p>Dit stukje code zegt dat het dataframe dat we gebruiken <code>loan50</code> heet. Voor je eigen grafiek zou je <code>loan50</code> vervangen door de naam van het data.frame dat je gebruikt.</p>
+</dd>
+<dt><code>mapping = aes(x = total_income, y = loan_amount)</code></dt>
+<dd>
+<p>Dit deel van de code geeft aan dat <code>total_income</code> de variabele is die we willen weergeven op de x-as en <code>loan_amount</code> moet worden weergegeven op de y-as. Voor je eigen grafiek zou je dus <code>total_income</code> en <code>loan_amount</code> vervangen door je eigen variabelen.</p>
+</dd>
+<dt><code>geom_point()</code></dt>
+<dd>
+<p>Dit vertelt ggplot2 dat we een scatterplot willen maken met punten voor de twee variabelen. We hebben geen extra argumenten nodig voor een eenvoudige scatterplot.</p>
+</dd>
+</dl>
+<section id="puntenwolk-extra-opties" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="puntenwolk-extra-opties"><span class="header-section-number">8.2.1</span> Puntenwolk: extra opties</h3>
+<p>Om de scatterplot er wat mooier uit te laten zien, kunnen we extra opties toevoegen. Om opties aan een plot toe te voegen gebruiken we het <code>+</code> teken aan het eind van de regel:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> total_income, <span class="at">y =</span> loan_amount)) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">colour =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Total income and loan amount"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Total Income"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Loan Amount"</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels=</span><span class="fu">label_dollar</span>()) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span><span class="fu">label_dollar</span>()) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_point(size = 2, colour = "grey")</code></dt>
+<dd>
+<p>Met deze opties kunnen we de grootte en de kleur van de stippen instellen. Merk op dat de kleurnaam een <em>character vector</em> is en tussen aanhalingstekens moet worden geplaatst: “grey”.</p>
+</dd>
+<dt><code>labs(title = "Title", x = "x axis title", y = "y axis title")</code></dt>
+<dd>
+<p>Deze optie voegt mooiere namen toe voor de titel van de grafiek, en de titels van de x- en y-as.</p>
+</dd>
+<dt><code>scale_x_continuous(labels=scales::label_dollar())</code></dt>
+<dd>
+<p>Deze optie en haar ‘zusje’ <code>scale_y_continuous</code> veranderen hoe de waarden en assen worden weergegeven. In dit geval willen we de waarden in dollars weergeven. Dit kan worden gedaan met <code>label_dollar()</code> uit package <code>scales</code>.</p>
+</dd>
+<dt><code>theme_minimal()</code></dt>
+<dd>
+<p>Om het uiterlijk van een grafiek te veranderen, kun je de <code>theme_*</code> functies gebruiken (waarbij je in plaats van ster verschillende opties kunt toevoegen, zoals <code>theme_minimal()</code>, <code>theme_classic()</code> of <code>theme_light()</code>.</p>
+</dd>
+</dl>
+</section>
+<section id="puntenwolk-meerdere-groepen" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="puntenwolk-meerdere-groepen"><span class="header-section-number">8.2.2</span> Puntenwolk: meerdere groepen</h3>
+<p>Soms heb je verschillende groepen in je gegevens die je zou willen visualiseren. In dat geval kan je <code>geom_point</code> aanpassen om de kleur of de vorm van de punten per groep te veranderen. In dit voorbeeld zal de kleur van de punt aangeven om wat voor type huiseigenaar het gaat:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> total_income, <span class="at">y =</span> loan_amount)) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> homeownership)) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_point(aes(colour = homeownership))</code></dt>
+<dd>
+<p>Dit geeft aan dat de <code>kleur</code> van de punten zal variëren per categorie van <code>homeownership</code> (huur, hypotheek, eigen huis). R zal automatisch een kleur (<code>colour</code>) kiezen voor elke groep. Voor je eigen grafiek, zou je <code>homeownership</code> veranderen in je eigen groeperingsvariabele. Opmerking: vergeet niet om <code>colour = homeownership</code> in <code>aes()</code> te zetten.</p>
+</dd>
+</dl>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> total_income, <span class="at">y =</span> loan_amount)) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> homeownership)) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_point(aes(shape = homeownership))</code></dt>
+<dd>
+<p>Dit geeft aan dat de vorm (<code>shape</code>) van de punten zal variëren per categorie van <code>homeownership</code>. R zal automatisch een <code>shape</code> kiezen voor elke groep. Voor uw eigen grafiek, zou u <code>homeownership</code> veranderen in uw eigen groeperingsvariabele. Opmerking: vergeet niet om <code>shape = homeownership</code> in <code>aes()</code> te zetten.</p>
+</dd>
+</dl>
+</section>
+<section id="puntenwolk-afzonderlijke-grafieken-per-groep" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="puntenwolk-afzonderlijke-grafieken-per-groep"><span class="header-section-number">8.2.3</span> Puntenwolk: afzonderlijke grafieken per groep</h3>
+<p>Soms wil je, in plaats van verschillende kleuren of vormen voor een groep te gebruiken, een aparte grafiek voor elke groep maken. Deze worden “facetten” (<em>facets</em>) genoemd en kunnen als volgt worden gemaakt:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> total_income, <span class="at">y =</span> loan_amount)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(homeownership))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>facet_wrap(vars(homeownership))</code></dt>
+<dd>
+<p>Dit geeft aan dat we een apart “facet” willen produceren voor elke waarde van <code>woningbezit</code> (huur, hypotheek, eigen). Voor uw eigen grafiek, zou u <code>homeownership</code> veranderen in uw eigen groeperingsvariabele. Opmerking: vergeet niet om de variabele naam in <code>vars()</code> te zetten. Er zijn extra opties voor de functie <a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html"><code>facet_wrap</code></a> om te bepalen hoe deze worden weergegeven, bijvoorbeeld het aantal rijen (<code>nrow</code>) en kolommen (<code>ncol</code>).</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="dot-plot" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="dot-plot"><span class="header-section-number">8.3</span> Dot plot</h2>
+<p>Een dot plot vat de waarden voor een enkele variabele samen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> interest_rate)) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Bin width defaults to 1/30 of the range of the data. Pick better value with
+`binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>data = loan50</code></dt>
+<dd>
+<p>Dit stukje code zegt dat het dataframe dat we gebruiken <code>loan50</code> heet. Voor je eigen grafiek zou je <code>loan50</code> vervangen door de naam van het data.frame dat je gebruikt.</p>
+</dd>
+<dt><code>mapping = aes(x = interest_rate)</code></dt>
+<dd>
+<p>Dit deel van de code zegt dat <code>interest_rate</code> de variabele is die we willen weergeven. Voor je eigen grafiek zou je dus <code>interest_rate</code> vervangen door je eigen variabele.</p>
+</dd>
+<dt><code>geom_dotplot()</code></dt>
+<dd>
+<p>Dit vertelt ggplot2 dat we een dotplot willen maken. We hebben geen bijkomende opties nodig voor een basis dotplot.</p>
+</dd>
+</dl>
+<section id="dot-plot-extra-opties" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="dot-plot-extra-opties"><span class="header-section-number">8.3.1</span> Dot plot: extra opties</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> interest_rate)) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>() <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Dot plot of interest rate"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Interest rate"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span><span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> <span class="fu">label_percent</span>(<span class="at">scale=</span><span class="dv">1</span>),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">5</span>,<span class="dv">25</span>,<span class="at">by=</span><span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Bin width defaults to 1/30 of the range of the data. Pick better value with
+`binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>labs(title = "Title", x = "x axis title", y = "")</code></dt>
+<dd>
+<p>Deze optie voegt mooiere namen toe voor de titel van de grafiek, en de titels van de x- en y-as. In het voorbeeld verwijderen we de titel van de y-as door hem op niets te zetten (<code>""</code>)</p>
+</dd>
+<dt><code>scale_x_continuous(labels = label_percent(scale=1), breaks=seq(5,25,by=5)</code></dt>
+<dd>
+<p>Deze optie verandert hoe de x-as wordt weergegeven. In dit geval willen we de waarden in percentages weergeven. Dit kan gedaan worden met <code>label_percent(scale = 1)</code> uit package <code>scales</code>. We stellen ook <code>breaks=seq(5,25, by=5)</code> in om R te vertellen dat we de waarden van de x-as willen weergeven op 5%, 10%, 15%, 20% en 25%.</p>
+</dd>
+<dt><code>theme_minimal()</code></dt>
+<dd>
+<p>Om het uiterlijk van een grafiek te veranderen, kun je de <code>theme_*</code> functies gebruiken (waarbij je in plaats van ster verschillende opties kunt toevoegen, zoals <code>theme_minimal()</code>, <code>theme_classic()</code> of <code>theme_light()</code>.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="histogram" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="histogram"><span class="header-section-number">8.4</span> Histogram</h2>
+<p>Een histogram geeft een overzicht van een numerieke variabele, door de tellingen van (gegroepeerde) waarden weer te geven.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> interest_rate)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>data = loan50</code></dt>
+<dd>
+<p>Dit stukje code zegt dat het dataframe dat we gebruiken <code>loan50</code> heet. Voor je eigen grafiek zou je <code>loan50</code> vervangen door de naam van het data.frame dat je gebruikt.</p>
+</dd>
+<dt><code>mapping = aes(x = interest_rate)</code></dt>
+<dd>
+<p>Dit deel van de code zegt dat <code>interest_rate</code> de variabele is die we willen weergeven. Voor je eigen grafiek zou je dus <code>interest_rate</code> vervangen door je eigen variabele.</p>
+</dd>
+<dt><code>geom_histogram()</code></dt>
+<dd>
+<p>Dit vertelt ggplot2 dat we een histogram willen maken. Dit produceert een basis histogram met 30 <em>bins</em> (zie hieronder voor opties die deze standaardinstelling veranderen).</p>
+</dd>
+</dl>
+<section id="histogram-bin-grootte-regelen" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="histogram-bin-grootte-regelen"><span class="header-section-number">8.4.1</span> Histogram: bin-grootte regelen</h3>
+<p>Er zijn verschillende mogelijkheden om te bepalen hoe de gegevens van de variabele worden gegroepeerd: de breedte van de <em>bins</em> (‘bakken’), het aantal <em>bins</em> of handmatige breekpunten instellen:</p>
+<section id="breedte-van-de-bins" class="level4" data-number="8.4.1.1">
+<h4 data-number="8.4.1.1" class="anchored" data-anchor-id="breedte-van-de-bins"><span class="header-section-number">8.4.1.1</span> Breedte van de bins</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> interest_rate)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="fl">2.5</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_histogram(binwidth = 2.5)</code></dt>
+<dd>
+<p>De optie binwidth stelt de breedte van de bins in, in dit voorbeeld op 2.5.</p>
+</dd>
+</dl>
+</section>
+<section id="aantal-bins" class="level4" data-number="8.4.1.2">
+<h4 data-number="8.4.1.2" class="anchored" data-anchor-id="aantal-bins"><span class="header-section-number">8.4.1.2</span> Aantal bins</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> interest_rate)) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">10</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_histogram(bins = 10)</code></dt>
+<dd>
+<p>De optie bins stelt het aantal bins in, in dit voorbeeld 10.</p>
+</dd>
+</dl>
+</section>
+<section id="handmatige-breekpunten" class="level4" data-number="8.4.1.3">
+<h4 data-number="8.4.1.3" class="anchored" data-anchor-id="handmatige-breekpunten"><span class="header-section-number">8.4.1.3</span> Handmatige breekpunten</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> interest_rate)) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">5</span>,<span class="fl">27.5</span>,<span class="at">by=</span><span class="fl">2.5</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_histogram(breaks=seq(5,27.5,by=2.5)</code></dt>
+<dd>
+<p>De optie <code>breaks</code> stelt exacte breekpunten in voor de bins in de histogrammen. In dit voorbeeld stellen we breekpunten in van 5 tot 27.5 in stappen van 2.5 (d.w.z. de eerste bin is 5-7.5, de tweede 7.5-10, etc.).</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="histogram-extra-opties" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="histogram-extra-opties"><span class="header-section-number">8.4.2</span> Histogram: extra opties</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> interest_rate)) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">5</span>,<span class="fl">27.5</span>,<span class="at">by=</span><span class="fl">2.5</span>), <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">fill=</span><span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of interest rate"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Interest Rate"</span>, <span class="at">y=</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_histogram(colour = "black", fill="grey")</code></dt>
+<dd>
+<p>Dit regelt het uiterlijk van de balken. In dit voorbeeld voegen we een zwarte rand toe aan de balk door de <code>colour</code> (kleur) in te stellen en de <code>fill</code> (vulkleur) te veranderen in grijs.</p>
+</dd>
+<dt><code>labs(title = "Title", x = "x axis title", y = "y axis title")</code></dt>
+<dd>
+<p>Deze optie voegt mooiere namen toe voor de titel van de grafiek, en de titels van de x- en y-as.</p>
+</dd>
+<dt><code>theme_minimal()</code></dt>
+<dd>
+<p>Om het uiterlijk van een grafiek te veranderen, kun je de <code>theme_*</code> functies gebruiken (waarbij je in plaats van ster verschillende opties kunt toevoegen, zoals <code>theme_minimal()</code>, <code>theme_classic()</code> of <code>theme_light()</code>.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="box-plot" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="box-plot"><span class="header-section-number">8.5</span> Box plot</h2>
+<p>Een boxplot geeft een samenvatting van een variabele, met behulp van vijf statistieken, waaronder de mediaan, Q1 en Q3.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> interest_rate)) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>data = loan50</code></dt>
+<dd>
+<p>Dit stukje code zegt dat het dataframe dat we gebruiken <code>loan50</code> heet. Voor je eigen grafiek zou je <code>loan50</code> vervangen door de naam van het dataframe dat je gebruikt.</p>
+</dd>
+<dt><code>mapping = aes(x = interest_rate)</code></dt>
+<dd>
+<p>Dit deel van de code zegt dat <code>interest_rate</code> de variabele is die we willen weergeven. Voor je eigen grafiek zou je dus <code>interest_rate</code> vervangen door je eigen variabele.</p>
+</dd>
+<dt><code>geom_boxplot()</code></dt>
+<dd>
+<p>Dit vertelt ggplot2 dat we een boxplot willen maken. Dit produceert een basis boxplot.</p>
+</dd>
+</dl>
+<section id="box-plot-extra-opties" class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="box-plot-extra-opties"><span class="header-section-number">8.5.1</span> Box plot: extra opties</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> interest_rate)) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Boxplot of interest rate"</span>, </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Interest rate"</span>) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_blank</span>(),<span class="at">axis.ticks.x=</span><span class="fu">element_blank</span>())</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>aes(y = interest_rate)</code></dt>
+<dd>
+<p>Als we interest_rate op de y-as zetten (in plaats van op de x-as) veranderen we de oriëntatie van de boxplot.</p>
+</dd>
+<dt><code>geom_boxplot(fill = "grey")</code></dt>
+<dd>
+<p>De optie <code>fill</code> bepaalt de kleur van de vakjes. Merk op dat de kleur tussen aanhalingstekens moet worden opgegeven (dus <code>"grey"</code>).</p>
+</dd>
+<dt><code>labs(title = "Title", x = "x axis title", y = "y axis title")</code></dt>
+<dd>
+<p>Deze optie voegt mooiere namen toe voor de titel van de grafiek, en de titels van de x- en y-as.</p>
+</dd>
+<dt><code>theme_minimal()</code></dt>
+<dd>
+<p>Om het uiterlijk van een grafiek te veranderen, kun je de <code>theme_*</code> functies gebruiken (waarbij je in plaats van ster verschillende opties kunt toevoegen, zoals <code>theme_minimal()</code>, <code>theme_classic()</code> of <code>theme_light()</code>.</p>
+</dd>
+<dt><code>theme(axis.text.x=element_blank(),axis.ticks.x=element_blank())</code></dt>
+<dd>
+<p>Deze optie zorgt dat op de x as geen labels and ticks weergegeven worden, aangezien deze betekenisloos zijn.</p>
+</dd>
+</dl>
+</section>
+<section id="box-plot-meerdere-groepen" class="level3" data-number="8.5.2">
+<h3 data-number="8.5.2" class="anchored" data-anchor-id="box-plot-meerdere-groepen"><span class="header-section-number">8.5.2</span> Box plot: meerdere groepen</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> interest_rate, <span class="at">y =</span> homeownership)) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>aes(x = interest_rate, y = homeownership)</code></dt>
+<dd>
+<p>In dit voorbeeld geven we de rente (interest rate) weer per type woningbezit (eigen, hypotheek, huur). Hier plaatsen we <code>interest_rate</code> op de x-as en <code>homeownership</code> op de y-as. Merk op dat de tweede variabele (in dit geval <code>homeownership</code>) een <code>factor</code> of <code>character</code> variabele moet zijn (d.w.z. categoriaal).</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="staafdiagram-bar-plot" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="staafdiagram-bar-plot"><span class="header-section-number">8.6</span> Staafdiagram (<em>Bar plot</em>)</h2>
+<p>Een staafdiagram kan worden gebruikt om tellingen of proporties van categoriale variabelen weer te geven. U kunt het ook gebruiken om samenvattende statistieken (bv. gemiddelden) voor verschillende groepen weer te geven.</p>
+<blockquote class="blockquote">
+<p>Merk op dat een <strong>histogram</strong> wordt gebruikt voor de weergave van frequenties van numerieke (interval-ratio) variabelen, terwijl een <strong>staafdiagram</strong> wordt gebruikt voor de weergave van frequenties van categoriale variabelen.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> homeownership)) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>data = loan50</code></dt>
+<dd>
+<p>Dit stukje code zegt dat het dataframe dat we gebruiken <code>loan50</code> heet. Voor je eigen grafiek zou je <code>loan50</code> vervangen door de naam van het dataframe dat je gebruikt.</p>
+</dd>
+<dt><code>mapping = aes(x = homeownership)</code></dt>
+<dd>
+<p>Dit deel van de code zegt dat <code>homeownership</code> de variabele is die we willen laten zien. Voor je eigen grafiek, zou je dus <code>homeownership</code> vervangen door je eigen variabele.</p>
+</dd>
+<dt><code>geom_bar()</code></dt>
+<dd>
+<p>Dit vertelt ggplot2 dat we een barplot willen maken. Dit produceert een basis barplot.</p>
+</dd>
+</dl>
+<section id="bar-plot-extra-opties" class="level3" data-number="8.6.1">
+<h3 data-number="8.6.1" class="anchored" data-anchor-id="bar-plot-extra-opties"><span class="header-section-number">8.6.1</span> Bar plot: extra opties</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> homeownership)) <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"grey"</span>, <span class="at">colour =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Homeownership"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Home ownership type"</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_bar(fill = "grey", colour = "black")</code></dt>
+<dd>
+<p>De optie <code>fill</code> bepaalt de kleur van de balken en <code>colour</code> bepaalt de kleur van de rand. Merk op dat de kleur tussen aanhalingstekens moet worden opgegeven (dus <code>"grey"</code>).</p>
+</dd>
+<dt><code>labs(title = "Title", x = "x axis title", y = "y axis title")</code></dt>
+<dd>
+<p>Deze optie voegt mooiere namen toe voor de titel van de grafiek, en de titels van de x- en y-as. Opmerking: als je de manier waarop de categorieën worden gepresenteerd wilt veranderen (d.w.z. “Huur” in plaats van “huur”), moet je de variabele <code>homeownership</code> hercoderen.</p>
+</dd>
+<dt><code>theme_minimal()</code></dt>
+<dd>
+<p>Om het uiterlijk van een grafiek te veranderen, kun je de <code>theme_*</code> functies gebruiken (waarbij je in plaats van ster verschillende opties kunt toevoegen, zoals <code>theme_minimal()</code>, <code>theme_classic()</code> of <code>theme_light()</code>.</p>
+</dd>
+</dl>
+</section>
+<section id="bar-plot-meerdere-groepen" class="level3" data-number="8.6.2">
+<h3 data-number="8.6.2" class="anchored" data-anchor-id="bar-plot-meerdere-groepen"><span class="header-section-number">8.6.2</span> Bar plot: meerdere groepen</h3>
+<p>Wanneer je twee categoriale variabelen hebt, kun je een staafdiagram maken dat beide variabelen weergeeft. In het onderstaande geval geven we <code>homeownership</code> en <code>verified_income</code> weer.</p>
+<section id="gestapelde-staafdiagram-stacked-bar-plot" class="level4" data-number="8.6.2.1">
+<h4 data-number="8.6.2.1" class="anchored" data-anchor-id="gestapelde-staafdiagram-stacked-bar-plot"><span class="header-section-number">8.6.2.1</span> Gestapelde staafdiagram (<em>stacked bar plot</em>)</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> homeownership)) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill =</span> verified_income))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_bar(aes(fill = verified_income))</code></dt>
+<dd>
+<p>De optie <code>fill</code> (binnen <code>aes</code> ) geeft aan dat we elke staaf willen onderverdelen naar de categorieën van <code>verified_income</code>.</p>
+</dd>
+</dl>
+<p><strong><em>Note:</em></strong> als je de labels in de legenda van deze grafiek wilt veranderen, kun je het beste de variabele (<code>verified_income</code>) hernoemen (<code>rename</code>) en hercoderen (<code>recode</code>). Dit behandelen we in de komende weken.</p>
+</section>
+<section id="staven-naast-elkaar" class="level4" data-number="8.6.2.2">
+<h4 data-number="8.6.2.2" class="anchored" data-anchor-id="staven-naast-elkaar"><span class="header-section-number">8.6.2.2</span> Staven naast elkaar</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> homeownership)) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill =</span> verified_income), <span class="at">position=</span><span class="st">"dodge"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_bar(aes(fill = verified_income), position = "dodge")</code></dt>
+<dd>
+<p>De optie <code>fill</code> (binnen <code>aes</code> ) geeft aan dat we elke staaf willen onderverdelen naar de categorieën van <code>verified_income</code>. We voegen <code>position = "dodge"</code> toe om de staven naast elkaar weer te geven in plaats van te stapelen.</p>
+</dd>
+</dl>
+</section>
+<section id="percentage-gestapeld-staafdiagram" class="level4" data-number="8.6.2.3">
+<h4 data-number="8.6.2.3" class="anchored" data-anchor-id="percentage-gestapeld-staafdiagram"><span class="header-section-number">8.6.2.3</span> Percentage gestapeld staafdiagram</h4>
+<p>Dit type staafdiagram stapelt de subcategorieën, maar berekent ze als een percentage.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> homeownership)) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill =</span> verified_income), <span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_percent</span>()) <span class="sc">+</span> </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Percentage"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>geom_bar(aes(fill = verified_income), position = "fill")</code></dt>
+<dd>
+<p>De optie <code>fill</code> (binnen <code>aes</code> ) geeft aan dat we elke staaf willen onderverdelen naar de categorieën van <code>verified_income</code>.</p>
+</dd>
+<dt><code>scale_y_continuous(labels = label_percent())</code></dt>
+<dd>
+<p>Dit zorgt ervoor dat percentages in plaats van aantallen op de y-as worden weergegeven. De functie <code>label_percent()</code> komt uit package <code>scales</code>.</p>
+</dd>
+<dt><code>labs(y = "Percentage")</code></dt>
+<dd>
+<p>Om ervoor te zorgen dat op de y-as “Percentage” staat in plaats van “Counts”, wijzigen we het label van de y-as.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="staafdiagram-van-gemiddelden" class="level3" data-number="8.6.3">
+<h3 data-number="8.6.3" class="anchored" data-anchor-id="staafdiagram-van-gemiddelden"><span class="header-section-number">8.6.3</span> Staafdiagram van gemiddelden</h3>
+<p>We kunnen ook staafdiagrammen gebruiken om statistieken weer te geven (bijvoorbeeld gemiddelden) van een numerieke variabele voor elke categorie van een categorische variabele. Laten we bijvoorbeeld de gemiddelde <code>interest_rate</code> per type <code>homeownership</code> plotten.</p>
+<p>Eerst moeten we een dataframe maken dat de gemiddelde rente per type huiseigendom laat zien. Dit kunnen we doen met <code>group_by</code> en <code>summarise</code> uit het <code>dplyr</code> pakket. We zullen deze functies later in de cursus in meer detail bespreken. Voor nu is het voldoende om te begrijpen dat we de gemiddelde rente voor elk type huizenbezit berekenen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(loan50)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>loan50_means <span class="ot">&lt;-</span> loan50 <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(homeownership) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">interest_rate =</span> <span class="fu">mean</span>(interest_rate, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>loan50_means</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  homeownership interest_rate
+  &lt;fct&gt;                 &lt;dbl&gt;
+1 rent                   10.8
+2 mortgage               11.9
+3 own                    13.9</code></pre>
+</div>
+</div>
+<p>Met dit nieuwe dataframe <code>loan50_means</code>, kunnen we een staafdiagram maken van deze gemiddelden, met <code>geom_col()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> loan50_means,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> homeownership, <span class="at">y =</span> interest_rate)) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_02_graphs_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<dl>
+<dt><code>data = loan50_means</code></dt>
+<dd>
+<p>Merk op dat we hier de dataset <code>loan50_means</code> gebruiken, die we hierboven hebben gemaakt. Deze bevat de gemiddelde <code>interest_rate</code> per type <code>homeownership</code>.</p>
+</dd>
+<dt><code>mapping = aes(x = homeownership, y = interest_rate)</code></dt>
+<dd>
+<p>Dit deel van de code geeft de categoriale (x) variabele en de numerieke (y) variabele.</p>
+</dd>
+<dt><code>geom_col()</code></dt>
+<dd>
+<p>Dit vertelt ggplot2 dat we een staafdiagram willen maken waar we de waarden van de gegevens willen weergeven (niet de tellingen per groep, zoals met <code>geom_bar</code>).</p>
+</dd>
+</dl>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Gekopieerd!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Gekopieerd!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./analysis_01_descriptives.html" class="pagination-link  aria-label=" &lt;span="" en="" spreidingsmaten&lt;="" span&gt;"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Centrum- en spreidingsmaten</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./analysis_03_tables.html" class="pagination-link" aria-label="<span class='chapter-number'>9</span>&nbsp; <span class='chapter-title'>Tabellen</span>">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tabellen</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

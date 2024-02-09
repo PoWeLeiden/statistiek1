@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistische analyse en presentatie met R - 14&nbsp; T-toets voor het gemiddelde</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./analysis_09_power_analysis.html" rel="next">
+<link href="./analysis_07_chi_squared.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Geen resultaten",
+    "search-matching-documents-text": "Gevonden documenten",
+    "search-copy-link-title": "Kopieer link om te zoeken",
+    "search-hide-matches-text": "Extra overeenkomsten verbergen",
+    "search-more-match-text": "meer overeenkomst in dit document",
+    "search-more-matches-text": "meer overeenkomsten in dit document",
+    "search-clear-button-title": "Wissen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuleren",
+    "search-submit-button-title": "Verzenden",
+    "search-label": "Zoeken"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part_statistical_analysis.html">Statistische analyse in R</a></li><li class="breadcrumb-item"><a href="./analysis_08_t-test.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">T-toets voor het gemiddelde</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistische analyse en presentatie met R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Zoeken"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voorwoord</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part_working_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Werken met data in R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_01_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Werken met R en RStudio: de basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_02_filtering_selecting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Filteren, selecteren en hernoemen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_03_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variabelen maken, samenvatten en hercoderen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_04_missing_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ontbrekende gegevens</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_05_advanced_recoding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Geavanceerd hercoderen van variabelen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_06_merging_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data combineren</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part_statistical_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistische analyse in R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_01_descriptives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Centrum- en spreidingsmaten</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_02_graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Grafieken maken met ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_03_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tabellen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_04_probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R en kansrekening</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_05_normal_distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Normaalverdeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_06_proportions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Inferentie voor proporties</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_07_chi_squared.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Chi-kwadraattoets en associatiematen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_08_t-test.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">T-toets voor het gemiddelde</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_09_power_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poweranalyse</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_10_anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./common_errors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Veelgemaakte fouten in R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix_formulas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Formules Statistiek I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix_install_all_packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Alle packages installeren</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhoudsopgave</h2>
+   
+  <ul>
+  <li><a href="#sec-analysis-t-test-standard-error" id="toc-sec-analysis-t-test-standard-error" class="nav-link active" data-scroll-target="#sec-analysis-t-test-standard-error"><span class="header-section-number">14.1</span> Standaardfout van het gemiddelde</a></li>
+  <li><a href="#t-toetsen" id="toc-t-toetsen" class="nav-link" data-scroll-target="#t-toetsen"><span class="header-section-number">14.2</span> T-toetsen</a>
+  <ul class="collapse">
+  <li><a href="#enkelvoudige-t-toets" id="toc-enkelvoudige-t-toets" class="nav-link" data-scroll-target="#enkelvoudige-t-toets"><span class="header-section-number">14.2.1</span> Enkelvoudige T-toets</a></li>
+  <li><a href="#t-toets-voor-gepaarde-steekproeven" id="toc-t-toets-voor-gepaarde-steekproeven" class="nav-link" data-scroll-target="#t-toets-voor-gepaarde-steekproeven"><span class="header-section-number">14.2.2</span> T-toets voor gepaarde steekproeven</a></li>
+  <li><a href="#t-toets-voor-onafhankelijke-steekproeven" id="toc-t-toets-voor-onafhankelijke-steekproeven" class="nav-link" data-scroll-target="#t-toets-voor-onafhankelijke-steekproeven"><span class="header-section-number">14.2.3</span> T-toets voor onafhankelijke steekproeven</a></li>
+  </ul></li>
+  <li><a href="#effectgroottes-voor-t-toetsen" id="toc-effectgroottes-voor-t-toetsen" class="nav-link" data-scroll-target="#effectgroottes-voor-t-toetsen"><span class="header-section-number">14.3</span> Effectgroottes voor t-toetsen</a>
+  <ul class="collapse">
+  <li><a href="#cohens-d-voor-één-steekproef" id="toc-cohens-d-voor-één-steekproef" class="nav-link" data-scroll-target="#cohens-d-voor-één-steekproef"><span class="header-section-number">14.3.1</span> Cohen’s <span class="math inline">\(d\)</span> voor één steekproef</a></li>
+  <li><a href="#cohens-d-voor-gepaarde-steekproeven" id="toc-cohens-d-voor-gepaarde-steekproeven" class="nav-link" data-scroll-target="#cohens-d-voor-gepaarde-steekproeven"><span class="header-section-number">14.3.2</span> Cohen’s d voor gepaarde steekproeven</a></li>
+  <li><a href="#hedges-g_s-voor-onafhankelijke-steekproeven" id="toc-hedges-g_s-voor-onafhankelijke-steekproeven" class="nav-link" data-scroll-target="#hedges-g_s-voor-onafhankelijke-steekproeven"><span class="header-section-number">14.3.3</span> Hedges’ <span class="math inline">\(g^*_s\)</span> voor onafhankelijke steekproeven</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part_statistical_analysis.html">Statistische analyse in R</a></li><li class="breadcrumb-item"><a href="./analysis_08_t-test.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">T-toets voor het gemiddelde</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-analysis-t-test" class="quarto-section-identifier"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">T-toets voor het gemiddelde</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>We gebruiken in dit hoofdstuk gegevens uit de Canadian Election Study van 2019 als voorbeeld:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>canada <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"2019 Canadian Election Study.rds"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="sec-analysis-t-test-standard-error" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="sec-analysis-t-test-standard-error"><span class="header-section-number">14.1</span> Standaardfout van het gemiddelde</h2>
+<p>De standaardfout van het gemiddelde kan worden geschat als <span class="math inline">\(\frac{s}{\sqrt{n}}\)</span>. In R kunnen we de functie <code>MeanSE</code> uit package <code>DescTools</code> gebruiken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>example_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>)  <span class="co"># Voorbeeldgegevens van 20 normaal verdeelde willekeurige getallen.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">MeanSE</span>(<span class="at">x =</span> example_vector, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2744196</code></pre>
+</div>
+</div>
+<dl>
+<dt><code>MeanSE(…)</code></dt>
+<dd>
+<p>Deze functie berekent de standaardfout van het gemiddelde voor een vector van getallen.</p>
+</dd>
+<dt><code>x = example_vector</code></dt>
+<dd>
+<p>We willen de SE van het gemiddelde berekenen voor de waarden in <code>example_vector</code>. Voor je eigen gegevens verander je dit in de juiste vectornaam.</p>
+</dd>
+<dt><code>na.rm = TRUE</code></dt>
+<dd>
+<p>Deze optie zorgt ervoor dat ontbrekende waarden worden genegeerd.</p>
+</dd>
+</dl>
+<p>Je kunt ook <code>MeanSE</code> gebruiken voor een variabele in een dataframe:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># $ gebruiken om een variabele uit een dataframe te selecteren</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">MeanSE</span>(canada<span class="sc">$</span>cps19_age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.08541655</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Met behulp van de functie summarise</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>canada <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">SE_age =</span> <span class="fu">MeanSE</span>(cps19_age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      SE_age
+1 0.08541655</code></pre>
+</div>
+</div>
+<p>De functie <code>describe</code> in package <code>psych</code> geeft de standaardfout voor de gemiddelde voor alle variabelen in een dataframe. Dit is vooral nuttig wanneer we snel de standaardfout voor meerdere variabelen willen berekenen. In dit voorbeeld selecteren we drie interval-ratio variabelen uit de Canadian Election Study van 2019 (die we hierboven hebben geïmporteerd):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecteer drie variabelen van "canada" en wijs toe aan dataset "canada_selectie"</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>canada_selection <span class="ot">&lt;-</span> canada <span class="sc">|&gt;</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(cps19_age, cps19_lr_parties_1, cps19_lr_parties_2)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Gebruik describe om samenvattende statistieken te berekenen voor "canada_selectie"</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(canada_selection)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   vars     n  mean    sd median trimmed   mad min max range
+cps19_age             1 37822 48.69 16.61     49   48.66 20.76  18  99    81
+cps19_lr_parties_1    2 27743  4.27  2.79      4    4.19  2.97   0  10    10
+cps19_lr_parties_2    3 28210  6.90  2.79      8    7.28  2.97   0  10    10
+                    skew kurtosis   se
+cps19_age           0.04    -0.91 0.09
+cps19_lr_parties_1  0.19    -0.77 0.02
+cps19_lr_parties_2 -0.97     0.14 0.02</code></pre>
+</div>
+</div>
+<p>De kolom <code>se</code> geeft de standaardfout van het gemiddelde weer (standaard afgerond op twee decimalen).</p>
+</section>
+<section id="t-toetsen" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="t-toetsen"><span class="header-section-number">14.2</span> T-toetsen</h2>
+<section id="enkelvoudige-t-toets" class="level3" data-number="14.2.1">
+<h3 data-number="14.2.1" class="anchored" data-anchor-id="enkelvoudige-t-toets"><span class="header-section-number">14.2.1</span> Enkelvoudige T-toets</h3>
+<p>Om een enkelvoudige T-toets (<em>one sample t-test</em>) te berekenen gebruiken we de functie <code>t.test</code>:</p>
+<p>In het onderstaande voorbeeld meten we of de leeftijd van de respondenten afwijkt van een hypothetisch gemiddelde van 48,5:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">formula =</span> cps19_age <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> canada,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu =</span> <span class="fl">48.5</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  cps19_age
+t = 2.2395, df = 37821, p-value = 0.02513
+alternative hypothesis: true mean is not equal to 48.5
+95 percent confidence interval:
+ 48.52387 48.85871
+sample estimates:
+mean of x 
+ 48.69129 </code></pre>
+</div>
+</div>
+<dl>
+<dt><code>formula = cps19_age ~ 1</code></dt>
+<dd>
+<p>Aangezien we slechts één variabele hebben in een t-test met één steekproef, specificeren we de formule in de vorm <code>&lt;variabelenaam&gt; ~ 1</code>.</p>
+</dd>
+<dt><code>data = canada</code></dt>
+<dd>
+<p>We specificeren het dataframe dat we willen gebruiken.</p>
+</dd>
+<dt><code>alternative = "two.sided"</code></dt>
+<dd>
+<p>Bepaalt of we een tweezijdige of een eenzijdige test willen gebruiken. Opties zijn “two.sided” (standaard), “less” (als <span class="math inline">\(H_1: \mu &lt; p\)</span>) of “greater” (als <span class="math inline">\(H_1: \mu &gt; p\)</span>).</p>
+</dd>
+<dt><code>mu = 48.5</code></dt>
+<dd>
+<p>De <code>mu</code> parameter moet worden ingesteld op de waarde van het gemiddelde <em>onder de nulhypothese</em>.</p>
+</dd>
+<dt><code>conf.level = 0.95</code></dt>
+<dd>
+<p>Dit bepaalt het betrouwbaarheidsniveau van het gerapporteerde betrouwbaarheidsinterval. De standaardwaarde is 0.95 (een 95%-betrouwbaarheidsinterval).</p>
+</dd>
+</dl>
+<p>Voor een volledige en juiste rapportage van de t-toets, is het ook nodig om de standaardfout uit te rekenen (zie <a href="#sec-analysis-t-test-standard-error" class="quarto-xref">paragraaf&nbsp;<span>14.1</span></a>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">MeanSE</span>(canada<span class="sc">$</span>cps19_age)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.08541655</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rapportage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>De gemiddelde leeftijd van Canadese kiezers was 48,7 (SE = 0,08). Dit wijkt significant af van 48,5, de gegeven testwaarde, <span class="math inline">\(t(37821) = -2{,}24\)</span>, <span class="math inline">\(p = 0,025\)</span>.</li>
+</ul>
+<p>Geef dus naast de conclusie in woorden in elk geval de volgende informatie:</p>
+<ul>
+<li><p>Gemiddelde (in de tekst of M = …) en standaardfout (SE = …).</p></li>
+<li><p><em>t</em>(aantal vrijheidsgraden) = t-observed</p></li>
+<li><p><em>p</em> = p-waarde. Maar: schrijf nooit <span class="math inline">\(p = 0,000\)</span>. Want de p-waarde is nooit precies nul, maar heel klein. Het is dan beter om te zeggen <span class="math inline">\(p &lt; 0,001\)</span>. Als de t-toets handmatig uitvoert schrijf je <em>p</em> &lt; α-waarde, bijvoorbeeld <span class="math inline">\(p &lt; 0,05\)</span>.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="t-toets-voor-gepaarde-steekproeven" class="level3" data-number="14.2.2">
+<h3 data-number="14.2.2" class="anchored" data-anchor-id="t-toets-voor-gepaarde-steekproeven"><span class="header-section-number">14.2.2</span> T-toets voor gepaarde steekproeven</h3>
+<p>In een t-toets met gepaarde steekproeven (<em>paired samples t-test</em>) vergelijken we de gemiddelde waarde van twee interval-ratio variabelen.</p>
+<p>In het onderstaande voorbeeld testen we de nulhypothese dat het gemiddelde verschil van de links-rechts plaatsing van de Liberale partij (variabele <code>cps_lr_parties_1</code>) en de Conservatieve partij (variabele <code>cps19_lr_parties_2</code>) gelijk is aan 0 in de populatie.</p>
+<p>We kunnen de test als volgt specificeren:<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">formula =</span> <span class="fu">Pair</span>(cps19_lr_parties_1, cps19_lr_parties_2) <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> canada,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu =</span> <span class="dv">0</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Paired t-test
+
+data:  Pair(cps19_lr_parties_1, cps19_lr_parties_2)
+t = -95.406, df = 26718, p-value &lt; 2.2e-16
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ -2.691519 -2.583155
+sample estimates:
+mean difference 
+      -2.637337 </code></pre>
+</div>
+</div>
+<dl>
+<dt><code>formula = Pair(cps19_lr_parties_1, cps19_lr_parties_2) ~ 1</code></dt>
+<dd>
+<p>We hebben twee gepaarde interval-ratio variabelen en gebruiken daarom een formule van de vorm <code>Pair(&lt;variabelenaam 1&gt;, &lt;variabelenaam 2&gt;) ~ 1</code>.</p>
+</dd>
+<dt><code>data = canada</code></dt>
+<dd>
+<p>We specificeren het dataframe dat we willen gebruiken.</p>
+</dd>
+<dt><code>alternative = "two.sided"</code></dt>
+<dd>
+<p>Bepaalt of we een tweezijdige of een eenzijdige test willen gebruiken. Opties zijn “two.sided” (standaard), “less” (als <span class="math inline">\(H_1: \mu &lt; p\)</span>) of “greater” (als <span class="math inline">\(H_1: \mu &gt; p\)</span>).</p>
+</dd>
+<dt><code>mu = 0</code></dt>
+<dd>
+<p>De <code>mu</code> parameter moet worden ingesteld op de waarde van het gemiddelde <em>onder de nulhypothese</em>. In het geval van een gepaarde steekproef t-test veronderstellen we meestal dat het verschil tussen de twee gemiddelden in de populatie 0 is, dus <code>mu = 0</code>.</p>
+</dd>
+<dt><code>conf.level = 0.95</code></dt>
+<dd>
+<p>Dit bepaalt het betrouwbaarheidsniveau van het gerapporteerde betrouwbaarheidsinterval. De standaardwaarde is 0.95 (een 95%-betrouwbaarheidsinterval).</p>
+</dd>
+</dl>
+<p>Voor een volledige en juiste rapportage van de t-toets, is het ook nodig om de standaardfout uit te rekenen (zie <a href="#sec-analysis-t-test-standard-error" class="quarto-xref">paragraaf&nbsp;<span>14.1</span></a>). In dit geval berekenen we de standaardfout voor beide variabelen, maar alleen voor de casussen (rijen in de dataset) waarvoor we geen missende waarden hebben op deze variabelen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych, <span class="at">warn.conflicts=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create overview of descriptive statistics, dropping missing values</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(canada <span class="sc">|&gt;</span> <span class="fu">select</span>(cps19_lr_parties_1, cps19_lr_parties_2) <span class="sc">|&gt;</span> <span class="fu">drop_na</span>())</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   vars     n mean   sd median trimmed  mad min max range  skew
+cps19_lr_parties_1    1 26719 4.25 2.77      4    4.16 2.97   0  10    10  0.20
+cps19_lr_parties_2    2 26719 6.88 2.80      8    7.26 2.97   0  10    10 -0.97
+                   kurtosis   se
+cps19_lr_parties_1    -0.75 0.02
+cps19_lr_parties_2     0.12 0.02</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rapportage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Canadese kiezers plaatsen de Liberale partij (M = 4,25; SE = 0,02) gemiddeld genomen linkser dan de Conservatieve partij (M = 6,88; SE = 0,02). Dit verschil, -2,64, was statistisch significant, <span class="math inline">\(t(26718) = -95{,}41\)</span>, <span class="math inline">\(p &lt; 0{,}001\)</span>.</li>
+</ul>
+<p>Geef dus naast de conclusie in woorden in elk geval de volgende informatie:</p>
+<ul>
+<li><p>Gemiddelde (in de tekst of M = …) en standaardfout (SE = …) voor elke variabele.</p></li>
+<li><p>Het gemiddelde verschil (in bovenstaand voorbeeld -2,64).</p></li>
+<li><p><em>t</em>(aantal vrijheidsgraden) = t-observed</p></li>
+<li><p><em>p</em> = p-waarde. Maar: schrijf nooit <span class="math inline">\(p = 0{,}000\)</span>. Want de p-waarde is nooit precies nul, maar heel klein. Het is dan beter om te zeggen <span class="math inline">\(p &lt; 0{,}001\)</span>. Als je een handmatige toets uitvoert schrijf je <em>p</em> &lt; α-waarde, bijvoorbeeld <span class="math inline">\(p &lt; 0{,}05\)</span>.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="t-toets-voor-onafhankelijke-steekproeven" class="level3" data-number="14.2.3">
+<h3 data-number="14.2.3" class="anchored" data-anchor-id="t-toets-voor-onafhankelijke-steekproeven"><span class="header-section-number">14.2.3</span> T-toets voor onafhankelijke steekproeven</h3>
+<p>De T-toets voor onafhankelijke steekproeven (<em>independent samples t-test</em>) wordt gebruikt om te vergelijken of de gemiddelden van twee groepen statistisch significant verschillend zijn. We hebben dus een numerieke variabele, waarvoor we een gemiddelde kunnen berekenen, en een groeperingsvariabele, een categoriale variabele die het groepslidmaatschap bepaalt. In ons voorbeeld testen we of er een statistisch significant verschil is in de gemiddelde plaatsing van de Liberale partij door degenen die in Canada geboren zijn en degenen die dat niet zijn.</p>
+<p>Eerst inspecteren we de categoriale variabele:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(canada<span class="sc">$</span>cps19_bornin_canada)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+                          Yes                            No 
+                        31556                          6046 
+Don't know/ Prefer not to say 
+                          220 </code></pre>
+</div>
+</div>
+<p>Het blijkt dat deze variabele drie categorieën heeft. De categorie Weet niet (<em>Don’t know/Prefer not to say</em>) willen we negeren, dus die behandelen we als missend:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>canada <span class="ot">&lt;-</span> canada <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cps19_bornin_canada =</span> <span class="fu">na_if</span>(cps19_bornin_canada, <span class="st">"Don't know/ Prefer not to say"</span>)) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nu kunnen we de t-test uitvoeren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">formula =</span> cps19_lr_parties_1 <span class="sc">~</span> cps19_bornin_canada,</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> canada,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu =</span> <span class="dv">0</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<dl>
+<dt><code>formula = cps19_lr_parties_1 ~ cps19_bornin_canada</code></dt>
+<dd>
+<p>Wij hebben een interval-ratio variabele en een categoriale variabele (factor) die aangeeft tot welke groep een waarneming behoort, dus gebruiken wij een formule van de vorm <code>&lt;interval-ratio variabele&gt; ~ &lt;categoriale variabele&gt;</code>.</p>
+</dd>
+<dt><code>data = canada</code></dt>
+<dd>
+<p>We specificeren het dataframe dat we willen gebruiken.</p>
+</dd>
+<dt><code>alternative = "two.sided"</code></dt>
+<dd>
+<p>Bepaalt of we een tweezijdige of een eenzijdige test willen gebruiken. Opties zijn “two.sided” (standaard), “less” (als <span class="math inline">\(H_1: \mu &lt; p\)</span>) of “greater” (als <span class="math inline">\(H_1: \mu &gt; p\)</span>).</p>
+</dd>
+<dt><code>mu = 0</code></dt>
+<dd>
+<p>De <code>mu</code> parameter moet worden ingesteld op de waarde van het gemiddelde <em>onder de nulhypothese</em>. In het geval van een T-toets voor onafhankelijke steekproeven wordt gewoonlijk verondersteld dat het verschil tussen de twee groepsgemiddelden 0 is in de populatie, dus <code>mu = 0</code>.</p>
+</dd>
+<dt><code>conf.level = 0.95</code></dt>
+<dd>
+<p>Dit bepaalt het betrouwbaarheidsniveau van het gerapporteerde betrouwbaarheidsinterval. De standaardwaarde is 0.95 (een 95%-betrouwbaarheidsinterval).</p>
+</dd>
+</dl>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  cps19_lr_parties_1 by cps19_bornin_canada
+t = -8.9025, df = 6809.2, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means between group Yes and group No is not equal to 0
+95 percent confidence interval:
+ -0.4886007 -0.3122543
+sample estimates:
+mean in group Yes  mean in group No 
+         4.196678          4.597106 </code></pre>
+</div>
+</div>
+<p>R toont het resultaat van de Welch Two Sample t-test, een versie van de T-toets voor onafhankelijke steekproeven die van toepassing is wanneer geen gelijke varianties worden aangenomen.</p>
+<p>Voor een volledige en juiste rapportage van de t-toets, is het ook nodig om de standaardfout uit te rekenen (zie <a href="#sec-analysis-t-test-standard-error" class="quarto-xref">paragraaf&nbsp;<span>14.1</span></a>). In dit geval berekenen we de standaardfout van het gemiddelde voor elke groep in de data (dus voor degenen die wel en niet in Canada zijn geboren):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>canada <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cps19_bornin_canada) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(cps19_lr_parties_1, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">SE =</span> <span class="fu">MeanSE</span>(cps19_lr_parties_1, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  cps19_bornin_canada  mean     SE
+  &lt;fct&gt;               &lt;dbl&gt;  &lt;dbl&gt;
+1 Yes                  4.20 0.0184
+2 No                   4.60 0.0411
+3 &lt;NA&gt;                 5.14 0.216 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rapportage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Mensen die zijn geboren in Canada plaatsen de Liberale partij gemiddeld genomen linkser (M = 4,20; SE = 0,02) dan mensen die niet zijn geboren in Canada (M = 4,60; SE = 0,04). Dit verschil, -0,40, was statistisch significant, <span class="math inline">\(t(6809{,}2) = -8{,}9025\)</span>, <span class="math inline">\(p &lt; 0{,}001\)</span>.</li>
+</ul>
+<p>Geef dus naast de conclusie in woorden in elk geval de volgende informatie:</p>
+<ul>
+<li><p>Gemiddelde (in de tekst of M = …) en standaardfout (SE = …) voor elke groep.</p></li>
+<li><p>Het gemiddelde verschil (in bovenstaand voorbeeld -0,40).</p></li>
+<li><p><em>t</em>(aantal vrijheidsgraden) = t-observed</p></li>
+<li><p><em>p</em> = p-waarde. Maar: schrijf nooit <span class="math inline">\(p = 0,000\)</span>. Want de p-waarde is nooit precies nul, maar heel klein. Het is dan beter om te zeggen <span class="math inline">\(p &lt; 0,001\)</span>. Als je een handmatige toets uitvoert schrijf je <em>p</em> &lt; α-waarde, bijvoorbeeld <span class="math inline">\(p &lt; 0,05\)</span>.</p></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="effectgroottes-voor-t-toetsen" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="effectgroottes-voor-t-toetsen"><span class="header-section-number">14.3</span> Effectgroottes voor t-toetsen</h2>
+<p>We kunnen Cohen’s <span class="math inline">\(d\)</span> of Hedges’ <span class="math inline">\(g^*_s\)</span> berekenen als effectgrootte voor een t-toets. We gebruiken de functies <code>cohens_d</code> en <code>hedges_g</code> uit package <code>effectsize</code>.</p>
+<section id="cohens-d-voor-één-steekproef" class="level3" data-number="14.3.1">
+<h3 data-number="14.3.1" class="anchored" data-anchor-id="cohens-d-voor-één-steekproef"><span class="header-section-number">14.3.1</span> Cohen’s <span class="math inline">\(d\)</span> voor één steekproef</h3>
+<p>We gebruiken de functie <code>cohens_d</code> uit package <code>effectsize</code>. De parameters zijn vrijwel gelijk aan die van de functie <code>t.test</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(cps19_age <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> canada, </span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">mu =</span> <span class="fl">48.5</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cohen's d |       95% CI
+------------------------
+0.01      | [0.00, 0.02]
+
+- Deviation from a difference of 48.5.</code></pre>
+</div>
+</div>
+<dl>
+<dt><code>cps19_age ~ 1</code></dt>
+<dd>
+<p>Aangezien we slechts één variabele hebben, specificeren we de formule in de vorm <code>&lt;variabelenaam&gt; ~ 1</code>.</p>
+</dd>
+<dt><code>data = canada</code></dt>
+<dd>
+<p>We specificeren het dataframe dat we willen gebruiken.</p>
+</dd>
+<dt><code>mu = 48.5</code></dt>
+<dd>
+<p>De <code>mu</code> parameter moet worden ingesteld op de waarde van het gemiddelde <em>onder de nulhypothese</em>.</p>
+</dd>
+</dl>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rapportage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Indien een associatiemaat wordt berekend, kan die achteraan de rapportagen worden toegevoegd:</p>
+<ul>
+<li>De gemiddelde leeftijd van Canadese kiezers was 48,7 (SE = 0,08). Dit wijkt significant af van 48,5, de gegeven testwaarde, <span class="math inline">\(t(37821) = -2{,}24\)</span>, <span class="math inline">\(p = 0,025\)</span>. Dit representeert een zeer zwak effect, Cohen’s d = 0,01.</li>
+</ul>
+<p>De volgende vuistregels worden doorgaans gebruikt voor de kwalificatie van effectgroottes van Cohen’s d en Hedges g:</p>
+<ul>
+<li>Ten minste 0,2: zwak</li>
+<li>Ten minste 0,5: matig</li>
+<li>Ten minste 0,8: sterk</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="cohens-d-voor-gepaarde-steekproeven" class="level3" data-number="14.3.2">
+<h3 data-number="14.3.2" class="anchored" data-anchor-id="cohens-d-voor-gepaarde-steekproeven"><span class="header-section-number">14.3.2</span> Cohen’s d voor gepaarde steekproeven</h3>
+<p>We gebruiken de functie <code>cohens_d</code> uit package <code>effectsize</code>. De parameters zijn vrijwel gelijk aan die van de functie <code>t.test</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(<span class="fu">Pair</span>(cps19_lr_parties_1, cps19_lr_parties_2) <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> canada, </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">mu =</span> <span class="dv">0</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cohen's d |         95% CI
+--------------------------
+-0.58     | [-0.60, -0.57]</code></pre>
+</div>
+</div>
+<dl>
+<dt><code>Pair(cps19_lr_parties_1, cps19_lr_parties_2) ~ 1</code></dt>
+<dd>
+<p>We hebben twee gepaarde interval-ratio variabelen en gebruiken daarom een formule van de vorm <code>Pair(&lt;variabelenaam 1&gt;, &lt;variabelenaam 2&gt;) ~ 1</code>.</p>
+</dd>
+<dt><code>data = canada</code></dt>
+<dd>
+<p>We specificeren het dataframe dat we willen gebruiken.</p>
+</dd>
+<dt><code>mu = 0</code></dt>
+<dd>
+<p>De <code>mu</code> parameter moet worden ingesteld op de waarde van het gemiddelde <em>onder de nulhypothese</em>. In het geval van een gepaarde steekproef veronderstellen we meestal dat het verschil tussen de twee gemiddelden in de populatie 0 is, dus <code>mu = 0</code>.</p>
+</dd>
+</dl>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rapportage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Indien een associatiemaat wordt berekend, kan die achteraan de rapportagen worden toegevoegd:</p>
+<ul>
+<li>Canadese kiezers plaatsen de Liberale partij (M = 4,25; SE = 0,02) gemiddeld genomen linkser dan de Conservatieve partij (M = 6,88; SE = 0,02). Dit verschil, -2,64, was statistisch significant, <span class="math inline">\(t(26718) = -95{,}41\)</span>, <span class="math inline">\(p &lt; 0{,}001\)</span>. Dit representeert een matig effect, Cohen’s d = -0,58.</li>
+</ul>
+<p>De volgende vuistregels worden doorgaans gebruikt voor de kwalificatie van effectgroottes van Cohen’s d en Hedges g:</p>
+<ul>
+<li>Ten minste 0,2: zwak</li>
+<li>Ten minste 0,5: matig</li>
+<li>Ten minste 0,8: sterk</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="hedges-g_s-voor-onafhankelijke-steekproeven" class="level3" data-number="14.3.3">
+<h3 data-number="14.3.3" class="anchored" data-anchor-id="hedges-g_s-voor-onafhankelijke-steekproeven"><span class="header-section-number">14.3.3</span> Hedges’ <span class="math inline">\(g^*_s\)</span> voor onafhankelijke steekproeven</h3>
+<p>Voor twee onafhankelijke steekproeven wordt aanbevolen Hedges <span class="math inline">\(g^*_s\)</span> te berekenen als maat voor de effectgrootte (<a href="https://doi.org/10.31234/osf.io/tu6mp">Delacre et al.&nbsp;2021</a>). De interpretatie ervan is vergelijkbaar met Cohen’s <span class="math inline">\(d\)</span>, maar gecorrigeerd voor bias en aangepast aan een situatie waarin geen gelijke varianties kunnen worden aangenomen. De waarden lijken sterk op Cohen’s <span class="math inline">\(d\)</span> voor grotere steekproeven.</p>
+<p>Merk op dat wij voor ons voorbeeld de gewijzigde versie van de variabele <code>cps19_bornin_canada</code> gebruiken (zie <a href="#t-toets-voor-onafhankelijke-steekproeven">T-toets voor onafhankelijke steekproeven</a>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hedges_g</span>(cps19_lr_parties_1 <span class="sc">~</span> cps19_bornin_canada, </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> canada, </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">mu =</span> <span class="dv">0</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">pooled_sd =</span> <span class="cn">FALSE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hedges' g |         95% CI
+--------------------------
+-0.14     | [-0.17, -0.11]
+
+- Estimated using un-pooled SD.</code></pre>
+</div>
+</div>
+<dl>
+<dt><code>cps19_lr_parties_1 ~ cps19_bornin_canada</code></dt>
+<dd>
+<p>Wij hebben een interval-ratio variabele en een categoriale variabele (factor) die aangeeft tot welke groep een waarneming behoort, dus gebruiken wij een formule van de vorm <code>&lt;interval-ratio variabele&gt; ~ &lt;categoriale variabele&gt;</code>.</p>
+</dd>
+<dt><code>data = canada</code></dt>
+<dd>
+<p>We specificeren het dataframe dat we willen gebruiken.</p>
+</dd>
+<dt><code>mu = 0</code></dt>
+<dd>
+<p>De <code>mu</code> parameter moet worden ingesteld op de waarde van het gemiddelde <em>onder de nulhypothese</em>. In het geval van een onafhankelijke steekproef wordt gewoonlijk verondersteld dat het verschil tussen de twee groepsgemiddelden 0 is in de populatie, dus <code>mu = 0</code>.</p>
+</dd>
+<dt><code>pooled_sd = FALSE</code></dt>
+<dd>
+<p>Dit geeft aan dat we de gepoolde standaardafwijking niet gebruiken, wat wordt aanbevolen bij gebruik van Welch’ t-test (waarbij niet wordt aangenomen dat varianties gelijk zijn), die <code>t.test</code> standaard doet voor de onafhankelijke steekproef t-test.</p>
+</dd>
+</dl>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rapportage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Indien een associatiemaat wordt berekend, kan die achteraan de rapportagen worden toegevoegd:</p>
+<ul>
+<li>Mensen die zijn geboren in Canada plaatsen de Liberale partij gemiddeld genomen linkser (M = 4,20; SE = 0,02) dan mensen die niet zijn geboren in Canada (M = 4,60; SE = 0,04). Dit verschil, -0,40, was statistisch significant, <span class="math inline">\(t(6809{,}2) = -8{,}9025\)</span>, <span class="math inline">\(p &lt; 0{,}001\)</span>. Dit representeert een zeer zwak effect, Hedges’ <span class="math inline">\(g^*_s\)</span> = -0,14.</li>
+</ul>
+<p>De volgende vuistregels worden doorgaans gebruikt voor de kwalificatie van effectgroottes van Cohen’s d en Hedges g:</p>
+<ul>
+<li>Ten minste 0,2: zwak</li>
+<li>Ten minste 0,5: matig</li>
+<li>Ten minste 0,8: sterk</li>
+</ul>
+</div>
+</div>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>In dit overzicht gebruiken we de zogenaamde ‘formule-interface’ van t.test. U kunt ook de zogenaamde traditionele interface gebruiken. Voor het voorbeeld van de one-sample t-test is de equivalente code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> canada<span class="sc">$</span>cps19_age,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu =</span> <span class="fl">48.5</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  canada$cps19_age
+t = 2.2395, df = 37821, p-value = 0.02513
+alternative hypothesis: true mean is not equal to 48.5
+95 percent confidence interval:
+ 48.52387 48.85871
+sample estimates:
+mean of x 
+ 48.69129 </code></pre>
+</div>
+</div>
+<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn2"><p>In dit overzicht gebruiken we de zogenaamde ‘formule-interface’ van t.test. Je kunt ook de zogenaamde traditionele interface gebruiken. Voor het voorbeeld van de t-toets met gepaarde steekproeven is de equivalente code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> canada<span class="sc">$</span>cps19_lr_parties_1, </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> canada<span class="sc">$</span>cps19_lr_parties_2,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> canada,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu =</span> <span class="dv">0</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Paired t-test
+
+data:  canada$cps19_lr_parties_1 and canada$cps19_lr_parties_2
+t = -95.406, df = 26718, p-value &lt; 2.2e-16
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ -2.691519 -2.583155
+sample estimates:
+mean difference 
+      -2.637337 </code></pre>
+</div>
+</div>
+<p>Vergeet in dit geval niet <code>paired = TRUE</code> op te nemen.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Gekopieerd!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Gekopieerd!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./analysis_07_chi_squared.html" class="pagination-link  aria-label=" &lt;span="" en="" associatiematen&lt;="" span&gt;"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Chi-kwadraattoets en associatiematen</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./analysis_09_power_analysis.html" class="pagination-link" aria-label="<span class='chapter-number'>15</span>&nbsp; <span class='chapter-title'>Poweranalyse</span>">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poweranalyse</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

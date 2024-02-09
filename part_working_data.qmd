@@ -1,8 +1,0 @@
-# Werken met data in R
-
-Dit deel van het materiaal richt zich op het werken met gegevens in R. Je leert hoe je:
-
-- Basisprincipes van het gebruik van R en RStudio
-- Gegevens laden/importeren in R
-- Gegevens creëren in R
-- Gegevens wijzigen in R

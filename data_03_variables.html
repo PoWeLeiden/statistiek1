@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistische analyse en presentatie met R - 3&nbsp; Variabelen maken, samenvatten en hercoderen</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./data_04_missing_data.html" rel="next">
+<link href="./data_02_filtering_selecting.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Geen resultaten",
+    "search-matching-documents-text": "Gevonden documenten",
+    "search-copy-link-title": "Kopieer link om te zoeken",
+    "search-hide-matches-text": "Extra overeenkomsten verbergen",
+    "search-more-match-text": "meer overeenkomst in dit document",
+    "search-more-matches-text": "meer overeenkomsten in dit document",
+    "search-clear-button-title": "Wissen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuleren",
+    "search-submit-button-title": "Verzenden",
+    "search-label": "Zoeken"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part_working_data.html">Werken met data in R</a></li><li class="breadcrumb-item"><a href="./data_03_variables.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variabelen maken, samenvatten en hercoderen</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistische analyse en presentatie met R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Zoeken"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voorwoord</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part_working_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Werken met data in R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_01_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Werken met R en RStudio: de basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_02_filtering_selecting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Filteren, selecteren en hernoemen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_03_variables.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variabelen maken, samenvatten en hercoderen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_04_missing_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ontbrekende gegevens</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_05_advanced_recoding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Geavanceerd hercoderen van variabelen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_06_merging_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data combineren</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part_statistical_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistische analyse in R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_01_descriptives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Centrum- en spreidingsmaten</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_02_graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Grafieken maken met ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_03_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tabellen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_04_probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R en kansrekening</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_05_normal_distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Normaalverdeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_06_proportions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Inferentie voor proporties</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_07_chi_squared.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Chi-kwadraattoets en associatiematen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_08_t-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">T-toets voor het gemiddelde</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_09_power_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poweranalyse</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_10_anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./common_errors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Veelgemaakte fouten in R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix_formulas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Formules Statistiek I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix_install_all_packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Alle packages installeren</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhoudsopgave</h2>
+   
+  <ul>
+  <li><a href="#variabelen-creëren-of-wijzigen" id="toc-variabelen-creëren-of-wijzigen" class="nav-link active" data-scroll-target="#variabelen-creëren-of-wijzigen"><span class="header-section-number">3.1</span> Variabelen creëren of wijzigen</a></li>
+  <li><a href="#gegevens-samenvatten" id="toc-gegevens-samenvatten" class="nav-link" data-scroll-target="#gegevens-samenvatten"><span class="header-section-number">3.2</span> Gegevens samenvatten</a></li>
+  <li><a href="#hercodering-van-variabelen" id="toc-hercodering-van-variabelen" class="nav-link" data-scroll-target="#hercodering-van-variabelen"><span class="header-section-number">3.3</span> Hercodering van variabelen</a>
+  <ul class="collapse">
+  <li><a href="#hercodering-van-nominale-variabelen" id="toc-hercodering-van-nominale-variabelen" class="nav-link" data-scroll-target="#hercodering-van-nominale-variabelen"><span class="header-section-number">3.3.1</span> Hercodering van nominale variabelen</a></li>
+  <li><a href="#hercodering-van-ordinale-variabelen" id="toc-hercodering-van-ordinale-variabelen" class="nav-link" data-scroll-target="#hercodering-van-ordinale-variabelen"><span class="header-section-number">3.3.2</span> Hercodering van ordinale variabelen</a></li>
+  <li><a href="#hercodering-van-numerieke-variabelen" id="toc-hercodering-van-numerieke-variabelen" class="nav-link" data-scroll-target="#hercodering-van-numerieke-variabelen"><span class="header-section-number">3.3.3</span> Hercodering van numerieke variabelen</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part_working_data.html">Werken met data in R</a></li><li class="breadcrumb-item"><a href="./data_03_variables.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variabelen maken, samenvatten en hercoderen</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-data-variables" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variabelen maken, samenvatten en hercoderen</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In dit hoofdstuk gebruiken we de onderstaande packages en datasets. We zullen de <a href="https://sites.google.com/site/pippanorris3/research/data#TOC-Democracy-Cross-national-Data-Release-4.0-Fall-2015-New-">Democracy Cross-national Data</a> van Pippa Noris en de 2019 Canadian Election Study gebruiken. Zorg ervoor dat je deze packages en datasets laadt voordat je aan de slag gaat met de onderstaande voorbeelden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Packages laden</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># Werken met data</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)        <span class="co"># Data importeren</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)  <span class="co"># Gebruiken we om de mediaan te berekenen</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Datasets laden</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"Democracy Cross-National Data V4.1 09092015.sav"</span>) </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>canada <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"2019 Canadian Election Study.rds"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="variabelen-creëren-of-wijzigen" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="variabelen-creëren-of-wijzigen"><span class="header-section-number">3.1</span> Variabelen creëren of wijzigen</h2>
+<p>We kunnen de functie <code>mutate</code> uit package <code>dplyr</code> gebruiken om nieuwe variabelen aan te maken of bestaande variabelen in een dataframe te wijzigen. Het package <code>dplyr</code> wordt geladen als onderdeel van de <code>tidyverse</code>.</p>
+<p>We gebruiken als voorbeeld de variabele Pop2006, die de bevolking van landen in 2006 bevat:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dta<span class="sc">$</span>Pop2006)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]          NA  3137503.17 33347948.22    66900.00 16391381.89    83612.15</code></pre>
+</div>
+</div>
+<p>Als we een variabele willen maken die de bevolking <em>in miljoenen</em> registreert, kunnen we de nieuwe variabele als volgt maken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pop2006_million =</span> Pop2006 <span class="sc">/</span> <span class="dv">1000000</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<dl>
+<dt><code>dta &lt;- dta |&gt;</code></dt>
+<dd>
+<p>Dit deel van de code zegt dat we beginnen met het dataframe <code>dta</code> en het resultaat toewijzen aan een dataframe met dezelfde naam. Eigenlijk betekent het: we gaan het dataframe <code>dta</code> veranderen. Als je met je eigen gegevens werkt, zou je <code>dta</code> vervangen door de naam van je eigen dataframe.</p>
+<p>Merk op dat we hier de <em>pipe</em>-operator <code>|&gt;</code> gebruiken, wat betekent dat we het oorspronkelijke dataframe nemen en dit gebruiken in de <code>mutate</code>-functie (zie hieronder).</p>
+</dd>
+<dt><code>mutate(...)</code></dt>
+<dd>
+<p>De mutate-functie creëert een nieuwe variabele of verandert een bestaande. Tussen haakjes geven we aan wat voor soort mutatie we willen.</p>
+</dd>
+<dt><code>Pop2006_million</code></dt>
+<dd>
+<p>Dit is de naam van de variabele die we aanmaken. Als je niet de naam van een nieuwe variabele schrijft, maar in plaats daarvan de naam van een bestaande variabele gebruikt, zou dit de waarden van die variabele veranderen. Vervang in je eigen gegevens <code>Pop2006_million</code> door de naam van de variabele die je wilt aanmaken.</p>
+</dd>
+<dt><code>Pop2006 / 1000000</code></dt>
+<dd>
+<p>Zo willen we deze nieuwe variabele maken, in dit geval door de bestaande variabele <code>Pop2006</code> te delen door één miljoen. Je kunt elke soort functie of operator toepassen, zolang het maar werkt op een vector (in dit geval: een hele kolom van een dataset).</p>
+</dd>
+</dl>
+<p>We kunnen de eerste vijf casussen vergelijken om na te gaan of de transformatie heeft gewerkt zoals bedoeld:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Pop2006, Pop2006_million) <span class="sc">|&gt;</span>   <span class="co"># Selecteer de oorspronkelijke en getransformeerde variabele</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()                                <span class="co"># Geef de eerste paar rijen weer</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Pop2006 Pop2006_million
+1          NA              NA
+2  3137503.17      3.13750317
+3 33347948.22     33.34794822
+4    66900.00      0.06690000
+5 16391381.89     16.39138189
+6    83612.15      0.08361215</code></pre>
+</div>
+</div>
+<p>Andere voorbeelden van mutaties zijn:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bereken het verschil tussen de bevolking in 2006 en die in 2000</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pop2006_difference =</span> Pop2006 <span class="sc">-</span> Pop2000)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Neem de vierkantswortel van de bevolking</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pop2006_squared =</span> <span class="fu">sqrt</span>(Pop2006))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Neem het natuurlijke logaritme van de bevolking</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pop2006_log =</span> <span class="fu">log</span>(Pop2006))  </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Creëer een nieuwe variabele met dezelfde waarde (1) voor alle casussen</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Country =</span> <span class="dv">1</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Belangrijke dingen over <code>mutate</code>:</p>
+<ul>
+<li><p>Gebruik niet de <code>$</code> operator om variabelen uit een dataframe te selecteren. Gebruik gewoon de naam van de variabele.</p></li>
+<li><p>Vergeet niet het resultaat <em>toe te wijzen</em>, d.w.z. begin de code met <code>dta &lt;- dta |&gt;</code> (waarbij je <code>dta</code> vervangt door de naam van je dataset). Als je het resultaat niet toewijst, zal R het gemuteerde dataframe wel afdrukken, maar niet opslaan.</p></li>
+<li><p>Als je een mutatie toepast op een dataframe en het resultaat toewijst, zal dit geen uitvoer genereren. Als het succesvol werkt, verandert het gewoon het bestaande dataframe of maakt het een nieuw dataframe. Je kunt vervolgens de gegevens inspecteren om te zien of de transformatie heeft gewerkt.</p></li>
+</ul>
+</section>
+<section id="gegevens-samenvatten" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="gegevens-samenvatten"><span class="header-section-number">3.2</span> Gegevens samenvatten</h2>
+<p>We kunnen gegevens samenvatten met de functie <code>summarise</code> van pacakge <code>dplyr</code>. Package <code>dplyr</code> wordt geladen als onderdeel van de <code>tidyverse</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_population =</span> <span class="fu">mean</span>(Pop2006, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  mean_population
+1        34502734</code></pre>
+</div>
+</div>
+<p>Dit geeft ons simpelweg de gemiddelde waarde van Pop2006 voor alle landen in de wereld. Het krachtigste gebruik van <code>summarise</code> is in combinatie met <code>group_by</code>. De onderstaande code groepeert bijvoorbeeld landen per continent (<code>DD_un_continent_name</code>) en berekent vervolgens de gemiddelde bevolkingsomvang voor elk continent:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DD_un_continent_name) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_population =</span> <span class="fu">mean</span>(Pop2006, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  DD_un_continent_name mean_population
+  &lt;chr&gt;                          &lt;dbl&gt;
+1 ""                            32600 
+2 "Africa"                   17475659.
+3 "Americas"                 25412866.
+4 "Asia"                     87338061.
+5 "Europe"                   17711125.
+6 "Oceania"                   2732066.</code></pre>
+</div>
+</div>
+<p>We kunnen ook groeperen op basis van meer dan één groeperingsvariabele. Hier berekenen we bijvoorbeeld de gemiddelde bevolking voor democratieën (Cheibub2Type = 0) en dictaturen (Cheibub2Type = 1) in elk continent:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DD_un_continent_name, Cheibub2Type) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_population =</span> <span class="fu">mean</span>(Pop2006, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 3
+# Groups:   DD_un_continent_name [6]
+   DD_un_continent_name Cheibub2Type mean_population
+   &lt;chr&gt;                       &lt;dbl&gt;           &lt;dbl&gt;
+ 1 ""                              0            NaN 
+ 2 ""                             NA          32600 
+ 3 "Africa"                        0       18924251.
+ 4 "Africa"                        1       16597725.
+ 5 "Americas"                      0       26786031.
+ 6 "Americas"                      1       14770838.
+ 7 "Asia"                          0      138303981.
+ 8 "Asia"                          1       63553966.
+ 9 "Asia"                         NA            NaN 
+10 "Europe"                        0       18538856.
+11 "Europe"                        1        7226530.
+12 "Europe"                       NA            NaN 
+13 "Oceania"                       0        3515919.
+14 "Oceania"                       1         380506.
+15 "Oceania"                      NA            NaN </code></pre>
+</div>
+</div>
+<p>U kunt ook meerdere statistieken laten berekenen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dta <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DD_un_continent_name) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_population =</span> <span class="fu">mean</span>(Pop2006, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_poplation =</span> <span class="fu">Median</span>(Pop2006, <span class="at">na.rm=</span><span class="cn">TRUE</span>),  <span class="co"># Mediaan van pacakge DescTools</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_population =</span> <span class="fu">sd</span>(Pop2006, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  DD_un_continent_name mean_population median_poplation sd_population
+  &lt;chr&gt;                          &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;
+1 ""                            32600            32600            NA 
+2 "Africa"                   17475659.         9244288.     25102665.
+3 "Americas"                 25412866.         6016000      59575769.
+4 "Asia"                     87338061.        14829470.    253704497.
+5 "Europe"                   17711125.         7441475.     28476042.
+6 "Oceania"                   2732066.          200462.      5920588.</code></pre>
+</div>
+</div>
+<p>Als je het resultaat wilt opslaan in een nieuw dataframe in plaats van het te printen, kun je het resultaat toewijzen. Merk op dat er geen uitvoer is van de onderstaande code chunk omdat het resultaat wordt opgeslagen in het dataframe <code>summary_data</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summary_data <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(DD_un_continent_name) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_population =</span> <span class="fu">mean</span>(Pop2006, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_poplation =</span> <span class="fu">Median</span>(Pop2006, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="co"># Mediaan van pacakge DescTools</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_population =</span> <span class="fu">sd</span>(Pop2006, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Opmerking
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Het verschil tussen <code>mutate</code> en <code>summarise</code> is dat <code>mutate</code> een nieuwe waarde creëert voor elke casus in de dataset, terwijl <code>summarise</code> de gegevens samenvat per categorie van de groeperingsvariabele.</p>
+</div>
+</div>
+</section>
+<section id="hercodering-van-variabelen" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="hercodering-van-variabelen"><span class="header-section-number">3.3</span> Hercodering van variabelen</h2>
+<p>Hercodering van variabelen betekent dat we de codering van waarden veranderen. Dit geldt vaak voor nominale of ordinale variabelen (<em>factors</em>), bijvoorbeeld wanneer we bepaalde categorieën willen groeperen.</p>
+<section id="hercodering-van-nominale-variabelen" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="hercodering-van-nominale-variabelen"><span class="header-section-number">3.3.1</span> Hercodering van nominale variabelen</h3>
+<p>We illustreren dit aan de hand van de variabele <code>religion</code> (“Meerderheidsreligie”) die we maken uit Pippa Noris’ <a href="https://sites.google.com/site/pippanorris3/research/data#TOC-Democracy-Cross-national-Data-Release-4.0-Fall-2015-New-">Democracy Cross-national Data</a>. Aan het begin van dit hoofdstuk hebben we de dataset al geïmporteerd (<code>dta</code>) en de relevante packages geladen (<code>tidyverse</code>, <code>rio</code>).</p>
+<p>Eerst maken we de variabele <code>religion</code> aan met de functie <code>factorize</code> uit <code>rio</code>. Dit creëert een factorversie van de oorspronkelijke (gelabelde numerieke) variabele <code>Fox_emajrel</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">religion =</span> <span class="fu">factorize</span>(Fox_emajrel))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>De variabele <code>religion</code> kan de volgende waarden aannemen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dta<span class="sc">$</span>religion)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+            Catholic   Orthodox Christian Protestant Christian 
+                  43                   12                   16 
+     Other Christian         Islam, Sunni         Islam, Shi'i 
+                   0                   33                    3 
+        Islam, Other             Buddhist                Hindu 
+                   1                    8                    2 
+              Jewish              Animist                Other 
+                   1                    4                    5 
+     Islam (general)                Mixed  Christian (general) 
+                   8                   12                   25 </code></pre>
+</div>
+</div>
+<p>We zien dat we verschillende grote categorieën hebben en verschillende kleinere categorieën. We zien ook dat verschillende islamitische denominaties en christelijke denominaties zijn opgesplitst. Stel dat wij, met het oog op verdere analyse, de indeling willen vereenvoudigen tot vijf categorieën: Christelijk, Islamitisch, Hindoeïstisch, Boeddhistisch en Overig.</p>
+<p>We kunnen de functie <code>recode</code> van <code>dplyr</code> gebruiken om de categorieën te hercoderen. Het package <code>dplyr</code> wordt geladen als onderdeel van de <code>tidyverse</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">religion_recoded =</span> <span class="fu">recode</span>(religion, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Animist"</span> <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Catholic"</span> <span class="ot">=</span> <span class="st">"Christian"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Islam (general)"</span> <span class="ot">=</span> <span class="st">"Islam"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Islam, Other"</span> <span class="ot">=</span> <span class="st">"Islam"</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Islam, Shi'i"</span> <span class="ot">=</span> <span class="st">"Islam"</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Islam, Sunni"</span> <span class="ot">=</span> <span class="st">"Islam"</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Jewish"</span> <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Mixed"</span> <span class="ot">=</span> <span class="st">"Other"</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Orthodox Christian"</span> <span class="ot">=</span> <span class="st">"Christian"</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Protestant Christian"</span> <span class="ot">=</span> <span class="st">"Christian"</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Other Christian"</span> <span class="ot">=</span> <span class="st">"Christian"</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Christian (general)"</span> <span class="ot">=</span> <span class="st">"Christian"</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>                                   )</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<dl>
+<dt><code>mutate(religion_recoded =</code></dt>
+<dd>
+<p>Dit deel van de code geeft aan dat we een nieuwe variabele <code>religion_recoded</code> willen aanmaken. Als je met je eigen gegevens werkt, kies je natuurlijk een passende naam.</p>
+</dd>
+<dt><code>recode(religion,</code></dt>
+<dd>
+<p>Dit deel van de code geeft aan dat we de bestaande variabele <code>religion</code> willen hercoderen. Als je met je eigen gegevens werkt, geef dan de naam op van de bestaande variabele die je wilt hercoderen.</p>
+</dd>
+<dt><code>"Animist" = "Other"</code></dt>
+<dd>
+<p>Dit zijn de hercodeerstatements, waarbij we de oude naam links en de nieuwe naam rechts tussen dubbele aanhalingstekens (“) schrijven.</p>
+<p>We kunnen zoveel van deze statements opnemen als we willen. Als we een waarde niet opnemen, blijft deze (standaard) ongewijzigd. We nemen bijvoorbeeld geen statement op voor <code>Other</code>, dus deze waarde zal hetzelfde zijn in de gehercodeerde variabele.</p>
+</dd>
+</dl>
+<p>De hercodering heeft de gewenste vijf categorieën opgeleverd:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dta<span class="sc">$</span>religion_recoded)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Christian     Islam  Buddhist     Hindu     Other 
+       96        45         8         2        22 </code></pre>
+</div>
+</div>
+<p>Wij kunnen ook nagaan of de oude waarden correct zijn gehercodeerd in de nieuwe waarden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dta<span class="sc">$</span>religion, dta<span class="sc">$</span>religion_recoded)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      
+                       Christian Islam Buddhist Hindu Other
+  Catholic                    43     0        0     0     0
+  Orthodox Christian          12     0        0     0     0
+  Protestant Christian        16     0        0     0     0
+  Other Christian              0     0        0     0     0
+  Islam, Sunni                 0    33        0     0     0
+  Islam, Shi'i                 0     3        0     0     0
+  Islam, Other                 0     1        0     0     0
+  Buddhist                     0     0        8     0     0
+  Hindu                        0     0        0     2     0
+  Jewish                       0     0        0     0     1
+  Animist                      0     0        0     0     4
+  Other                        0     0        0     0     5
+  Islam (general)              0     8        0     0     0
+  Mixed                        0     0        0     0    12
+  Christian (general)         25     0        0     0     0</code></pre>
+</div>
+</div>
+<p>(Zo zijn alle vier de landen met een Animistische meerderheid correct gehercodeerd naar “Other”).</p>
+</section>
+<section id="hercodering-van-ordinale-variabelen" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="hercodering-van-ordinale-variabelen"><span class="header-section-number">3.3.2</span> Hercodering van ordinale variabelen</h3>
+<p>Als je een ordinale variabele hebt die je wilt hercoderen, wil je waarschijnlijk dat de volgorde van de variabele behouden blijft.</p>
+<p>We hebben bijvoorbeeld de variabele <code>economy</code> die we maken op basis van de Norris-dataset. Het is een classificatie van landen op basis van hun BBP per hoofd van de bevolking. We hebben de dataset al geïmporteerd (<code>dta</code>) en de relevante packages geladen (<code>tidyverse</code>, <code>rio</code>) aan het begin van dit overzicht.</p>
+<p>Eerst maken we de variabele <code>economy</code> aan met de functie <code>factorize</code> uit <code>rio</code>. Dit creëert een factorversie van de oorspronkelijke (gelabelde numerieke) variabele <code>TypeEcon2006</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">economy =</span> <span class="fu">factorize</span>(TypeEcon2006))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>De variabele <code>economy</code> kan de volgende waarden aannemen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dta<span class="sc">$</span>economy)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+       High ($15,000+) Medium ($2,000-14,999)    Low ($2000 or less) 
+                    36                     68                     87 </code></pre>
+</div>
+</div>
+<p>Soms wil men bepaalde categorieën samenvoegen, bijvoorbeeld om de landen van hoog en gemiddeld niveau samen te nemen, maar de volgorde van laag naar hoog behouden. We kunnen dit bereiken met <code>recode_factor</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">economy_recoded =</span> <span class="fu">recode_factor</span>(economy,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"Low ($2000 or less)"</span> <span class="ot">=</span> <span class="st">"Lower"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"High ($15,000+)"</span> <span class="ot">=</span> <span class="st">"Higher"</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">"Medium ($2,000-14,999)"</span> <span class="ot">=</span> <span class="st">"Higher"</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">.ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<dl>
+<dt><code>mutate(economy_recoded</code></dt>
+<dd>
+<p>Dit deel van de code geeft aan dat we een nieuwe variabele <code>economy_recoded</code> willen aanmaken. Als je met je eigen gegevens werkt, kies je een passende naam voor de hergecodeerde variabele.</p>
+</dd>
+<dt><code>recode_factor(economy,</code></dt>
+<dd>
+<p>Dit deel van de code geeft aan dat we de bestaande variabele <code>economy</code> willen hercoderen. Als je met je eigen gegevens werkt, geef dan de naam op van de bestaande variabele die je wilt hercoderen.</p>
+</dd>
+<dt><code>"Low ($2000 or less)"="Lower"</code></dt>
+<dd>
+<p>Dit zijn de hercodeerstatements, waarbij we de oude naam links en de nieuwe naam rechts tussen dubbele aanhalingstekens (“) schrijven.</p>
+<p>We kunnen zoveel van deze verklaringen opnemen als we willen. Merk op dat de spelling van de oorspronkelijke categorie precies moet kloppen.</p>
+</dd>
+<dt><code>.ordered = TRUE</code></dt>
+<dd>
+<p>Dit geeft aan dat we een geordende factor willen maken. Let op de punt voor <em>ordered</em>.</p>
+</dd>
+</dl>
+<p>Als we de eerste paar waarden bekijken, zien we dat de factor geordend is. De volgorde van de factor wordt bepaald door de volgorde waarin je de hercodeerstatements hebt opgegeven (d.w.z. van laag naar hoog):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dta<span class="sc">$</span>economy_recoded)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Lower  Lower  Higher Higher Lower  Higher
+Levels: Lower &lt; Higher</code></pre>
+</div>
+</div>
+</section>
+<section id="hercodering-van-numerieke-variabelen" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="hercodering-van-numerieke-variabelen"><span class="header-section-number">3.3.3</span> Hercodering van numerieke variabelen</h3>
+<p>Het hercoderen van numerieke variabelen werkt op dezelfde manier als het hercoderen van norminale of ordinale variabelen.</p>
+<p>Neem als voorbeeld de Freedom House Democracy Ratings voor 2014 (<code>fhrate14</code>), die worden uitgedrukt op een schaal van 1 tot 7. Freedom House gebruikt ook een driepuntsscore: Free (1,0 tot 2,5), Partly Free (3,0 tot 5,0) en Not Free (5,5 tot 7). We hebben de dataset (<code>dta</code>) al geïmporteerd en de relevante packages (<code>tidyverse</code>, <code>rio</code>) geladen aan het begin van dit overzicht.</p>
+<p>We kunnen de variabele <code>fhrate14</code> als volgt hercoderen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">fhrate14_recoded =</span> <span class="fu">recode</span>(fhrate14,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"1"</span> <span class="ot">=</span> <span class="dv">1</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"1.5"</span> <span class="ot">=</span> <span class="dv">1</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"2.0"</span> <span class="ot">=</span> <span class="dv">1</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"2.5"</span> <span class="ot">=</span> <span class="dv">1</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"3"</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"3.5"</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"4"</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"4.5"</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"5"</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"5.5"</span> <span class="ot">=</span> <span class="dv">3</span>,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"6"</span> <span class="ot">=</span> <span class="dv">3</span>,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"6.5"</span> <span class="ot">=</span> <span class="dv">3</span>,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"7"</span> <span class="ot">=</span> <span class="dv">3</span>)</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dta<span class="sc">$</span>fhrate14_recoded)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 1  2  3 
+89 55 51 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Opmerking
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Als je veel unieke waarden hebt, is dit misschien niet de meest efficiënte manier om een numerieke variabele te hercoderen. In zulke gevallen zal het gebruik van <code>ifelse</code> of <code>case_when</code> efficiënter werken, zie <a href="data_05_advanced_recoding.html" class="quarto-xref"><span>Hoofdstuk 5</span></a>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Er zijn ook andere packages die hercodeerfuncties bieden (zoals <a href="https://rdrr.io/cran/car/man/recode.html"><code>recode</code></a> uit package <code>car</code> of <a href="https://strengejacke.github.io/sjmisc/reference/rec.html"><code>rec</code></a> uit pacakge <code>sjmisc</code>), maar die zullen we hier niet bespreken.</p>
+</div>
+</div>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>In ons voorbeeld zouden we kunnen gebruiken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>dta <span class="ot">&lt;-</span> dta <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">mutate</span>(<span class="at">fhrate14_recoded2 =</span> <span class="fu">case_when</span>(fhrate14 <span class="sc">&lt;=</span> <span class="fl">2.5</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                                            fhrate14 <span class="sc">&lt;=</span> <span class="dv">5</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                                            fhrate14 <span class="sc">&lt;=</span> <span class="dv">7</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                                            <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_real_</span>))</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dta<span class="sc">$</span>fhrate14_recoded2)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ 1  2  3 
+89 55 51 </code></pre>
+</div>
+</div>
+<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Gekopieerd!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Gekopieerd!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./data_02_filtering_selecting.html" class="pagination-link  aria-label=" &lt;span="" selecteren="" en="" hernoemen&lt;="" span&gt;"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Filteren, selecteren en hernoemen</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./data_04_missing_data.html" class="pagination-link" aria-label="<span class='chapter-number'>4</span>&nbsp; <span class='chapter-title'>Ontbrekende gegevens</span>">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ontbrekende gegevens</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

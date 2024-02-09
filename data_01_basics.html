@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Statistische analyse en presentatie met R - 1&nbsp; Werken met R en RStudio: de basis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./data_02_filtering_selecting.html" rel="next">
+<link href="./part_working_data.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Geen resultaten",
+    "search-matching-documents-text": "Gevonden documenten",
+    "search-copy-link-title": "Kopieer link om te zoeken",
+    "search-hide-matches-text": "Extra overeenkomsten verbergen",
+    "search-more-match-text": "meer overeenkomst in dit document",
+    "search-more-matches-text": "meer overeenkomsten in dit document",
+    "search-clear-button-title": "Wissen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuleren",
+    "search-submit-button-title": "Verzenden",
+    "search-label": "Zoeken"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part_working_data.html">Werken met data in R</a></li><li class="breadcrumb-item"><a href="./data_01_basics.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Werken met R en RStudio: de basis</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Schakel zijbalknavigatie" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistische analyse en presentatie met R</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Zoeken"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Voorwoord</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part_working_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Werken met data in R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_01_basics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Werken met R en RStudio: de basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_02_filtering_selecting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Filteren, selecteren en hernoemen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_03_variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variabelen maken, samenvatten en hercoderen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_04_missing_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Ontbrekende gegevens</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_05_advanced_recoding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Geavanceerd hercoderen van variabelen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_06_merging_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data combineren</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part_statistical_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistische analyse in R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_01_descriptives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Centrum- en spreidingsmaten</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_02_graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Grafieken maken met ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_03_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tabellen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_04_probability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R en kansrekening</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_05_normal_distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Normaalverdeling</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_06_proportions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Inferentie voor proporties</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_07_chi_squared.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Chi-kwadraattoets en associatiematen</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_08_t-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">T-toets voor het gemiddelde</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_09_power_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Poweranalyse</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./analysis_10_anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">ANOVA</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Schakel sectie">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./common_errors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Veelgemaakte fouten in R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix_formulas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Formules Statistiek I</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix_install_all_packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Alle packages installeren</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhoudsopgave</h2>
+   
+  <ul>
+  <li><a href="#interactie-met-de-console-r-als-rekenmachine-gebruiken" id="toc-interactie-met-de-console-r-als-rekenmachine-gebruiken" class="nav-link active" data-scroll-target="#interactie-met-de-console-r-als-rekenmachine-gebruiken"><span class="header-section-number">1.1</span> Interactie met de <em>console</em>: R als rekenmachine gebruiken</a>
+  <ul class="collapse">
+  <li><a href="#haakjes-gebruiken" id="toc-haakjes-gebruiken" class="nav-link" data-scroll-target="#haakjes-gebruiken"><span class="header-section-number">1.1.1</span> Haakjes gebruiken</a></li>
+  <li><a href="#meer-complexe-vergelijkingen" id="toc-meer-complexe-vergelijkingen" class="nav-link" data-scroll-target="#meer-complexe-vergelijkingen"><span class="header-section-number">1.1.2</span> Meer complexe vergelijkingen</a></li>
+  </ul></li>
+  <li><a href="#base-r-en-packages" id="toc-base-r-en-packages" class="nav-link" data-scroll-target="#base-r-en-packages"><span class="header-section-number">1.2</span> <em>base R</em> en <em>packages</em></a>
+  <ul class="collapse">
+  <li><a href="#installeren-en-laden-van-een-r-package" id="toc-installeren-en-laden-van-een-r-package" class="nav-link" data-scroll-target="#installeren-en-laden-van-een-r-package"><span class="header-section-number">1.2.1</span> Installeren en laden van een R package</a></li>
+  </ul></li>
+  <li><a href="#r-scripts" id="toc-r-scripts" class="nav-link" data-scroll-target="#r-scripts"><span class="header-section-number">1.3</span> R Scripts</a>
+  <ul class="collapse">
+  <li><a href="#r-scripts-annoteren" id="toc-r-scripts-annoteren" class="nav-link" data-scroll-target="#r-scripts-annoteren"><span class="header-section-number">1.3.1</span> R Scripts annoteren</a></li>
+  <li><a href="#uitvoeren-van-code-in-r-scripts" id="toc-uitvoeren-van-code-in-r-scripts" class="nav-link" data-scroll-target="#uitvoeren-van-code-in-r-scripts"><span class="header-section-number">1.3.2</span> Uitvoeren van code in R scripts</a></li>
+  <li><a href="#een-bestaand-r-script-opslaan-openen" id="toc-een-bestaand-r-script-opslaan-openen" class="nav-link" data-scroll-target="#een-bestaand-r-script-opslaan-openen"><span class="header-section-number">1.3.3</span> Een bestaand R Script opslaan / openen</a></li>
+  </ul></li>
+  <li><a href="#r-markdown-bestand" id="toc-r-markdown-bestand" class="nav-link" data-scroll-target="#r-markdown-bestand"><span class="header-section-number">1.4</span> R Markdown bestand</a>
+  <ul class="collapse">
+  <li><a href="#r-markdown-bestanden-bewerken" id="toc-r-markdown-bestanden-bewerken" class="nav-link" data-scroll-target="#r-markdown-bestanden-bewerken"><span class="header-section-number">1.4.1</span> R Markdown bestanden bewerken</a></li>
+  <li><a href="#een-r-markdown-bestand-knitten" id="toc-een-r-markdown-bestand-knitten" class="nav-link" data-scroll-target="#een-r-markdown-bestand-knitten"><span class="header-section-number">1.4.2</span> Een R Markdown bestand ‘knitten’</a></li>
+  </ul></li>
+  <li><a href="#een-r-project-opzetten" id="toc-een-r-project-opzetten" class="nav-link" data-scroll-target="#een-r-project-opzetten"><span class="header-section-number">1.5</span> Een R-project opzetten</a></li>
+  <li><a href="#handmatig-gegevens-invoeren-in-r" id="toc-handmatig-gegevens-invoeren-in-r" class="nav-link" data-scroll-target="#handmatig-gegevens-invoeren-in-r"><span class="header-section-number">1.6</span> Handmatig gegevens invoeren in R</a>
+  <ul class="collapse">
+  <li><a href="#gegevens-opslaan-in-een-object" id="toc-gegevens-opslaan-in-een-object" class="nav-link" data-scroll-target="#gegevens-opslaan-in-een-object"><span class="header-section-number">1.6.1</span> Gegevens opslaan in een object</a></li>
+  <li><a href="#een-vector-creëren" id="toc-een-vector-creëren" class="nav-link" data-scroll-target="#een-vector-creëren"><span class="header-section-number">1.6.2</span> Een vector creëren</a></li>
+  <li><a href="#variabelen-creëren-in-r" id="toc-variabelen-creëren-in-r" class="nav-link" data-scroll-target="#variabelen-creëren-in-r"><span class="header-section-number">1.6.3</span> Variabelen creëren in R</a></li>
+  </ul></li>
+  <li><a href="#dataframes" id="toc-dataframes" class="nav-link" data-scroll-target="#dataframes"><span class="header-section-number">1.7</span> Dataframes</a>
+  <ul class="collapse">
+  <li><a href="#de-data-bekijken" id="toc-de-data-bekijken" class="nav-link" data-scroll-target="#de-data-bekijken"><span class="header-section-number">1.7.1</span> De data bekijken</a></li>
+  <li><a href="#gegevens-in-r-laden" id="toc-gegevens-in-r-laden" class="nav-link" data-scroll-target="#gegevens-in-r-laden"><span class="header-section-number">1.7.2</span> Gegevens in R laden</a></li>
+  <li><a href="#een-dataframe-exporteren" id="toc-een-dataframe-exporteren" class="nav-link" data-scroll-target="#een-dataframe-exporteren"><span class="header-section-number">1.7.3</span> Een dataframe exporteren</a></li>
+  </ul></li>
+  <li><a href="#sec-data-basics-pipes" id="toc-sec-data-basics-pipes" class="nav-link" data-scroll-target="#sec-data-basics-pipes"><span class="header-section-number">1.8</span> De <em>pipe operator</em> |&gt;</a>
+  <ul class="collapse">
+  <li><a href="#annoteren-van-code-in-de-pipe" id="toc-annoteren-van-code-in-de-pipe" class="nav-link" data-scroll-target="#annoteren-van-code-in-de-pipe"><span class="header-section-number">1.8.1</span> Annoteren van code in de pipe</a></li>
+  <li><a href="#pipes-en-dataframes" id="toc-pipes-en-dataframes" class="nav-link" data-scroll-target="#pipes-en-dataframes"><span class="header-section-number">1.8.2</span> Pipes en dataframes</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part_working_data.html">Werken met data in R</a></li><li class="breadcrumb-item"><a href="./data_01_basics.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Werken met R en RStudio: de basis</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-data-basics" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Werken met R en RStudio: de basis</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Wanneer je RStudio opent, zie je vier vensters (ook wel panes genoemd). Je kunt de volgorde van de vensters veranderen onder View &gt; Panes. Je kunt ook de vorm veranderen door te klikken op de knoppen minimaliseren of maximaliseren rechtsboven in elk paneel. Voor deze cursus is het het beste als je alle vensters op hun oorspronkelijke plaats laat staan.</p>
+<ol type="1">
+<li><p>Het paneel ‘<em>Source</em>’ (bron) is waar je R scripts maakt en bewerkt (meer hierover hieronder). Wordt ook wel de <em>script editor</em> genoemd.</p></li>
+<li><p>Het deelvenster ‘<em>Environment/History</em>’ (Omgeving/Geschiedenis): Hier toont R je de namen van alle data-objecten (zoals vectoren, matrices en dataframes) die je in je huidige R-sessie hebt geopend en toont je informatie zoals het aantal observaties en kolommen in data-objecten. Het tabblad <em>History</em> (Geschiedenis) toont je een geschiedenis van alle code die in de Console werd uitgevoerd.</p></li>
+<li><p>De <em>console</em> is de plaats waar R daadwerkelijk code uitvoert. Aan het begin van de console zie je het teken ‘&gt;’. Je kan code rechtstreeks in de console typen en onmiddellijk een antwoord krijgen. Als je bijvoorbeeld 1+1 in de console typt en op ENTER drukt, geeft R onmiddellijk een output van 2.</p></li>
+<li><p>Het paneel ‘<em>Files/Plots/Packages/Help</em>’ (Bestanden/Plots/Pakketten/Help) toont heel wat nuttige informatie.</p></li>
+</ol>
+<ul>
+<li><em>Files</em> - Geeft toegang tot de bestandsmap op je harde schijf.</li>
+<li><em>Plots</em> - Toont al je plots/grafieken.</li>
+<li><em>Packages</em> - Overzicht van alle packages die zijn geïnstalleerd (zie meer hieronder)</li>
+<li><em>Help</em> - Informatie en hulp over R functies.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/overview_r_functions_week1_RStudio_Screenshot_Labels.png" class="img-fluid figure-img"></p>
+<figcaption>Overzicht van RStudio</figcaption>
+</figure>
+</div>
+<section id="interactie-met-de-console-r-als-rekenmachine-gebruiken" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="interactie-met-de-console-r-als-rekenmachine-gebruiken"><span class="header-section-number">1.1</span> Interactie met de <em>console</em>: R als rekenmachine gebruiken</h2>
+<p>R kan gebruikt worden als een krachtige rekenmachine. Je kunt eenvoudig wiskundige bewerkingen direct op de prompt in de console invoeren. Typ gewoon je rekenkundige bewerkingen en druk op ENTER op Windows-toetsenborden en op RETURN op Mac-toetsenborden.</p>
+<p>Voor eenvoudige rekenkundige bewerkingen gebruikt R de volgende operatoren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>    Optellen</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>    Aftrekken</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="sc">*</span>    Vermenigvuldigen</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span>    Delen</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="sc">^</span>    Machtsverheffen</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="haakjes-gebruiken" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="haakjes-gebruiken"><span class="header-section-number">1.1.1</span> Haakjes gebruiken</h3>
+<p>Als je 6 en 3 wilt optellen en daarna het resultaat met 2 wilt vermenigvuldigen, moet je haakjes toevoegen. Dit legt een volgorde op voor de berekening van het resultaat (d.w.z. eerst 6 en 3 optellen en dan delen door 2). In het geval van dit voorbeeld, zou je kunnen invoeren</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">6</span> <span class="sc">+</span> <span class="dv">3</span>) <span class="sc">*</span> <span class="dv">2</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18</code></pre>
+</div>
+</div>
+</section>
+<section id="meer-complexe-vergelijkingen" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="meer-complexe-vergelijkingen"><span class="header-section-number">1.1.2</span> Meer complexe vergelijkingen</h3>
+<p>Je kunt meer complexe uitdrukkingen schrijven die haakjes en operatoren gebruiken.</p>
+<p>De volgorde waarin R bovenstaande operatoren uitvoert is<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<ul>
+<li>haakjes</li>
+<li>machtsverheffen en worteltrekken</li>
+<li>vermenigvuldigen en delen van links naar rechts</li>
+<li>optellen en aftrekken van links naar rechts.</li>
+</ul>
+<p>Neem de volgende vergelijking:</p>
+<p><span class="math display">\[
+\frac{18 * 4^2 - (4+2)}{3}
+\]</span></p>
+<p>Je voert dit als volgt in de RStudio <em>console</em> in:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">18</span> <span class="sc">*</span> <span class="dv">4</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">-</span> (<span class="dv">5</span> <span class="sc">+</span> <span class="dv">4</span>))<span class="sc">/</span><span class="dv">3</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 93</code></pre>
+</div>
+</div>
+<p>Merk op hoe je de volgorde van evaluatie kunt bepalen door haakjes te gebruiken.</p>
+<ol type="1">
+<li>Intern berekent R eerst <code>18 * 4 ^ 2</code> (<code>= 288</code>). Het volgt de hierboven beschreven regels, dus er is geen noodzaak om een haakje rond <code>4^2</code> te zetten. Exponenten worden berekend vóór de vermenigvuldiging, dus hoeven we dit niet aan te geven via een haakje.</li>
+<li>Hiervan trekken we <code>5 + 4</code> af (<code>288 - 9 = 279</code>).</li>
+<li>Tenslotte delen we door 3.</li>
+</ol>
+</section>
+</section>
+<section id="base-r-en-packages" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="base-r-en-packages"><span class="header-section-number">1.2</span> <em>base R</em> en <em>packages</em></h2>
+<p>Wanneer je R downloadt van het Comprehensive R Archive Network (CRAN), krijg je het ‘basis’ R-systeem (<em>‘base R’</em>). Deze software bevat basisfunctionaliteit en implementeert de R-taal. Een van de redenen waarom R zo nuttig is, is echter de grote verzameling van aanvullende pakketten (<em>packages</em>) die de basisfunctionaliteit van R uitbreiden. R-pakketten worden ontwikkeld en gepubliceerd door de grote R-gemeenschap. Er zijn duizenden packages beschikbaar die een breed scala van onderwerpen bestrijken.</p>
+<p>De primaire locatie voor het verkrijgen van R packages is CRAN. Er zijn enkele bijkomende locaties, maar daar hoeft u zich voorlopig geen zorgen over te maken.</p>
+<section id="installeren-en-laden-van-een-r-package" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="installeren-en-laden-van-een-r-package"><span class="header-section-number">1.2.1</span> Installeren en laden van een R package</h3>
+<p>Om een package te installeren, gebruik je de <code>install.packages()</code> functie en dan schrijf je de naam van het package. Je moet aanhalingstekens plaatsen rond de naam van het pakket, dus <code>install.packages("&lt;de naam van het pakket&gt;")</code>. Als je bijvoorbeeld het pakket <code>rio</code> wilt installeren (een R-pakket dat het importeren en exporteren van gegevens in R heel snel maakt), dan schrijf je:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rio"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>R installeert automatisch alles wat het nodig heeft. Als je eenmaal een package hebt geïnstalleerd, blijft het op je laptop staan. Het installeren van een R-pakket hoeft dus maar één keer gedaan te worden (totdat je R opnieuw installeert).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Waarschuwing
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let op: Packages die nodig zijn voor deze cursus zijn voorgeïnstalleerd op alle PC’s van de Universiteit Leiden. Daarom kan deze stap overgeslagen worden als je op PC’s van de universiteit werkt en kun je ze gewoon laden (zie volgende stap). Als je een eigen laptop gebruikt, moet je het package wel eerst installeren.</p>
+</div>
+</div>
+<p>Het installeren van een package maakt het niet direct beschikbaar voor je in R. Voordat je het package en de bijbehorende functies kunt gebruiken, moet je het in R laden. Om packages in R te laden, wordt de <code>library()</code> functie gebruikt. Bij het laden van een package, gebruik je geen aanhalingstekens. Om het ‘rio’ pakket in R te laden, schrijf je:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Als je een pakket probeert te laden dat niet is geïnstalleerd, krijg je een foutmelding (‘<code>Error in library(rio) : there is no package called 'rio'</code>’).</p>
+</section>
+</section>
+<section id="r-scripts" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="r-scripts"><span class="header-section-number">1.3</span> R Scripts</h2>
+<p>Het console venster (in RStudio, het onderste linker paneel) is de plaats waar je commando’s rechtstreeks in de console kan typen, maar deze worden vergeten wanneer je R afsluit.</p>
+<p>Vaak willen we niet alleen in de console werken, maar willen we onze code bewaren en opslaan. Een veelgebruikte manier om dit te doen is door te werken in een R script. Dit is een tekstbestand dat alle R code bevat die je wilt uitvoeren. Dit houdt alles mooi georganiseerd.</p>
+<p>Het is gemakkelijk om een nieuw script te maken in RStudio. We kunnen daarvoor het menu gebruiken (“File” → “New File” → “R Script”) of met de sneltoets “Command+Shift+N” op een Mac of “Ctrl+Shift+N” op Windows en Linux. Daarna verschijnt de editor als een nieuw deelvenster in de linkerbovenhoek van het RStudio venster.</p>
+<p>In een R Script kun je alle code schrijven die nodig is voor je project. We zouden bijvoorbeeld deze drie regels kunnen schrijven:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Dit is mijn eerste R Script"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="dv">17-8</span><span class="sc">*</span><span class="dv">2</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="r-scripts-annoteren" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="r-scripts-annoteren"><span class="header-section-number">1.3.1</span> R Scripts annoteren</h3>
+<p>Je kan commentaar toevoegen door het R Script te annoteren (van commentaar voorzien). Het annoteren maakt het veel gemakkelijker voor jezelf of mensen met wie je samenwerkt. Je gebruikt het symbool <code>#</code> om een annotatie te starten. Wanneer je een commando uitvoert, zal R alles na dit symbool negeren. In een script negeert R alles wat na # komt op de betreffende regel, maar zal het wel de volgende regels weer uitvoeren.</p>
+<p>Terugkomend op het eerdere voorbeeld, stel dat je een commentaar wilt toevoegen na de formule dan kun je schrijven:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">18</span> <span class="sc">*</span> <span class="dv">4</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">-</span> (<span class="dv">5</span> <span class="sc">+</span> <span class="dv">4</span>))<span class="sc">/</span><span class="dv">3</span>   <span class="co"># Dit is een prachtige rekensom</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="uitvoeren-van-code-in-r-scripts" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="uitvoeren-van-code-in-r-scripts"><span class="header-section-number">1.3.2</span> Uitvoeren van code in R scripts</h3>
+<p>Om een commando in een R script uit te voeren, heb je verschillende opties:</p>
+<ol type="1">
+<li>Zet de cursor op de regel van het commando en klik vervolgens op de knop ‘Uitvoeren’ bovenin het bestandsvenster.</li>
+<li>Plaats de cursor op de regel van het commando en druk op CTRL + ENTER op Windows PC’s of COMMAND ⌘ + RETURN Mac.</li>
+<li>U kunt ook de hele regel selecteren en op ‘Uitvoeren’ of CTRL/COMMAND ⌘ + RETURN drukken). Merk op dat als je dit doet je de hele regel moet selecteren. Anders zal R alleen het deel van het commando uitvoeren dat je gemarkeerd hebt.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/overview_r_functions_week1_marked_code.png" class="img-fluid figure-img"></p>
+<figcaption>RMarkdown Visual Mode 1</figcaption>
+</figure>
+</div>
+<p>Nadat je op ‘Run’ of CTRL + ENTER hebt gedrukt, zal R het commando uitvoeren.</p>
+<p>Als u een annotatie hebt toegevoegd (zie hierboven), zal R maar de tekst achter <code>#</code> uitsluiten.</p>
+<p>Je kunt natuurlijk meerdere regels uitvoeren. Bijvoorbeeld, als je R Script deze drie commando’s bevat:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Dit is mijn eerste R Script"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="dv">17-8</span><span class="sc">*</span><span class="dv">2</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Je kunt alles wat je wilt uitvoeren (dus de hele tekst of de eerste twee regels, enz.) selecteren met je muiscursor en dan klikken op de knop ‘Uitvoeren’ bovenin het bestandsvenster of op CTRL + ENTER drukken op Windows PC’s of COMMAND ⌘ + RETURN op Mac.</p>
+</section>
+<section id="een-bestaand-r-script-opslaan-openen" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="een-bestaand-r-script-opslaan-openen"><span class="header-section-number">1.3.3</span> Een bestaand R Script opslaan / openen</h3>
+<p>Je kunt je script opslaan door te klikken op File → “Save as…” of door te klikken op het Save icoon bovenaan het Script Editor paneel (sneltoets: CRTL + S of COMMAND ⌘ + S). Als je dat doet, opent zich een venster Save File. Geef het R Script een informatieve naam en open het later. U kunt een bestaand R-script openen via File → “Open file…”</p>
+</section>
+</section>
+<section id="r-markdown-bestand" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="r-markdown-bestand"><span class="header-section-number">1.4</span> R Markdown bestand</h2>
+<p>Een ander veelgebruikt formaat is het R Markdown bestand. Een R Markdown document is een combinatie van geschreven tekst met simpele opmaak en stukken ingesloten R code (zogenoemde <em>code chunks</em>). Het mooie aan R Markdown is dat je code chunks (en in-line code) kan invoegen om uitvoer en statistische analyse te rapporteren.</p>
+<p>Zodra je een RMarkdown bestand exporteert, kun je je tekst omzetten in documenten, rapporten, presentaties en dashboards van hoge kwaliteit. Dit document, bijvoorbeeld, is een R Markdown bestand.</p>
+<blockquote class="blockquote">
+<p>RStudio zal automatisch het benodigde <code>rmarkdown</code> package installeren en laden wanneer nodig.</p>
+</blockquote>
+<section id="r-markdown-bestanden-bewerken" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="r-markdown-bestanden-bewerken"><span class="header-section-number">1.4.1</span> R Markdown bestanden bewerken</h3>
+<p>Voorlopig hoef je niet te weten hoe je R Markdown bestanden maakt. We zullen ze echter in de loop van de cursus gebruiken voor oefeningen en opdrachten, dus je moet weten hoe je erin moet werken.</p>
+<p>R Markdown bestanden hebben de extensie .Rmd. Zodra je ze aanklikt, zou R Studio ze moeten openen. Als dat niet het geval is, kun je ze openen via ” File” → “Open File”. Als je ze voor het eerst opent, zullen ze eruit zien als een R Script (met wat gekleurde code). Het is gemakkelijker om er in te werken in de “Visuele” modus. Op Windows PC’s kun je naar deze modus overschakelen via ‘CTRL + SHIFT + F4’, op Macs via ‘COMMAND ⌘ + SHIFT + F4’. Je kunt ook klikken op de knop ‘Visual’.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/overview_r_functions_week1_001.png" class="img-fluid figure-img"></p>
+<figcaption>RMarkdown Visual Mode 1</figcaption>
+</figure>
+</div>
+<p>Om code uit te voeren, kun je de code selecteren en op ‘CTRL + ENTER’ (‘COMMAND + RETURN’ op Macs) drukken of, als alternatief, op het kleine groene pijltje klikken.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/overview_r_functions_week1_002.png" class="img-fluid figure-img"></p>
+<figcaption>RMarkdown Visual Mode 2</figcaption>
+</figure>
+</div>
+<p>Je kunt de code in het ‘code chunk’ ook aanpassen of nieuwe code toevoegen:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/overview_r_functions_week1_003.png" class="img-fluid figure-img"></p>
+<figcaption>RMarkdown Visual Mode 3</figcaption>
+</figure>
+</div>
+<p>Zodra je de code hebt uitgevoerd, zal R de resultaten tonen onder de ‘code chunk’.</p>
+</section>
+<section id="een-r-markdown-bestand-knitten" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="een-r-markdown-bestand-knitten"><span class="header-section-number">1.4.2</span> Een R Markdown bestand ‘knitten’</h3>
+<p>Je kunt je markdown-bestand omzetten in een HTML-, PDF- of Word-document dat je kunt uploaden op Brightspace. Klik hiervoor op het <strong>Knit</strong> icoon dat bovenaan je script. Hierna wordt een document gegenereerd dat zowel de inhoud als de uitvoer van alle ingesloten <em>code chunks</em> in het document bevat.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/overview_r_functions_week1_screenshot_knit_button.png" class="img-fluid figure-img"></p>
+<figcaption>Knit button</figcaption>
+</figure>
+</div>
+<p>Je kunt je .Rmd bestand opslaan met ” File” → “Save File As…”.</p>
+</section>
+</section>
+<section id="een-r-project-opzetten" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="een-r-project-opzetten"><span class="header-section-number">1.5</span> Een R-project opzetten</h2>
+<p>Wanneer je met R werkt, zal je waarschijnlijk verschillende bestanden hebben: een bestand met de data set, een bestand met je R script (of R Markdown bestand) en misschien output die je bewaart. Om alle bestanden met betrekking tot een project bij elkaar te houden en het overzicht te bewaren, raden we aan een R Project op te zetten.</p>
+<ol type="1">
+<li><p>Klik op “File” → “New Project”</p></li>
+<li><p>Klik op “New directory” en dan op “New Project”</p></li>
+<li><p>Voer je projectnaam in bij ‘Directory name’ en geef aan in welke map het project komt te staan door op ‘Browse’ te klikken en een map te selecteren. Klik dan op “Create Project” (Project aanmaken)</p></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/overview_r_functions_week1_screenshot_new_project.png" class="img-fluid figure-img"></p>
+<figcaption>Setting up a Project in RStudio</figcaption>
+</figure>
+</div>
+<p>R zal nu het project aanmaken en de map openen in de Bestanden weergave onderaan het project.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Stel een Project op voor deze cursus, en bewaar alle opdrachten, oefeningen en gegevensbestanden voor deze cursus in de projectmap/directory.</p>
+</div>
+</div>
+<p>Met “File → Open Project” kun je een bestaand project openen en er verder aan werken.</p>
+</section>
+<section id="handmatig-gegevens-invoeren-in-r" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="handmatig-gegevens-invoeren-in-r"><span class="header-section-number">1.6</span> Handmatig gegevens invoeren in R</h2>
+<p>In R is de belangrijkste en meest gebruikte manier om gegevens in te voeren de operator met het pijltje naar links (<code>&lt;-</code>). Deze toewijzingsoperator wordt gebruikt om een waarde <strong>toe te wijzen</strong>.</p>
+<p>De combinatie <code>object &lt;- inhoud</code> betekent “wijs de waarde van het resultaat van de bewerking aan de rechterkant (‘inhoud’) toe aan het object aan de linkerkant (‘object’)”.</p>
+<p>R kan ook overweg met andere toewijzingsoperatoren, maar onze suggestie is om de <code>&lt;-</code> operator te gebruiken. Dit is de meest conventionele toewijzingsoperator die wordt gebruikt en is wat je zult vinden in alle basis R broncode.</p>
+<section id="gegevens-opslaan-in-een-object" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="gegevens-opslaan-in-een-object"><span class="header-section-number">1.6.1</span> Gegevens opslaan in een object</h3>
+<p>R kan omgaan met veel verschillende vormen van invoer (tekst, getallen, data, enz,). Je kan bepalen welk soort gegevens in een object worden opgeslagen. Stel dat we de numerieke waarde 12 willen toewijzen aan een object met de naam <code>my_first_variable</code>.</p>
+<p>We maken een object aan met de naam <code>my_first_variable</code> (merk op dat er geen spatie in de naam mag staan) en kennen er één waarde (12) aan toe. Om dit in R te doen gebruiken we <code>&lt;-</code>. De code wordt dan:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>my_first_variable <span class="ot">&lt;-</span> <span class="dv">12</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We kunnen vervolgens laten printen wat de inhoud van <code>my_first_variable</code> is door de naam in te typen (en daarna de code te draaien):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>my_first_variable </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12</code></pre>
+</div>
+</div>
+<p>Als we het datatype controleren via <code>class()</code>, kunnen we zien dat dit een ‘numeriek’ object is. Dit wordt gebruikt voor getallen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(my_first_variable)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+</div>
+<p>Op dit punt is het misschien goed om op te merken dat R een <strong>hoofdlettergevoelige</strong> programmeertaal is. Dit betekent dat alle variabelen, functies en objecten moeten worden aangeroepen met hun exacte spelling. Als je het object <code>my_first_variable</code> probeert aan te roepen door <code>My_first_variable</code> te schrijven (let op de hoofdletter ‘M’), zal R het object niet kunnen vinden en een foutmelding weergeven:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>My_first_variable</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in eval(expr, envir, enclos): object 'My_first_variable' not found</code></pre>
+</div>
+</div>
+<p>Natuurlijk kunnen we ook decimale getallen invoeren. Je moet hiervoor een ‘punt’ als decimaalscheidingsteken gebruiken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>my_second_variable <span class="ot">&lt;-</span> <span class="fl">6.521</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>my_second_variable </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.521</code></pre>
+</div>
+</div>
+<p>Wanneer we de <code>class</code> van dit object inspecteren, zien we dat het weer een numeriek (<em>numeric</em>) object is.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(my_second_variable)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+</div>
+<p>We kunnen ook tekst opslaan. In R wordt tekst een <em>‘character’</em> (karakter) object of <em>‘string’</em> (tekenreeks) genoemd. Een string is een stuk tekst dat wordt voorgesteld als een opeenvolging van tekens (letters, cijfers en symbolen). Hij kan uit één of meerdere tekens bestaan. Elke waarde die in R binnen een paar enkele of dubbele aanhalingstekens wordt geschreven, wordt behandeld als een tekenreeks. Het is gebruikelijker om dubbele aanhalingstekens (““) dan enkele aanhalingstekens (’’) rond de tekst te gebruiken. Dit zal een character variabele creëren.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>a_text_variable <span class="ot">&lt;-</span> <span class="st">"Hallo, wereld"</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>a_text_variable</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Hallo, wereld"</code></pre>
+</div>
+</div>
+<p>Zoals hierboven uitgelegd, kun je dubbele aanhalingstekens of enkele aanhalingstekens gebruiken. Hoewel dit tot hetzelfde resultaat zal leiden, raden we aan dubbele aanhalingstekens te gebruiken.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>a_text_variable <span class="ot">&lt;-</span> <span class="st">'Hallo wereld'</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>a_text_variable</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Hallo wereld"</code></pre>
+</div>
+</div>
+</section>
+<section id="een-vector-creëren" class="level3" data-number="1.6.2">
+<h3 data-number="1.6.2" class="anchored" data-anchor-id="een-vector-creëren"><span class="header-section-number">1.6.2</span> Een vector creëren</h3>
+<p>Tot nu toe bevat ons object slechts één waarde. Als we verschillende waarden willen opslaan, moeten we een vector maken. Vectoren zijn essentiële objecten in R. Zij zijn de bouwsteen voor data frames die wij later zullen behandelen. Laten we een numerieke vector maken die alle getallen van 1 tot 5 en de waarde 8.5 bevat. Om dit te doen gebruiken we <code>c()</code>. De “c” in <code>c()</code> staat voor combineren.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>my_first_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="fl">8.5</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>my_first_vector</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.0 2.0 3.0 4.0 5.0 8.5</code></pre>
+</div>
+</div>
+<p>Als we het datatype controleren via <code>class()</code>, kunnen we zien dat dit een ‘numeriek’ object is. Dit wordt gebruikt als de waarden getallen zijn of als de waarden decimalen bevatten.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(my_first_vector)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+</div>
+<p>We kunnen ook een vector maken met tekst in plaats van getallen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>color_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"yellow"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>color_vector</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "blue"   "red"    "green"  "white"  "black"  "yellow"</code></pre>
+</div>
+</div>
+<p>Zoals hierboven is aangegeven, gebruikt R het datatype <code>karakter' bij het opslaan van tekst. Als we het datatype controleren via</code>class()`, kunnen we zien dat dit een ‘character’ object is.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(color_vector)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+<p>Kunnen we getallen en tekst combineren? Nee. Vectoren zijn beperkt tot 1 type gegevens (d.w.z. je kunt getallen of tekenreeksen opslaan, maar niet beide). Wat gebeurt er als we getallen en tekenreeksen mixen?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>mixed_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="st">"red"</span>, <span class="dv">3</span>, <span class="st">"white"</span>, <span class="st">"black"</span>, <span class="dv">6</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>R maakt de vector, maar maakt er automatisch een character vector van (zie de dubbele aanhalingstekens als we de vector aanroepen en de output van <code>class(mixed_vector)</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>mixed_vector</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "1"     "red"   "3"     "white" "black" "6"    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(mixed_vector)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+</section>
+<section id="variabelen-creëren-in-r" class="level3" data-number="1.6.3">
+<h3 data-number="1.6.3" class="anchored" data-anchor-id="variabelen-creëren-in-r"><span class="header-section-number">1.6.3</span> Variabelen creëren in R</h3>
+<p>Nu we weten hoe we gegevens moeten opslaan, kunnen we ze gebruiken om categoriale en continue variabelen te maken.</p>
+<section id="categoriale-gegevens-factors" class="level4" data-number="1.6.3.1">
+<h4 data-number="1.6.3.1" class="anchored" data-anchor-id="categoriale-gegevens-factors"><span class="header-section-number">1.6.3.1</span> Categoriale gegevens: Factors</h4>
+<p>Voor categoriale gegevens (nominale en ordinale variabelen), gebruiken we een factor. Factoren worden gebruikt om de gegevens te categoriseren en op te slaan als niveaus. Ze kunnen zowel tekens als getallen (gehele getallen, decimalen) opslaan.</p>
+<section id="nominale-variabelen" class="level5" data-number="1.6.3.1.1">
+<h5 data-number="1.6.3.1.1" class="anchored" data-anchor-id="nominale-variabelen"><span class="header-section-number">1.6.3.1.1</span> Nominale variabelen</h5>
+<p>Stel dat we een nominale variabele met windrichtingen hebben. Eerst maken we een vector als invoer:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>, <span class="st">"North"</span>, <span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Tot nu toe is dit gewoon een character vector. Als we de inhoud ervan printen krijgen we:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "East"  "West"  "East"  "North" "North" "East"  "West"  "West"  "West" 
+[10] "East"  "North"</code></pre>
+</div>
+</div>
+<p>Om R te laten weten dat dit een categoriale variabele is, moeten we specificeren dat het een factor is. We kunnen dit doen door <code>factor()</code> toe te voegen rond de expressie:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>directions <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>, <span class="st">"North"</span>, <span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Intern slaat R deze factoren op als gehele getallen (=gehele getallen), en gebruikt de strings als labels. Als we de inhoud van dit object laten zien, krijgen we:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>directions</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] East  West  East  North North East  West  West  West  East  North
+Levels: East North West</code></pre>
+</div>
+</div>
+<p>Zoals je kunt zien, behandelt R dit nu als een categoriale (nominale) variabele.</p>
+<p>We kunnen ook meer informatie krijgen over de unieke waarden van onze factor door <code>levels()</code> te gebruiken<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(directions)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "East"  "North" "West" </code></pre>
+</div>
+</div>
+<p>Het gebruik van strings voor factoren verdient de voorkeur omdat we de labels kunnen gebruiken voor informatie. Het is natuurlijk mogelijk gehele getallen te gebruiken, d.w.z. 1 voor “Noord” 2 voor “Oost”, 3 voor “Zuid” en 4 voor “West”. Dit kan het echter moeilijk maken om te weten wat de getallen betekenen zonder na te gaan welke labels ze vertegenwoordigen. Daarom raden we aan om strings te gebruiken wanneer je factors maakt.</p>
+</section>
+<section id="ordinale-factor-niveaus-in-r" class="level5" data-number="1.6.3.1.2">
+<h5 data-number="1.6.3.1.2" class="anchored" data-anchor-id="ordinale-factor-niveaus-in-r"><span class="header-section-number">1.6.3.1.2</span> Ordinale factor niveaus in R</h5>
+<p>In het vorige voorbeeld werd een nominale variabele gebruikt (d.w.z. geen duidelijke ordening van de categorieën). Ordinale variabelen daarentegen hebben een duidelijke rangschikking van de categorieën. Dit kunnen waarden zijn als laag, gemiddeld en hoog. Om dit te doen, maken we factoren met een inherente ordening van de categorieën door <code>levels = c(), ordered = TRUE</code> toe te voegen. Bijvoorbeeld, we kunnen een factor met temperatuur maken met “laag”, “gemiddeld”, “hoog”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"high"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>, <span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>temperature</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] low    high   medium high   low    medium high  
+Levels: low &lt; medium &lt; high</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="interval-ratiovariabelen" class="level4" data-number="1.6.3.2">
+<h4 data-number="1.6.3.2" class="anchored" data-anchor-id="interval-ratiovariabelen"><span class="header-section-number">1.6.3.2</span> Interval-ratiovariabelen</h4>
+<p>Interval/ratiogegevens kunnen worden gecodeerd als variabelen met gehele getallen (getallen en decimalen). Om een continue variabele te maken, kunnen we eenvoudigweg een vector met gehele getallen of decimalen maken:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>exam_points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="dataframes" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="dataframes"><span class="header-section-number">1.7</span> Dataframes</h2>
+<p>Ongetwijfeld één van de krachtigste en meest gebruikte datastructuren in R zijn dataframes (<code>data.frame</code>). Dataframes hebben twee dimensies en bestaan uit meerdere <strong>variabelen</strong>, één in elke <strong>kolom</strong>. Elke <strong>rij</strong> vertegenwoordigt <strong>een geval</strong> waarover we informatie hebben. Dit is een zeer eenvoudig voorbeeld van een dataframe:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>  stud_id stud_name grade
+1       1    Arnold   6.5
+2       2       Dan   5.5
+3       3       Ina   7.0
+4       4    George   9.0
+5       5    Sophie   8.5</code></pre>
+</div>
+</div>
+<p>Dit voorbeelddataframe bevat informatie over vijf studenten (één per rij). Het bevat drie variabelen: Student ID (stud_id), hun naam (stud_name) en hun cijfer (grade). We hebben dus drie kolommen.</p>
+<p>Het is mogelijk om een dataframe te maken door handmatig gegevens in te voeren; normaal zullen we een dataframe laden vanuit een bestand.</p>
+<blockquote class="blockquote">
+<p>Je kunt later de term <code>tibble</code> tegenkomen, wat in wezen hetzelfde is als een dataframe.</p>
+</blockquote>
+<section id="de-data-bekijken" class="level3" data-number="1.7.1">
+<h3 data-number="1.7.1" class="anchored" data-anchor-id="de-data-bekijken"><span class="header-section-number">1.7.1</span> De data bekijken</h3>
+<section id="de-data-in-rstudio-bekijken" class="level4" data-number="1.7.1.1">
+<h4 data-number="1.7.1.1" class="anchored" data-anchor-id="de-data-in-rstudio-bekijken"><span class="header-section-number">1.7.1.1</span> De data in RStudio bekijken</h4>
+<p>Zodra je gegevens hebt ingevoerd of geladen, toont R studio deze in het ‘Environment pane’ aan de rechterkant. Je kunt op de naam van het dataframe klikken (<code>student.data</code> in ons voorbeeld) om de gegevens in een apart venster te bekijken.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/overview_r_functions_week1_screenshot_environment.png" class="img-fluid figure-img"></p>
+<figcaption>The Environment pane</figcaption>
+</figure>
+</div>
+</section>
+<section id="dataframes-aanmaken-op-basis-van-vectoren" class="level4" data-number="1.7.1.2">
+<h4 data-number="1.7.1.2" class="anchored" data-anchor-id="dataframes-aanmaken-op-basis-van-vectoren"><span class="header-section-number">1.7.1.2</span> Dataframes aanmaken op basis van vectoren</h4>
+<p>Om individuele vectoren te combineren tot één dataframe kunnen wij de functie <code>data.frame()</code> gebruiken. Dit voegt vectoren samen: elke vector zal in een aparte <strong>kolom</strong> staan. Elke <strong>rij</strong> vertegenwoordigt <strong>een geval</strong> waarover we informatie hebben. Hieronder maak ik drie vectoren (een over de dag van de week, een over de temperatuur op die dag en een factor variabele over het weertype) en combineer ze tot een dataframe met de naam ‘weer’. Merk op dat we <code>factor()</code> gebruiken voor de factorvariabele.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>dag <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"maandag"</span>, <span class="st">"dinsdag"</span>, <span class="st">"woensdag"</span>, <span class="st">"donderdag"</span>, <span class="st">"vrijdag"</span>)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">8</span>)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>type <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"bewolkt"</span>, <span class="st">"buien"</span>, <span class="st">"regenachtig"</span>, <span class="st">"bewolkt"</span>, <span class="st">"regenachtig"</span>))</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>weer <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(dag, temp, type)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(weer)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   5 obs. of  3 variables:
+ $ dag : chr  "maandag" "dinsdag" "woensdag" "donderdag" ...
+ $ temp: num  7 5 7 8 8
+ $ type: Factor w/ 3 levels "bewolkt","buien",..: 1 2 3 1 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>weer</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        dag temp        type
+1   maandag    7     bewolkt
+2   dinsdag    5       buien
+3  woensdag    7 regenachtig
+4 donderdag    8     bewolkt
+5   vrijdag    8 regenachtig</code></pre>
+</div>
+</div>
+<dl>
+<dt><code>weer &lt;- data.frame(dag, temp, type)</code></dt>
+<dd>
+<p>Dit creëert een nieuw dataframe met de naam “weer” dat de drie vectoren “dag”, “temp” en “type” combineert. Vervang de namen van het dataframe en de vectoren door jullie gegevens.</p>
+</dd>
+<dt><code>str(weer)</code></dt>
+<dd>
+<p>Deze code geeft de interne structuur van de dataframe weer.</p>
+</dd>
+</dl>
+</section>
+<section id="de-operator" class="level4" data-number="1.7.1.3">
+<h4 data-number="1.7.1.3" class="anchored" data-anchor-id="de-operator"><span class="header-section-number">1.7.1.3</span> De operator $</h4>
+<p>De operator met het “dollarteken” ($) is nuttig wanneer we werken met dataframes. Ten eerste kan het worden gebruikt om variabelen in dataframes te <strong><em>bekijken</em></strong>. Bijvoorbeeld, we kunnen de variabele “grade” bekijken door te schrijven:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>student.data<span class="sc">$</span>grade</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.5 5.5 7.0 9.0 8.5</code></pre>
+</div>
+</div>
+<p>We kunnen ook nieuwe variabelen <strong><em>creëren</em></strong>. Hiervoor gebruiken we de operator ‘&lt;-’. Laten we een nieuwe variabele aanmaken in ons ‘weer’-dataframe: een numerieke variabele over de vochtigheid op die dag.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>weer<span class="sc">$</span>vochtigheid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">71</span>, <span class="dv">84</span>, <span class="dv">89</span>, <span class="dv">76</span>, <span class="dv">85</span>) </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>weer</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        dag temp        type vochtigheid
+1   maandag    7     bewolkt          71
+2   dinsdag    5       buien          84
+3  woensdag    7 regenachtig          89
+4 donderdag    8     bewolkt          76
+5   vrijdag    8 regenachtig          85</code></pre>
+</div>
+</div>
+<p>Zorg ervoor dat het aantal observaties van de nieuwe vectoren gelijk is aan het aantal observaties in het dataframe. Hieronder probeer ik bijvoorbeeld nog een variabele over de windsnelheid toe te voegen. Maar omdat deze variabele maar 4 waarnemingen heeft, geeft R een foutmelding:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>weer<span class="sc">$</span>wind <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">27</span>, <span class="dv">14</span>, <span class="dv">21</span>, <span class="dv">18</span>) <span class="co">#deze vector heeft slechts 4 observaties</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `$&lt;-.data.frame`(`*tmp*`, wind, value = c(27, 14, 21, 18)): replacement has 4 rows, data has 5</code></pre>
+</div>
+</div>
+</section>
+<section id="head-and-tail" class="level4" data-number="1.7.1.4">
+<h4 data-number="1.7.1.4" class="anchored" data-anchor-id="head-and-tail"><span class="header-section-number">1.7.1.4</span> head() and tail()</h4>
+<p>Als je een data frame hebt met veel waarnemingen, kan het nuttig zijn om alleen de eerste paar rijen af te drukken. Onze voorbeeldgegevensverzameling is klein, maar we kunnen ze toch gebruiken om het gebruik van de twee functies te illustreren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(student.data)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  stud_id stud_name grade
+1       1    Arnold   6.5
+2       2       Dan   5.5
+3       3       Ina   7.0
+4       4    George   9.0
+5       5    Sophie   8.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(student.data, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  stud_id stud_name grade
+1       1    Arnold   6.5
+2       2       Dan   5.5
+3       3       Ina   7.0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(student.data, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  stud_id stud_name grade
+3       3       Ina   7.0
+4       4    George   9.0
+5       5    Sophie   8.5</code></pre>
+</div>
+</div>
+<dl>
+<dt><code>head(student.data)</code></dt>
+<dd>
+<p>Dit toont de eerste vijf rijen van een data frame. Vervang <code>student.data</code> door de naam van het juiste data frame als je met eigen data werkt.</p>
+</dd>
+<dt><code>head(student.data, n = 3)</code></dt>
+<dd>
+<p>Als we n = … gebruiken, kunnen we aangeven hoeveel rijen met gegevens we willen weergeven, in dit voorbeeld 3 rijen.</p>
+</dd>
+<dt><code>tail(student.data, n = 3)</code></dt>
+<dd>
+<p><code>tail()</code> geeft de laatste <em>n</em> rijen gegevens weer. Als je n = … weglaat, worden de laatste 5 rijen gegevens weergegeven.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="gegevens-in-r-laden" class="level3" data-number="1.7.2">
+<h3 data-number="1.7.2" class="anchored" data-anchor-id="gegevens-in-r-laden"><span class="header-section-number">1.7.2</span> Gegevens in R laden</h3>
+<p>Je kunt gegevens importeren in R voor analyse en databewerking (variabele namen veranderen, cases selecteren, de waarden van variabelen hercoderen, etc.).</p>
+<p>Met behulp van de <code>import</code> functie uit het pakket <a href="https://cran.r-project.org/web/packages/rio/index.html">rio</a>, kunnen we verschillende bestandsformaten importeren in R, waaronder Microsoft Excel bestanden, CSV bestanden, SPSS, Stata of R bestanden:</p>
+<p>Stel dat we een door komma’s gescheiden waarden (comma-separated values, CSV) bestand willen openen. Een .csv-bestand is het meest gebruikte bestandsformaat voor het opslaan van gegevens. Ons voorbeeldbestand heet “deniro.csv” (beschikbaar <a href="https://people.sc.fsu.edu/~jburkardt/data/csv/deniro.csv">hier)</a> en bevat Rotten Tomato beoordelingen van films met Robert De Niro. Er zijn 87 records. We hebben drie variabelen: Year, Rating en Title.</p>
+<blockquote class="blockquote">
+<p>Zorg ervoor dat je het bestand opslaat in je projectmap, want dat is waar R naar het bestand zal zoeken wanneer je het opent.</p>
+</blockquote>
+<p>Je kunt deze dataset in R importeren met de volgende code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio) </span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>deniro_data <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"deniro.csv"</span>) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<dl>
+<dt><code>library(rio)</code></dt>
+<dd>
+<p>Dit laadt het pakket ‘rio’ in R. Je hoeft dit maar één keer te doen aan het begin van je R-sessie.</p>
+</dd>
+<dt><code>import("deniro.csv")</code></dt>
+<dd>
+<p><code>import()</code> is een functie in het rio pakket die je in staat stelt om bestanden in bijna elk bestandsformaat te importeren. De functie <code>import()</code> leidt het bestandsformaat af uit de extensie van het bestand en roept de juiste data import functie voor je aan, waarbij een data.frame wordt teruggegeven</p>
+<p>In dit voorbeeld laden we een bestand genaamd <code>deniro.csv</code> en slaan het op in een data frame genaamd <code>deniro_data</code>. Je kunt elke naam opgeven die je wilt voor een dataframe.</p>
+</dd>
+</dl>
+<blockquote class="blockquote">
+<p>Belangrijk is dat als je alleen een bestandsnaam invult (hier: deniro.csv), R aanneemt dat dit bestand zich in je <strong>huidige werkdirectory</strong> bevindt. Als je in een R-project werkt, is deze werkdirectory dezelfde als je projectmap.</p>
+</blockquote>
+<p>We kunnen nu de inhoud van dit dataframe weergeven:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(deniro_data)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Year Score                                   Title
+1  1968    86                               Greetings
+2  1970    17                             Bloody Mama
+3  1970    73                                Hi, Mom!
+4  1971    40                             Born to Win
+5  1973    98                            Mean Streets
+6  1973    88                    Bang the Drum Slowly
+7  1974    97                  The Godfather, Part II
+8  1976    41                         The Last Tycoon
+9  1976    99                             Taxi Driver
+10 1977    47                                    1900
+11 1977    67                      New York, New York
+12 1978    93                         The Deer Hunter
+13 1980    97                             Raging Bull
+14 1981    75                        True Confessions
+15 1983    90                      The King of Comedy
+16 1984    89             Once Upon a Time in America
+17 1984    60                         Falling in Love
+18 1985    98                                  Brazil
+19 1986    65                             The Mission
+20 1987   100 Dear America: Letters Home From Vietnam
+21 1987    80                        The Untouchables
+22 1987    78                             Angel Heart
+23 1988    96                            Midnight Run
+24 1989    64                                Jacknife
+25 1989    47                         We're No Angels
+26 1990    88                              Awakenings
+27 1990    29                          Stanley &amp; Iris
+28 1990    96                              Goodfellas
+29 1991    76                               Cape Fear
+30 1991    69                                Mistress
+31 1991    65                     Guilty by Suspicion
+32 1991    71                               Backdraft
+33 1992    87                            Thunderheart
+34 1992    67                      Night and the City
+35 1993    75                         This Boy's Life
+36 1993    78                       Mad Dog and Glory
+37 1993    96                            A Bronx Tale
+38 1994    39             Mary Shelley's Frankenstein
+39 1995    80                                  Casino
+40 1995    86                                    Heat
+41 1996    74                                Sleepers
+42 1996    38                                 The Fan
+43 1996    80                           Marvin's Room
+44 1997    85                             Wag the Dog
+45 1997    87                            Jackie Brown
+46 1997    72                                Cop Land
+47 1998    68                                   Ronin
+48 1998    38                      Great Expectations
+49 1999    69                            Analyze This
+50 1999    43                                Flawless
+51 2000    43    The Adventures of Rocky &amp; Bullwinkle
+52 2000    84                        Meet the Parents
+53 2000    41                            Men of Honor
+54 2001    73                               The Score
+55 2001    33                              15 Minutes
+56 2002    48                         City by the Sea
+57 2002    27                            Analyze That
+58 2003     4                                 Godsend
+59 2004    35                              Shark Tale
+60 2004    38                        Meet the Fockers
+61 2005     4              The Bridge of San Luis Rey
+62 2005    46                                    Rent
+63 2005    13                           Hide and Seek
+64 2006    54                       The Good Shepherd
+65 2007    21               Arthur and the Invisibles
+66 2007    76                     Captain Shakespeare
+67 2008    19                          Righteous Kill
+68 2008    51                     What Just Happened?
+69 2009    46                        Everybody's Fine
+70 2010    72                                 Machete
+71 2010    10                          Little Fockers
+72 2010    50                                   Stone
+73 2011    25                            Killer Elite
+74 2011     7                          New Year's Eve
+75 2011    70                               Limitless
+76 2012    92                 Silver Linings Playbook
+77 2012    51                             Being Flynn
+78 2012    29                              Red Lights
+79 2013    46                              Last Vegas
+80 2013     7                         The Big Wedding
+81 2013    29                            Grudge Match
+82 2013    11                          Killing Season
+83 2014     9                             The Bag Man
+84 2015    60                                     Joy
+85 2015    26                                   Heist
+86 2015    61                              The Intern
+87 2016    11                           Dirty Grandpa</code></pre>
+</div>
+</div>
+</section>
+<section id="een-dataframe-exporteren" class="level3" data-number="1.7.3">
+<h3 data-number="1.7.3" class="anchored" data-anchor-id="een-dataframe-exporteren"><span class="header-section-number">1.7.3</span> Een dataframe exporteren</h3>
+<p>Om een data frame op te slaan, gebruiken we de <code>export()</code> functie. We zullen het gebruiken om ons data frame met leerlingenscores op te slaan:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(student.data, <span class="st">"student_scores.csv"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<dl>
+<dt><code>export(student.data, "student_scores.csv")</code></dt>
+<dd>
+<p><code>export()</code> is een functie in het rio pakket waarmee je bestanden in verschillende formaten kunt opslaan. In het haakje geef je de naam van het dataframe op, gevolgd door de naam die je eraan wilt geven en de bestandsextensie (in dit geval een csv-bestand).</p>
+</dd>
+</dl>
+<p><code>rio</code> ondersteunt ook de export naar het standaard bestandsformaat van R dat de .rds extensie gebruikt. Om dit te doen, schrijven we:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(student.data, <span class="st">"student_scores.rds"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hierna kunnen we het weer importeren op dezelfde manier als we eerder deden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>student_scores <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"student_scores.rds"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="sec-data-basics-pipes" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="sec-data-basics-pipes"><span class="header-section-number">1.8</span> De <em>pipe operator</em> |&gt;</h2>
+<p>In statistische analyses voeren we vaak meerdere bewerkingen uit op een dataset of een enkele variabele. De pipe operator <code>|&gt;</code> (we vertalen deze term niet, maar je zou het ook de ‘pijp-operator’ kunnen noemen) wordt gebruikt om nettere code te schrijven.</p>
+<p>De pipe operator neemt in principe wat links staat en voert dat in als de eerste parameter aan de rechterkant. Bijvoorbeeld, als we een vector x hebben:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Je weet dat we het gemiddelde van x als volgt kunnen berekenen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p>We kunnen ook de pipe operator gebruiken om deze operatie uit te voeren:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p>Je kunt deze code lezen als `neem <em>x</em> en plaats dat als eerste argument van de functie mean’.</p>
+<p>Dit voorbeeld is natuurlijk triviaal (en normaal gesproken zou je gewoon <code>mean(x)</code> gebruiken), maar het mooie van de pipe operator is dat we meerdere bewerkingen achter elkaar kunnen uitvoeren, bijvoorbeeld:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.676466</code></pre>
+</div>
+</div>
+<p>In dit voorbeeld nemen we x, berekenen de vierkantswortel voor elk element van x en nemen dan het gemiddelde hiervan. Het is hetzelfde als schrijven <code>mean(sqrt(x))</code> . De pipe is een nettere manier om code te schrijven, vooral als je veel opeenvolgende stappen in de pipe hebt. Merk op dat we voor de duidelijkheid de verschillende delen van de pipe meestal op verschillende regels schrijven.</p>
+<section id="annoteren-van-code-in-de-pipe" class="level3" data-number="1.8.1">
+<h3 data-number="1.8.1" class="anchored" data-anchor-id="annoteren-van-code-in-de-pipe"><span class="header-section-number">1.8.1</span> Annoteren van code in de pipe</h3>
+<p>Als je annotaties in de pijp wilt opnemen, zet ze dan <strong>na</strong> de pijp, zoals dit:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>() <span class="sc">|&gt;</span>  <span class="co"># Dit berekent de vierkantswortel</span></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()     <span class="co"># Dit berekent het gemiddelde</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.676466</code></pre>
+</div>
+</div>
+<p>Als je ze voor de pipe zet, denkt R dat de pipe deel uitmaakt van de annotaties en zal het een error<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> weergeven:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>()  Zo moet het het niet doen <span class="sc">|&gt;</span>   </span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Dit is de foutmelding:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Error in mean.default(): argument "x" is missing, with no default</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="pipes-en-dataframes" class="level3" data-number="1.8.2">
+<h3 data-number="1.8.2" class="anchored" data-anchor-id="pipes-en-dataframes"><span class="header-section-number">1.8.2</span> Pipes en dataframes</h3>
+<p>We kunnen de pipe operator ook gebruiken voor dataframes. Volgende week zullen we leren over verschillende handige functies in het <code>dplyr</code> pakket waarmee we nieuwe variabelen kunnen maken, gegevens kunnen filteren of variabelen kunnen selecteren. Deze week zullen we niet actief gebruik maken van de pipe, maar we zullen wel wat code tegenkomen die er gebruik van maakt. Nu weet je dat het simpelweg betekent dat we datgene wat links staat nemen en doorgeven aan de functie rechts.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Opmerking
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Je kunt <code>%&gt;%</code> tegenkomen in code geschreven door anderen. Dit is ook een pipe operator, die voor onze doeleinden op dezelfde manier werkt als <code>|&gt;</code>.</p>
+</div>
+</div>
+
+
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>R verwerkt de pipe operator na sqrt() niet omdat deze na de hashtag (^#) staat en dus deel uitmaakt van de annotaties. Het resultaat is dat R de code <code>x |&gt; sqrt()</code> uitvoert en het resultaat weergeeft. Daarna gaat R door naar de regel <code>mean()</code> en geeft een foutmelding, omdat er geen argumenten zijn voor de functie.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Onder de motorkap koppelt R elk level aan een getal en bewaart de gegevens op deze manier:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(directions)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Factor w/ 3 levels "East","North",..: 1 3 1 2 2 1 3 3 3 1 ...</code></pre>
+</div>
+</div>
+<p>In onze factor staat 1 dus voor East, 2 voor North en 3 vooor West.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>R verwerkt de pipe operator na sqrt() niet omdat deze na de hashtag (^#) staat en dus deel uitmaakt van de annotaties. Het resultaat is dat R de code <code>x |&gt; sqrt()</code> uitvoert en het resultaat weergeeft. Daarna gaat R door naar de regel <code>mean()</code> en geeft een foutmelding, omdat er geen argumenten zijn voor de functie.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Gekopieerd!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Gekopieerd!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./part_working_data.html" class="pagination-link  aria-label=" werken="" met="" data="" in="" r"="">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Werken met data in R</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./data_02_filtering_selecting.html" class="pagination-link" aria-label="<span class='chapter-number'>2</span>&nbsp; <span class='chapter-title'>Filteren, selecteren en hernoemen</span>">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Filteren, selecteren en hernoemen</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

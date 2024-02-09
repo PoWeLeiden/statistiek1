@@ -1,5 +1,0 @@
-contingency table containing 13 housetasks and their distribution in the couple:
-# Import the data
-file_path <- "http://www.sthda.com/sthda/RDoc/data/housetasks.txt"
-housetasks <- read.delim(file_path, row.names = 1)
-# head(housetasks)
