@@ -1,0 +1,21 @@
+# Alle packages installeren
+
+Om alle gebruikte packages in één keer te installeren, kun je onderstaande code gebruiken:
+
+```{r}
+#| eval: false
+package_list <- c("tidyverse", "rio", "summarytools", "DescTools", "skimr", 
+                  "correlation", "parameters", "performance", "effectsize", 
+                  "see", "marginaleffects", "broom", "ggResidpanel",
+                  "rms", "car", "modelsummary", "gt", "gtsummary", "kableExtra",
+                  "knitr", "rmarkdown", "huxtable", "flextable", "lmtest",
+                  "openintro", "statsr", "tidymodels", "tinytex", 
+                  "visdat", "patchwork", "ggpubr", "cowplot", "expss",
+                  "effsize", "foreign", "haven", "ggstance", "ggrepel",
+                  "ggsignif", "naniar", "openxlsx", "sjmisc", "crosstable",
+                  "sjlabelled", "psych", "dice", "pwr", "visualize", "infer",
+                  "sandwich", "sjPlot", "scales")
+
+install.packages(package_list)
+```
+

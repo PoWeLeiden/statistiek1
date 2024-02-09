@@ -1,0 +1,160 @@
+# ANOVA {#sec-analysis-anova}
+
+Om het gebruik van ANOVA te illustreren vergelijken we de gemiddelde links-rechts zelfplaatsing (`pes19_lr_self_1`) in Canadese provincies (`pes19_province`). We maken hierbij gebruik van gegevens uit Canadees kiezersonderzoek:
+
+```{r, eval=FALSE}
+# Dataset laden
+library(rio)
+canada <- import("2019 Canadian Election Study.rds")
+```
+
+```{r}
+#| echo: false
+#| include: false
+library(rio)
+library(tidyverse)
+canada <- import("data/2019 Canadian Election Study.rds")
+```
+
+Eerst maken we een plot van de gemiddelde schattingen met 95%-betrouwbaarheidsintervallen om een idee te krijgen van de gegevens:
+
+```{r}
+#| eval: false
+library(tidyverse)
+```
+
+
+```{r}
+ggplot(data = canada |> filter(!is.na(pes19_province)),
+       mapping = aes(x = pes19_lr_self_1, y = pes19_province)) +
+  stat_summary(fun.data = "mean_se", geom = "point") +
+  stat_summary(fun.data = "mean_cl_normal", geom = "errorbar") 
+```
+
+`ggplot(…)`
+
+:   Dit is de functie om een grafiek te maken.
+
+`data = canada |> filter(!is.na(pes19_province))`
+
+:   We specificeren de gebruikte dataset: `canada`. We geven ook aan waarop we dit dataframe willen filteren, zodat alleen gevallen met niet-ontbrekende waarden voor de variabele `pes19_provincie` overblijven.
+
+`mapping = aes(x = pes19_lr_self_1, y = pes19_province))`
+
+:   Deze code koppelt twee variabelen uit de dataset aan respectievelijk de x- en y-as.
+
+`stat_summary(fun.data = "mean_se", geom = "point"))`
+
+:   De functie `stat_summary` biedt een snelle manier om het gemiddelde voor elke groep te berekenen (`fun.data = "mean_se"`) en dit in onze grafiek uit te zetten als een punt (`geom = "point"`).
+
+`stat_summary(fun.data = "mean_cl_normal", geom = "errorbar")`
+
+:   De functie `stat_summary` wordt opnieuw gebruikt, maar nu om een betrouwbaarheidsinterval voor het gemiddelde te berekenen (`fun.data = "mean_cl_normal"`), dat vervolgens als een foutbalk in de grafiek wordt weergegeven (`geom = "errorbar"`).
+
+
+Het kan ook handig zijn om de achterliggende cijfers ter beschikking te hebben (al is de visuele weergave waarschijnlijk meer geschikt in een paper): 
+
+```{r}
+library(DescTools)
+canada |>
+  group_by(pes19_province) |>
+  summarise(mean = mean(pes19_lr_self_1, na.rm=TRUE),
+            SE = MeanSE(pes19_lr_self_1, na.rm=TRUE))
+```
+
+
+## One-way ANOVA
+We kunnen de eenzijdige ANOVA (*one-way ANOVA*) berekenen met de functie `aov` uit package `stats` (een van de weinige packages die R automatisch laadt bij het opstarten):
+
+```{r, eval = FALSE}
+anova_out <- aov(formula = pes19_lr_self_1 ~ pes19_province, 
+                 data = canada)
+summary(anova_out)
+```
+
+`anova_out <- aov()`
+
+:   De functie `aov` berekent de ANOVA. We wijzen de resultaten toe aan object `anova_out` (je kunt elke geldige naam kiezen die je wilt).
+
+`formula = pes19_lr_self_1 ~ pes19_province`
+
+:   Dit specificeert de te gebruiken formule in het formaat `<interval-ratio variabele> ~ <categoriale variabele>` . In ons voorbeeld is de interval-ratio variabele `pes19_lr_self_1` en de categoriale (groeperings) variabele is `pes19_provincie`. Vervang voor je eigen gegevens door de juiste variabelen.
+
+`data = canada`
+
+:   Dit specificeert de te gebruiken dataset.
+
+`summary(anova_out)`
+
+:   Dit geeft een samenvatting van het door ons geschatte model (`anova_out`).
+
+```{r, echo = FALSE}
+anova_out <- aov(formula = pes19_lr_self_1 ~ pes19_province, 
+                 data = canada)
+summary(anova_out)
+```
+
+De samenvatting geeft de vrijheidsgraden (`Df`), de som van de kwadraten (`Sum Sq`), de gemiddelde kwadraten (`Mean Sq`), de F-waarde (`F-waarde`) en de p-waarde (`Pr(>F)`). 
+
+
+
+::: {.callout-tip}
+#### Rapportage
+
+- Er is een significant verschil in de gemiddelde links-rechtsscores van inwoners van Canadese provincies, *F*(12, 4356) = 4,261, *p* \< 0,001.
+
+Noem dus in ieder geval:
+
+-   F met tussen haakjes de twee bijbehorende vrijheidsgraden = F-waarde
+
+-   *p* = p-waarde. Maar: schrijf nooit $p = 0,000$. Want de p-waarde is nooit precies nul, maar heel klein. Het is dan beter om te zeggen $p < 0,001$. Als je een handmatige toets uitvoert schrijf je *p* \< α-waarde, bijvoorbeeld $p < 0,05$.
+:::
+
+## Paargewijze t-toets voor het vergelijken van gemiddelden van meerdere groepen
+
+We kunnen een paarsgewijze t-toets gebruiken om de gemiddelden van alle mogelijke paren van groepen te vergelijken. We gebruiken een correctie voor meervoudige testen (bonferroni-correctie) om rekening te houden met het feit dat we veel t-toetsen uitvoeren:
+
+```{r, eval=FALSE}
+pairwise.t.test(x = canada$pes19_lr_self_1,
+                g = canada$pes19_province,
+                p.adjust.method = "bonferroni",
+                alternative = "two.sided")
+```
+
+`pairwise.t.test(…)`
+
+:   Deze roept de functie `pairwise.t.test` aan om deze test uit te voeren. Deze is opgenomen in de `stats` packages, die automatisch worden geladen.
+
+`x = canada$pes19_lr_self_1`
+
+:   We specificeren hier de interval-ratio variabele (in ons geval variabele `pes19_lr_self_1` uit de dataset `canada`). We moeten het dollarteken gebruiken, dus `<dataset>$<variabelenaam>`.
+
+`g = canada$pes19_province`
+
+:   We specificeren hier de groeperingsvariabele, opnieuw met behulp van de dollartekennotatie (zie hierboven).
+
+`p.adjust.method = "bonferroni"`
+
+:   Hiermee wordt aangegeven dat we de Bonferroni-correctie willen gebruiken.
+
+`alternative = "two.sided"`
+
+:   Dit voert tweezijdige significantietoetsen uit (de standaard). Andere opties zijn `" greater"` en `"less"`.
+
+```{r, echo=FALSE}
+pairwise.t.test(x = canada$pes19_lr_self_1,
+                g = canada$pes19_province,
+                p.adjust.method = "bonferroni",
+                alternative = "two.sided")
+```
+
+
+
+::: {.callout-tip}
+#### Rapportage
+
+De presentatie deze toetsen is afhankelijk van het aantal groepen. Een grafiek zoals hierboven gemaakt kan ook nuttig zijn, zeker als er veel groepen zijn.
+
+- We hebben getoetst er een verschil was in de links-rechtsplaatsing van burgers tussen elk paar van provincies met toepassing van een Bonferroni-correctie. Burgers uit Alberta plaatsten zich gemiddeld genomen rechtser (M = 5,81, SE = 0,10) dan burgers uit de meeste andere provincies (British Columbia, Manitoba, New Brunswick, Nova Scotia, Ontario en Quebec). Dit verschil is statistisch significant, waarbij de p = 0,041 of kleiner voor alle genoemde provincies. Tussen alle andere provincies bestond geen significant verschil in de links-rechtsplaatsing van burgers.
+
+:::

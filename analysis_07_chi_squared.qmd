@@ -1,0 +1,374 @@
+# Chi-kwadraattoets en associatiematen {#sec-analysis-chi-squared}
+
+```{r}
+#| include: false
+library(tidyverse)
+library(rio)
+library(flextable)
+canada <- import("data/2019 Canadian Election Study.rds")
+```
+
+
+## Chi-kwadraattoets voor één variabele
+
+In R voert de functie `chisq.test` chi-kwadraattoetsen uit.
+
+We kunnen een chi-kwadraat toets gebruiken om te bepalen of een steekproef representatief is voor de algemene populatie. In het boek worden gegevens gepresenteerd van een willekeurige steekproef van 275 juryleden in een kleine provincie. Stel dat we zo'n tabel hebben met frequenties voor een categoriale variabele en het gegeven aandeel van elke groep in de populatie. In dat geval kunnen we de chi-kwadraattoets als volgt berekenen:
+
+```{r}
+# Openintro example from p. 229 - 235
+chisq <- chisq.test(x = c(205, 26, 25, 19), 
+                    p = c(0.72, 0.07, 0.12, 0.09))
+```
+
+`chisq <- chisq.test(`
+
+:   Dit voert een chi-kwadraat test uit en slaat de resultaten op in een object genaamd `chisq`. Je kunt een andere naam kiezen voor `chisq`.
+
+`x = c(205, 26, 25, 19),`
+
+:   Dit zijn de geselecteerde juryleden (dezelfde gegevens als in het boek).
+
+`p = c(0.72, 0.07, 0.12, 0.09))`
+
+:   Dit zijn de proporties in de populatie.
+
+We kunnen de resultaten zien door te kijken naar het object `chisq`.
+
+```{r}
+chisq
+```
+
+De uitvoer vermeldt de titel van de test, welke variabelen zijn gebruikt, de $\chi^2$-teststatistiek, de vrijheidsgraden en de p-waarde.
+
+Je kunt de verwachte frequenties krijgen via:
+
+```{r}
+chisq$expected
+```
+
+`chisq$expected`
+
+:   Dit geeft een vector met verwachte frequenties (*expected frequencies*). Als je een andere naam hebt gekozen voor `chisq`, verander die dan ook hier.
+
+
+::: {.callout-tip}
+#### Rapportage
+
+De uitkomst van de chikwadraattoets voor één variabele kan men als volgt rapporteren:
+
+-   Er is geen significant verschil tussen de verdeling van etniciteit van juryleden in de kleine provincie en in het hele land, $\chi^{2}(3) = 5{,}89,\ \ p = 0{,}117$.
+
+Na een samenvatting in woorden volgt dus:
+
+-   $\chi_{}^{\mathbf{2}}$ (aantal vrijheidsgraden) = waarde chikwadraat
+
+-   Het aantal vrijheidsgraden is gelijk aan (aantal groepen -- 1) en kan ook in de output worden afgelezen (bij 'df').
+
+-   p = p-waarde, maar: schrijf nooit $p = 0,000$. Want de p-waarde is nooit precies nul, maar heel klein. Het is dan beter om te zeggen $p < 0,001$.
+
+:::
+
+
+
+
+## Chi-kwadraattoets voor een kruistabel
+
+We demonstreren het gebruik van de chi-kwadraattoets voor een kruistabel met twee variabelen uit de Canadese verkiezingsstudie van 2019:
+
+```{r, eval=FALSE}
+library(tidyverse)  # Tidyverse t.b.v. voorbereiden van de data
+library(rio) # Dataset laden
+library(flextable) # Package voor een kruistabel
+canada <- import("2019 Canadian Election Study.rds")
+```
+
+De eerste variabele `cps19_fed_gov_sat` meet de algemene tevredenheid met de regering en de tweede variabele meet de algemene tevredenheid met de democratie (`cps19_demsat`).
+
+Eerst behandelen we de antwoordoptie "Don't know/ Prefer not to answer" als ontbrekende gegevens (zie paragraaf "Hercodering van ontbrekende gegevens" in week 4):
+
+```{r, eval = TRUE, include=TRUE}
+# Ontbrekende waarden als NA hercoderen en factorniveaus die niet aanwezig zijn in de gegevens laten vallen (droplevels)
+canada <- canada |>
+  mutate(cps19_fed_gov_sat = na_if(cps19_fed_gov_sat, "Don't know/ Prefer not to answer")) |>
+  mutate(cps19_demsat = na_if(cps19_demsat, "Don't know/ Prefer not to answer")) |>
+  mutate(cps19_fed_gov_sat = droplevels(cps19_fed_gov_sat)) |>
+  mutate(cps19_demsat = droplevels(cps19_demsat))
+
+# Maak een kruistabel
+table_example <- proc_freq(x = canada, 
+                           row = "cps19_demsat", 
+                           col = "cps19_fed_gov_sat", 
+                           include.row_percent = FALSE, 
+                           include.table_percent = FALSE) 
+table_example
+```
+
+Om $\chi^2$ te berekenen, gebruiken we de functie `chisq.test()`.
+
+```{r, eval=TRUE}
+chisq <- chisq.test(canada$cps19_demsat, canada$cps19_fed_gov_sat)
+chisq
+```
+
+`chisq <- chisq.test(`
+
+:   Dit voert een chi-kwadraat test uit en slaat de resultaten op in een object genaamd `chisq`. Je kunt een andere naam kiezen voor `chisq`.
+
+`canada$cps19_demsat, canada$cps19_fed_gov_sat)`
+
+:   We geven de twee variabelen aan die we willen gebruiken. Merk op dat je hier de dollartekennotatie moet gebruiken, dus `<dataset>$<variabele>`.
+
+De output vermeldt de titel van de test, welke variabelen zijn gebruikt, de $\chi^2$ teststatistiek, de vrijheidsgraden en de p-waarde.
+
+Merk op dat de $\chi^2$-waarde kan worden afgerond als deze erg groot is (meer dan 5 cijfers). In ieder geval kun je de exacte waarde van $\chi^2$ krijgen door te schrijven:
+
+```{r}
+chisq$statistic 
+```
+
+Je kunt de verwachte frequenties krijgen via:
+
+```{r}
+chisq$expected
+```
+
+`chisq$expected`
+
+:   Dit geeft een tabel met verwachte frequenties. Als je een andere naam hebt gekozen voor `chisq`, verander die dan ook hier. Afhankelijk van je schermgrootte kan de tabel in verschillende delen worden opgedeeld (zie "Not at all satisfied").
+
+::: {.callout-tip}
+#### Rapportage
+
+De uitkomst van de chikwadraattoets kan men als volgt rapporteren:
+
+-   Er is een significant verband tussen de algemene tevredenheid met de democratie en de tevredenheid met de regering in Canada, $\chi^{2}(9) = 9053{,}6,\ \ p < 0{,}001$.
+
+Na een samenvatting in woorden volgt dus:
+
+-   $\chi_{}^{\mathbf{2}}$ (aantal vrijheidsgraden) = waarde chikwadraat
+
+-   Het aantal vrijheidsgraden is gelijk aan (aantal rijen -- 1)\*(aantal kolommen -- 1) en kan ook in de output worden afgelezen (bij 'df').
+
+-   p = p-waarde, maar: schrijf nooit $p = 0,000$. Want de p-waarde is nooit precies nul, maar heel klein. Het is dan beter om te zeggen $p < 0,001$.
+
+-   N.B. Een chikwadraattoets zegt niets over de richting van een verband; daarvoor moet je naar de kruistabel zelf kijken en daar een interpretatie van geven (zie hierboven).
+
+:::
+
+
+### Als de verwachte frequenties klein zijn
+
+Als de kleinste verwachte frequenties lager zijn dan 5, kun je ofwel:
+
+-   enkele niveaus met een klein aantal waarnemingen combineren om het aantal waarnemingen in deze subgroepen te vergroten, of
+-   alternatieve tests gebruiken, zoals de Fisher's exact test.
+
+Stel je hebt de volgende (fictieve) `data` van 20 landen waarvoor we gegevens hebben verzameld over hun OESO-lidmaatschap en hun economische ontwikkeling:
+
+```{r}
+# Definieer dataset
+data <- data.frame(oecd = c(rep("no", 9), rep("no", 1), rep("yes", 2), rep("yes", 8)), 
+                   econ = c(rep("low", 9), rep("high", 1), rep("low", 2), rep("high", 8)))
+# Print een kruistabel
+table(data$econ, data$oecd)
+```
+
+De verwachte frequenties in sommige cellen zullen \< 5 zijn.
+
+::: {.callout-warning}
+Soms geeft R een waarschuwing "Chi-squared approximation may be incorrect". Dit betekent dat de verwachte waarden zeer klein zijn en dat daarom de benaderingen van $p$ mogelijk niet juist zijn.
+:::
+
+We kunnen de waarde van $\chi^2$ berekenen met `chisq.test()` zoals we eerder deden:
+
+```{r}
+chisq <- chisq.test(data$econ, data$oecd)
+chisq
+```
+
+De uitvoer geeft aan dat R automatisch 'Pearson's Chi-kwadraattest met Yates' continuïteitscorrectie' berekent (zie de titel van de test). De rest van de uitvoer is hetzelfde als bij de standaard Chikwadraattoets (welke variabelen zijn gebruikt, de teststatistiek van $\chi^2$, de vrijheidsgraden en de p-waarde). Het gebruik van de continuïteitscorrectie heeft niet onze voorkeur en lost het probleem van de lage verwachte aantallen niet op.
+
+
+
+### Fisher's exact test
+
+Een onafhankelijkheidstest voor een kleine steekproef met lage frequenties kunnen we uitvoeren  met de Fisher's exact test. Deze toets is vooral geschikt voor kleine tabellen (2x2) met lage frequenties.
+
+Om deze test in R uit te voeren, gebruik je de functie `fisher.test()` zoals je zou doen voor de Chi-kwadraattoets:
+
+```{r}
+fisher.t <- fisher.test(data$econ, data$oecd)
+fisher.t
+```
+
+`fisher.test <- fisher.test(`
+
+:   Dit voert de Fisher's exact test uit en slaat de resultaten op in een object genaamd `fisher.t`. Je kunt een andere naam kiezen voor `fisher.t`.
+
+`fisher.test(data$econ, data$oecd)`
+
+:   We noemen de twee variabelen voor de functie `fisher.test()`, met dollartekennotatie zoals bij de chikwadraattoets.
+
+De uitvoer vermeldt de titel van de test, welke variabelen zijn gebruikt en de p-waarde. 
+
+::: {.callout-tip}
+#### Rapportage
+
+De uitkomst van de Fisher's exact test kun je als volgt rapporteren:
+
+-   Er is een significant verband tussen het OESO-lidmaatschap van een land en de economische ontwikkeling ervan, $p = 0{,}005$ (*Fisher's exact test*).
+
+:::
+
+### Gebruik van simulatie
+
+Indien je een tabel groter dan 2 x 2 hebt, maar toch lage verwachte frequenties in meerdere cellen, kan R de p-waarde van een Chikwadraattoets op basis van simulaties uitrekenen.
+
+We illustreren die met behulp van de samenhang tussen gender en stemkeuze. Bij gender is er één categorie (Other) waarin weinig observaties zitten en ook bij stemkeuze zijn bepaalde partijen weinig populair. Dit leidt tot lage verwachte waarden in sommige cellen. We bereiden eerst de data voor:
+
+```{r}
+# Definieer missende data en verwijder factor levels die niet voorkomen in de data
+canada <- canada |>
+  mutate(cps19_votechoice = na_if(cps19_votechoice, "Don't know/ Prefer not to answer")) |>
+  mutate(cps19_votechoice = droplevels(cps19_votechoice)) 
+```
+
+Dan kunnen we de chikwadraattoets draaien met de optie `simulate.p.value = TRUE`:
+
+```{r, eval = TRUE, include=TRUE}
+chisq.test(canada$cps19_votechoice, canada$cps19_gender, simulate.p.value = TRUE)
+```
+
+
+## Associatiematen
+
+### Phi/Cramér's V
+
+Phi en Cramér's V zijn maatstaven voor de sterkte van de associatie tussen twee nominale of ordinale variabelen. Ze gaan van 0 tot 1. Het `DescTools` package bevat de functies `Phi` (met een hoofdletter P) en `CramerV` (met een hoofdletter C en een hoofdletter V). Als het nog niet geïnstalleerd is kun je dat doen via `install.packages("DescTools")`; dit is niet nodig op universiteitscomputers.
+
+```{r}
+library(DescTools)
+```
+
+Vervolgens kun je de associatiemaat berekenen. Merk op dat je de functie `Phi` alleen kunt gebruiken voor 2x2 kruistabellen. `CramerV` werkt voor 2x2 kruistabellen (die hetzelfde resultaat geven als `Phi`) en grotere kruistabellen (Cramér's V).
+
+```{r}
+Phi(data$econ, data$oecd) #2x2 kruistabel
+CramerV(data$econ, data$oecd) #2x2 kruistabel
+CramerV(canada$cps19_demsat, canada$cps19_fed_gov_sat) # grotere kruistabel
+```
+
+
+::: {.callout-tip}
+## Rapportage
+
+Doorgaans wordt phi of Cramèrs V gerapporteerd na de bijbehorende chikwadraattoets of Fisher's exact test:
+
+- Er is een significant verband tussen het OESO-lidmaatschap van een land en de economische ontwikkeling ervan, $p = 0{,}005$ (*Fisher's exact test*). OESO-leden zijn vaker hoog ontwikkeld dan niet-OESO-leden. Dit is een sterk verband, $\varphi = 0{,}70$.
+
+-   Er is een significant verband tussen de algemene tevredenheid met de democratie en de tevredenheid met de regering in Canada, $\chi^{2}(9) = 9053{,}6,\ \ p < 0{,}001$. Kiezers die meer tevreden zijn met de regering, zijn doorgaans ook meer tevreden over de democratie in het algemeen. Dit is een zwak verband, $\text{Cramérs V} = 0{,}29$.
+:::
+
+### Goodman en Kruskals Lambda
+
+De lambda van Goodman en Kruskal ($lambda$) kan worden berekend met een functie uit het `DescTools` package.
+
+```{r}
+library(DescTools)
+```
+
+We demonstreren het gebruik van Lambda met twee variabelen uit de Canadese verkiezingsstudie van 2019. Als onafhankelijke variabele gebruiken we een variabele betreffende de gender van de respondenten (`cps19_gender`) en als afhankelijke variabele gebruiken we de partij waarop de respondent van plan is te stemmen (`cps19_votechoice`). Wij behandelen de antwoordoptie "Don't know/ Prefer not to answer" als ontbrekende gegevens:
+
+```{r}
+#| eval: false
+canada <- canada |>
+  mutate(cps19_votechoice = na_if(cps19_votechoice, "Don't know/ Prefer not to answer")) |>
+  mutate(cps19_votechoice = droplevels(cps19_votechoice)) 
+```
+
+```{r, eval = TRUE, include=TRUE}
+# Maak een kruistabel
+table_example <- proc_freq(x = canada, 
+                           row = "cps19_votechoice", 
+                           col = "cps19_gender", 
+                           include.row_percent = FALSE, 
+                           include.table_percent = FALSE) 
+table_example
+```
+
+Om Lambda te berekenen, schrijf je:
+
+```{r, eval = TRUE, include=TRUE}
+Lambda(x = canada$cps19_votechoice, 
+       y = canada$cps19_gender,
+       direction = "row")
+```
+
+`Lambda`
+
+:   Hiermee wordt de Lambda van Goodman-Kruskal berekend. Gebruik een hoofdletter "L" voor de functie.
+
+`x = canada$cps19_votechoice`
+
+:   Neem hier de variabele op die in de **rijen** staat (de afhankelijke variabele).
+
+`y = canada$cps19_gender`
+
+:   Neem hier de variabele op die in de **kolommen** staat (de onafhankelijke variabele).
+
+`direction = "row"`
+
+:   `direction` kan drie waarden aannemen: `"symmetric"` (standaard), `"row"` of `"column"`. Als onze afhankelijke variabele zich in de rijen bevindt, raden wij aan dit in te stellen op `row`, waardoor de verbetering in het voorspellen van de rijvariabele wordt berekend als we informatie hebben over de kolomvariabele.
+
+
+::: {.callout-tip}
+## Rapportage
+
+Doorgaans wordt Lambda gerapporteerd na de bijbehorende chikwadraattoets:
+
+-   Er is een significant verband tussen de gender van een respondent en diens stemkeuze, $\chi^{2}(14) = 768{,}16,\ \ p < 0{,}001$. Dit is een (zeer) zwak verband, $\lambda = 0{,}03$.
+
+:::
+
+
+
+### Goodman en Kruskals Gamma
+
+Goodman en Kruskals Gamma ($\gamma$) kan worden berekend met een functie uit het `DescTools` package.
+
+Gamma is alleen geschikt wanneer beide variabelen ordinaal zijn. Wij gebruiken de twee variabelen van hierboven (de algemene tevredenheid met de regering en de algemene tevredenheid met de democratie). Het is nuttig om de data te inspecteren met behulp van een eenvoudige kruistabel - zo kun je zien of de categorieën in de juiste volgorde staan:
+
+```{r}
+table(canada$cps19_demsat, canada$cps19_fed_gov_sat)
+```
+
+::: {.callout-note} 
+De volgorde van de waarden is zeer belangrijk voor de berekening van Gamma. Controleer daarom altijd of de categorieën in de variabelen in de juiste volgorde staan (bijvoorbeeld door een kruistabel te maken)
+:::
+
+Om Gamma te berekenen, gebruik je de volgende code:
+
+```{r, eval = TRUE, include=TRUE}
+GoodmanKruskalGamma(canada$cps19_demsat, canada$cps19_fed_gov_sat)
+```
+
+`GoodmanKruskalGamma(`
+
+:   Dit berekent de Gamma van Goodman en Kruskal. Zorg ervoor dat je de hele functienaam correct schrijft (inclusief hoofdlettergebruik).
+
+`canada$cps19_demsat, canada$cps19_fed_gov_sat)`
+
+:   De twee variabelen die we gebruiken voor onze berekening. Het maakt niet uit welke variabele je het eerst vermeld.
+
+
+
+
+::: {.callout-tip}
+## Rapportage
+
+Doorgaans wordt Gamma gerapporteerd na de bijbehorende chikwadraattoets:
+
+-   Er is een significant verband tussen de algemene tevredenheid met de democratie en de tevredenheid met de regering in Canada, $\chi^{2}(9) = 9053{,}6,\ \ p < 0{,}001$. Kiezers die meer tevreden zijn met de regering, zijn doorgaans ook meer tevreden over de democratie in het algemeen. Dit is een sterk verband, $\gamma = 0{,}55$
+
+:::

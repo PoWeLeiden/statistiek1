@@ -1,0 +1,301 @@
+# R en kansrekening {#sec-analysis-probability}
+
+```{r setup, include=FALSE}
+library(openintro)  # We use data from this package
+library(tidyverse)  # This loads ggplot2, which produces the graphs
+```
+
+## Dobbelsteen rollen
+
+We kunnen R gebruiken om de waarschijnlijkheid van verschillende dobbelsteenworpen te berekenen, zoals de kans op bepaalde getallen bij het meerdere malen gooien met een zeszijdige dobbelsteen. Dit kan bijvoorbeeld nuttig zijn om je handmatige berekeningen te controleren en om te zien of je de kansbegrippen goed begrepen hebt. Voor het dobbelen kunnen we het `dice` package gebruiken. Als je op je eigen computer werkt, moet je het package eerst installeren met het commando `install.packages("dice")`. Het installeren van de package is niet nodig op universiteitscomputers.
+
+Je kunt het package als volgt laden:
+
+```{r, eval=TRUE}
+library(dice) # Package laden
+```
+
+Het commando `getEventProb()` berekent de waarschijnlijkheid van een gebeurtenis voor een bepaald dobbelsteenproces. We kunnen dit specificeren door een lijstobject door te geven aan `eventList`. Het package kan verschillende scenario's simuleren. We zullen de basisfuncties demonstreren, maar je kunt ook de extra functies bekijken, zie [de handleiding](https://cran.r-project.org/web/packages/dice/dice.pdf).
+
+### Kans op een 6 bij het gooien van een zeszijdige dobbelsteen
+
+```{r, eval=TRUE}
+getEventProb(nrolls = 1,
+             ndicePerRoll = 1,
+             nsidesPerDie = 6,
+             eventList = list(6))
+```
+
+`getEventProb(`
+
+:   Dit deel van de code geeft aan dat we de waarschijnlijkheid van een gebeurtenis willen verkrijgen.
+
+`nrolls = 1,`
+
+:   Dit getal staat voor het aantal te gooien dobbelstenen. In dit geval gooien we één keer met de dobbelsteen.
+
+`ndicePerRoll = 1,`
+
+:   Dit geheel getal staat voor het aantal dobbelstenen dat bij elke worp moet worden gebruikt.
+
+`nsidesPerDie = 6,`
+
+:   Dit bepaalt het aantal zijden van de dobbelsteen. Je kunt dit bijvoorbeeld veranderen als je met een dobbelsteen met 10 zijden wilt werken. Wil je een dobbelsteen met zes zijden simuleren, laat het dan op 6 staan.
+
+`eventList = list(6))`
+
+:   Dit specificeert de gebeurtenis waarin we geïnteresseerd zijn. Merk op dat je een `list()` commando moet gebruiken. Een lijst is een type object in R. Voorlopig hoef je hier niet meer over te weten. Als je de kans op bijvoorbeeld een 4 wilt krijgen, moet je dit deel van de code veranderen in `eventList = list(4))`.
+
+### Kans op een 1 of een 4 bij het gooien van een zeszijdige dobbelsteen
+
+We kunnen de code aanpassen aan de gebeurtenis waarin we geïnteresseerd zijn. Als we de kans willen weten op een 1 of een 4 bij het gooien van een zeszijdige dobbelsteen, dan schrijven we:
+
+```{r, eval=TRUE}
+getEventProb(nrolls = 1,
+             ndicePerRoll = 1,
+             nsidesPerDie = 6,
+             eventList = list(c(1,4)))
+```
+
+`getEventProb(`
+
+:   Dit deel van de code geeft aan dat we de waarschijnlijkheid van een gebeurtenis willen verkrijgen.
+
+`nrolls = 1,`
+
+:   Dit getal staat voor het aantal te gooien dobbelstenen. In dit geval gooien we één keer met de dobbelsteen.
+
+`ndicePerRoll = 1,`
+
+:   Dit geheel getal staat voor het aantal dobbelstenen dat bij elke worp moet worden gebruikt.
+
+`nsidesPerDie = 6,`
+
+:   Dit bepaalt het aantal zijden van de dobbelsteen. Je kunt dit bijvoorbeeld veranderen als je met een dobbelsteen met 10 zijden wilt werken. Wil je een dobbelsteen met zes zijden simuleren, laat het dan op 6 staan.
+
+`eventList = list(c(1,4)))`
+
+:   Dit specificeert de gebeurtenis waarin we geïnteresseerd zijn (als `list`). Hier zijn we geïnteresseerd in een 1 of een 4. Je schrijft het door `c(1,4)` in je lijst op te nemen. Je kunt meer getallen toevoegen. Als je bijvoorbeeld de kans op een 1, 2 of een 5 wilt berekenen, schrijf je `eventList = list(c(1,2,5)))`.
+
+### Kans op twee enen bij het tweemaal gooien van een zeszijdige dobbelsteen
+
+Als we willen weten hoe groot de kans is dat we twee keer 1 gooien met een zeszijdige dobbelsteen, dan schrijven we:
+
+```{r, eval=TRUE}
+getEventProb(nrolls = 2, 
+             ndicePerRoll = 1,
+             nsidesPerDie = 6,
+             eventList = list(1,1),
+             orderMatters = TRUE)
+```
+
+`getEventProb(`
+
+:   Dit deel van de code geeft aan dat we de waarschijnlijkheid van een gebeurtenis willen verkrijgen.
+
+`nrolls = 2,`
+
+:   Dit getal staat voor het aantal te gooien dobbelstenen. In dit geval gooien we twee keer met de dobbelsteen.
+
+`ndicePerRoll = 1,`
+
+:   Dit geheel getal staat voor het aantal dobbelstenen dat bij elke worp moet worden gebruikt.
+
+`nsidesPerDie = 6,`
+
+:   Dit bepaalt het aantal zijden van de dobbelsteen. Je kunt dit bijvoorbeeld veranderen als je met een dobbelsteen met 10 zijden wilt werken. Wil je een dobbelsteen met zes zijden simuleren, laat het dan op 6 staan.
+
+`eventList = list(1,1))`
+
+:   Dit specificeert de gebeurtenis waarin we geïnteresseerd zijn. Hier zijn we geïnteresseerd in twee 1-en. Merk op dat dit anders is dan voorheen omdat we niet `c()` schrijven. In plaats daarvan geven we aan dat het resultaat van belang, in dit voorbeeld, 1 is, gevolgd door een 1. Voor andere gebeurtenissen verander je de getallen tussen haakjes (bijv. `list(1, c(5, 6))` om te berekenen wat de kans is dat je met de eerste worp een 1 gooit en met de tweede worp een 5 of een 6).
+
+`orderMatters = TRUE`
+
+:   Deze optie geeft dat de volgorde van de condities in `evenList` van belang is. In dit voorbeeld maakt het geen verschil.
+
+## Kaartspel
+
+We kunnen R gebruiken om de waarschijnlijkheid te berekenen van het trekken van combinaties van kaarten uit een kaartspel. Een standaard kaartspel heeft 52 kaarten in 13 waarden en 4 kleuren. De kleuren zijn schoppen (*Spade*), klaveren (*Club*), ruiten (*Diamond*) en harten (*Heart*). Elke kleur heeft 13 kaartwaarden: 2-10, 3 "gezichtskaarten" Boer (*Jack*), Koningin (*Queen*), Koning (*King*) (J, Q, K) en een Aas (*Ace*). Helaas is er geen R package beschikbaar zoals in het voorbeeld van het dobbelen. De `openintro` gegevens bevatten echter een voorgedefinieerd kaartspel dat alle kaarten van een standaard kaartspel bevat.
+
+```{r, eval=TRUE}
+data(cards, package = "openintro") # Specificeer dat we de dataset cards van package openintro willen gebruiken
+```
+
+Er zijn 52 waarnemingen voor 4 variabelen in de dataset:
+
+`waarde`
+
+:   een factor met niveaus 10 2 3 4 5 6 7 8 9 A J K Q
+
+`kleur`
+
+:   een factor met de niveaus zwart rood
+
+`suit`
+
+:   een factor met de niveaus klaveren ruiten harten schoppen
+
+`gezicht`
+
+:   een logische vector (TRUE voor gezichtskaarten en FALSE voor alle andere kaarten)
+
+Om de kans op een 'Aas'-kaart te berekenen, kunnen we nagaan hoe vaak zo'n kaart voorkomt. Dit kan gemakkelijk in R met de `filter()` functie uit het `tidyverse` package. Dit package is geïnstalleerd op alle computers van de universiteit.
+
+```{r, eval=TRUE}
+library(tidyverse) 
+```
+
+We kunnen dan de functie `filter()` gebruiken om casussen te selecteren op basis van hun waarden (zie @sec-data-filtering-selecting). Voor ons doel hier gebruiken we een specifieke manier om kaarten in ons kaartspel te selecteren, en wel als volgt:
+
+```{r, eval=TRUE}
+cards |> 
+  filter(value == "A")
+```
+
+`cards |>`
+
+:   Dit deel van de code geeft aan dat we werken met het 'cards' dataframe. `|>` wordt in R de pipe operator genoemd (zie week 2).
+
+`filter(value == "A")`
+
+:   Hier vragen we R om gevallen te kiezen (d.w.z. te filteren) wanneer een van de kaarten (merk op dat deze variabele 'value' heet) gelijk is aan `"A"`. Let op: vergelijkingen van characters zijn altijd hoofdlettergevoelig, dus schrijf niet "a".
+
+Nu we weten dat er 4 azen zijn en omdat we weten dat er 52 kaarten in ons kaartspel zitten, kunnen we eenvoudigweg 4 delen door 52 om de kans op een aas te krijgen.
+
+```{r, eval=TRUE}
+4/52
+```
+
+Op dezelfde manier kunnen we testen hoeveel ruiten kaarten (*Diamond*) er zijn en de waarschijnlijkheid berekenen:
+
+```{r, eval=TRUE}
+cards |> 
+  filter(suit == "Diamond") 
+13/52
+```
+
+Als we geïnteresseerd zijn in gezichtskaarten, verandert onze code enigszins omdat dit een logische vector is (dat is een vector die alleen de waarden TRUE or FALSE kan aannemn). We plaatsen geen aanhalingstekens rond `TRUE`, maar schrijven gewoon:
+
+```{r, eval=TRUE}
+cards |> 
+  filter(face == TRUE) 
+16/52
+```
+
+We kunnen het voorkomen van combinaties vinden, bijvoorbeeld alle kaarten vinden die ofwel Aas ***of*** een Ruit zijn. Daartoe gebruiken we het symbool `|` dat staat voor `OR` (OF):
+
+```{r, eval=TRUE}
+cards |> 
+  filter(suit == "Diamond" | value == "A")
+```
+
+Op basis hiervan zijn er 16 kaarten die ofwel een Aas ofwel een Ruit zijn. Daarom is de kans om een Aas óf een Ruit te trekken 16 gedeeld door 52:
+
+```{r, eval=TRUE}
+16/52
+```
+
+Je kunt ook het "&" symbool gebruiken om `AND` (EN) aan te geven, bijvoorbeeld om het aantal kaarten te krijgen dat rood is én een Aas:
+
+```{r, eval=TRUE}
+cards |> 
+  filter(color == "red" & value == "A")
+```
+
+Je kunt de code uitbreiden, bijvoorbeeld door te schrijven als je het aantal kaarten wilt vinden die ofwel Ruit, ***of*** Aas, ***of*** Koning zijn. Omdat we alleen het aantal rijen willen weten sluiten we onze *pipe* af met `nrow()`:
+
+```{r}
+cards |> 
+  filter(value %in% c("A", "K") | suit == "Diamond") |>
+  nrow()
+```
+
+## Voorwaardelijke kansen met een kruistabel
+
+We kunnen waarschijnlijkheden onderzoeken met een kruistabel. Voor deze demonstratie gebruiken we de dataset uit het boek genaamd `photo_classify` uit het `openintro` package. Dit is een gesimuleerde dataset voor fotoclassificaties gebaseerd op een machine learning algoritme versus wat de echte classificatie voor die foto's is. Hoewel de gegevens niet echt zijn, lijken ze op prestaties die redelijkerwijs te verwachten zijn in een goed gebouwde classificeerder. Zie voor meer informatie hoofdstuk 3.2 in het boek.
+
+Eerst maken we een kruistabel van de twee variabelen `mach_lean` en `waarheid`. In week 2 kwamen we een manier tegen om kruistabellen in R te maken met behulp van het `flextable` package.
+
+```{r, eval=TRUE}
+library(flextable) 
+```
+
+In week 2 gebruikten we deze code die de percentages over de kolommen weergeeft.
+
+```{r, eval=TRUE}
+library(openintro)
+data(photo_classify)
+
+table_example <- proc_freq(x = photo_classify, 
+                           row = "mach_learn", 
+                           col = "truth", 
+                           include.row_percent = FALSE, 
+                           include.table_percent = FALSE) 
+table_example
+```
+
+Met het `flextable` package kunnen we ook de tabelpercentages weergeven. De onderstaande code maakt een tabel met gezamenlijke kansen (*joint probabilities*) voor de `photo_classify` gegevens. De percentages worden berekend door het aantal in elke cel te delen door het totaal van de tabel (1822).
+
+```{r}
+table_example2 <- proc_freq(x = photo_classify, 
+                           row = "mach_learn", 
+                           col = "truth", 
+                           include.row_percent = FALSE,
+                           include.column_percent = FALSE,
+                           include.table_percent = TRUE,
+                           include.column_total = TRUE) 
+```
+
+`table_example = proc_freq(…)`
+
+:   We definiëren dat we een tabel genaamd `table_example2` willen maken met behulp van de functie `proc_freq`.
+
+`x = photo_classify`
+
+:   Dit specificeert welke dataset (data.frame) we willen gebruiken.
+
+`row = "mach_learn"`
+
+:   Dit specificeert de variabele die we willen gebruiken in de rijen van de kruistabel.
+
+`col = "truth"`
+
+:   Dit specificeert de variabele die we willen gebruiken in de kolom van de kruistabel.
+
+`include.row_percent = FALSE`
+
+:   Hiermee geven we aan dat we geen rijpercentages willen opnemen.
+
+`include.column_percent = FALSE,`
+
+:   Hiermee geven we aan dat we geen kolompercentages willen opnemen.
+
+`include.table_percent = TRUE`
+
+:   Hiermee geven we aan dat we wel tabelpercentages willen opnemen.
+
+`include.column_total = TRUE)`
+
+:   Hiermee geven we aan dat we kolomtotalen willen opnemen.
+
+```{r}
+table_example2
+```
+
+Op basis hiervan kunnen we zien dat de classificator in 10,81 % van de gevallen de modefoto's correct voorspelde (zie cel `fashion`, `pred_fashion`) en in 6,15 % van de gevallen geen modefoto correct voorspelde. Evenzo voorspelde de classificator in 1,21 % van de gevallen een foto die geen modefoto was als "mode" en in 81,83 % van de gevallen was de classificator correct in zijn beoordeling dat een foto die geen modefoto was inderdaad geen modefoto was.
+
+Dit is dezelfde tabel als op blz. 96 van het boek.
+
+### Voorwaardelijke kansen
+
+Om voorwaardelijke kansen verder te onderzoeken, kunnen we de informatie uit de zojuist gemaakte tabel gebruiken.
+
+Stel dat we de kans willen berekenen dat een foto over mode ging (`truth` is `fashion`) gegeven dat de voorspelling was dat de foto over mode gaat (`mach_learn` is `pred_fashion`). We zien dat er 219 gevallen waren waarin de voorspelling `mode` was en dat de foto in 197 gevallen inderdaad een modefoto was.
+
+P(`truth` is `fashion` given `mach_learn` is `pred_fashion` ) = $(\frac{197}{219})= 0.900$
+
+In R kunnen we de waarde als volgt berekenen:
+
+```{r, eval=TRUE}
+197/219
+```

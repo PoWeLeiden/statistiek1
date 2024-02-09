@@ -1,0 +1,3 @@
+# Statistische analyse in R
+
+In dit deel bespreken we de R-code die nodig is voor het uitvoeren van verschillende soorten statistische analyses die in de cursus zijn besproken.

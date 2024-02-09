@@ -1,0 +1,136 @@
+# Ontbrekende gegevens {#sec-data-missing-data}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+
+library(tidyverse)
+library(rio)
+library(DescTools)
+library(infer)
+
+dta <- import(here::here("data/Democracy Cross-National Data V4.1 09092015.sav")) |>
+  mutate(religion = factorize(Fox_emajrel)) |>
+  mutate(TypeEcon2006 = factorize(TypeEcon2006))
+
+canada <- import(here::here("data/2019 Canadian Election Study.rds"))
+```
+
+Veel datasets in de praktijk zijn onvolledig: ze bevatten ontbrekende gegevens (*missing data*). In dit hoofdstuk bespreken we hoe hiermee om te gaan in R.
+
+We gebruiken de onderstaande packages en datasets. We zullen de [Democracy Cross-national Data](https://sites.google.com/site/pippanorris3/research/data#TOC-Democracy-Cross-national-Data-Release-4.0-Fall-2015-New-) van Pippa Noris en de 2019 Canadian Election Study gebruiken. Zorg ervoor dat je deze packages en datasets laadt voordat je aan de slag gaat met de onderstaande voorbeelden:
+
+```{r, eval=FALSE}
+# Packages laden
+library(tidyverse)  # Werken met data
+library(rio)        # Data importeren
+
+# Datasets laden
+dta <- import("Democracy Cross-National Data V4.1 09092015.sav") 
+canada <- import("2019 Canadian Election Study.rds")
+```
+
+Voor sommige landen bevat de Norris dataset ontbrekende waarden op de variabele `Pop2006` (bevolkingsomvang in 2006):
+
+```{r}
+dta |>
+  filter(is.na(Pop2006)) |>
+  select(Nation, Pop2006)
+```
+
+De term `NA` betekent `Not Available`. In dit geval waren er wellicht geen betrouwbare gegevens voor de bevolkingsomvang van deze landen in 2006 (Afghanistan, Irak) of bestond het land niet in 2006 (Zuid-Soedan). Er kunnen verschillende redenen zijn voor ontbrekende gegevens in een dataset.
+
+## Typen ontbrekende gegevens
+
+In R wordt `NA` gewoonlijk gebruikt om ontbrekende gegevens aan te geven, maar als we datasets laden in een SPSS-, Stata- of ander bestandsformaat, kunnen ontbrekende gegevens andere codes hebben. Vaak is dit soort informatie te vinden in het codeboek, een apart bestand (vaak een PDF) dat de dataset en zijn variabelen beschrijft.
+
+Een voorbeeld is de variabele `cps19_pidtrad` (Traditional party identification) uit de 2019 Canadian Election Study (hierboven geopend):
+
+```{r}
+levels(canada$pes19_pidtrad)
+```
+
+Deze variabele heeft een categorie "Geen van deze" en "Weet niet/wil niet antwoorden", die voor de meeste analyses als ontbrekende gegevens moeten worden behandeld. Momenteel worden ze echter als gewone antwoordcategorieën behandeld.
+
+::: {.callout-tip}
+Wij raden aan altijd de niveaus of waarden van een variabele te controleren op waarden die we mogelijk als missend willen beschouwen.
+:::
+
+Dit type probleem kan ook optreden bij interval-ratiovariabelen (numerieke variabelen), waar in sommige gevallen getallen als `999` worden gebruikt om ontbrekende waarden aan te geven. **Let op:** Dit raden wij niet aan, maar je kunt het tegenkomen in echte gegevens waar je mee werkt.
+
+Hieronder staat een voorbeeld waarin de waarde `999` is gebruikt om ontbrekende gegevens aan te geven. Als we het gemiddelde voor deze variabele berekenen zonder R te vertellen dat `999` eigenlijk ontbrekende gegevens zijn, zullen we de gemiddelde leeftijd overschatten:
+
+```{r}
+data_age <- data.frame(age = c(55, 64, 37, 56, 999, 42, 47, 22, 49, 68, 59, 999))
+mean(data_age$age)
+```
+
+Dit resultaat is natuurlijk onjuist omdat we de missende waarden niet als zodanig behandelen en als geldige waarde hebben gebruikt.
+
+## Hercodering van ontbrekende gegevens
+
+Als er waarden in de gegevens zitten die je als missend wilt behandelen, kun je `na_if` uit package `dplyr` gebruiken. Package `dplyr` wordt geladen als onderdeel van de `tidyverse`.
+
+```{r}
+canada <- canada |>
+  mutate(pes19_pidtrad = na_if(pes19_pidtrad, 
+                               "Don't know/ Prefer not to answer")) |>
+  mutate(pes19_pidtrad = na_if(pes19_pidtrad, 
+                               "None of these")) |>
+  mutate(pes19_pidtrad = droplevels(pes19_pidtrad))
+
+table(canada$pes19_pidtrad, useNA = "ifany") # Geef tabel weer met NAs
+```
+
+`mutate(pes19_pidtrad = ...`
+
+:   We gaan de bestaande variabele `pes19_pidtrad` wijzigen.
+
+`na_if(pes19_pidtrad, "Don't know/ Prefer not to answer")`
+
+:   Deze functie verandert bepaalde waarden in een variabele in `NA` . In dit voorbeeld willen we de waarden van `"Weet niet/antwoord liever niet"` van `pes19_pidtrad` veranderen in ontbrekende waarden (`NA`). Voor je eigen gegevens moet je de juiste variabelenaam invoegen en de waarde die je wilt veranderen in `NA`.
+
+`mutate(pes19_pidtrad = droplevels(pes19_pidtrad))`
+
+:   Ten slotte gebruiken we `droplevels` om ervoor te zorgen dat factor levels van `pes19_pidtrad` die we als missend aanduiden ook als factor level worden verwijderd, zodat deze in eventuele latere analyses volledig worden genegeerd. Dit is niet nodig voor andere soorten variabelen (`numeric` of `character`).
+
+We zien dat er geen respondenten meer zijn die "Geen van deze" of "Weet niet/wil niet antwoorden" antwoorden. **Noot:** Omdat we twee waarden hebben die we willen veranderen in `NA`, hebben we twee `mutate` statements.
+
+Dit werkt ook voor het vervangen van numerieke waarden, zoals in ons `data_age` voorbeeld. Hier willen we de waarde van `999` veranderen in `NA`:
+
+```{r}
+data_age <- data_age |>
+  mutate(age = na_if(age, 999))
+data_age$age
+```
+
+En het gemiddelde wordt correct berekend na hercodering van de ontbrekende waarden:
+
+```{r}
+mean(data_age$age, na.rm=TRUE)
+```
+
+Opmerking: het is beter om `na_if` te gebruiken dan `recode` om ontbrekende waarden te hercoderen.[^2]
+
+[^2]: De reden is dat als je `recode` gebruikt om te hercoderen naar ontbrekende waarden, je R precies moet vertellen welk type ontbrekende gegevens je hebt, bijvoorbeeld `NA_character_` in plaats van gewoon `NA` voor een *character variabele*. Anders krijg je incompatibele vectorproblemen die je beter kunt vermijden.
+
+## Wegfilteren van ontbrekende gegevens
+
+U kunt ontbrekende gegevens *wegfilteren* met de functie `is.na`:
+
+```{r}
+dta |>
+  filter(!is.na(Pop2006)) |>
+  select(Nation, Pop2006) |>
+  head()
+```
+
+`filter(!is.na(Pop2006))`
+
+:   We filteren de gevallen met een niet-ontbrekende waarde op de variabele Pop2006. Let op de `!` die **niet** betekent, dus we willen alleen gevallen die **geen** ontbrekende waarde hebben op Pop2006.
+
+
+
