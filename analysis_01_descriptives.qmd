@@ -8,11 +8,16 @@ De meest gebruikte centrummaten zijn het gemiddelde, de mediaan en de modus. Om 
 directions <- factor(c("East", "West", "East", "North", "North", "East", "West", "West", "West", "East", "North"))
 temperature <- factor(c("low", "high", "medium", "high", "low", "medium", "high"), levels = c("low", "medium", "high"), ordered = TRUE)
 exam_points <- c(2, 7, 3, 4, 2, 0)
+```
 
+Als we deze variabelen vervolgens printen, zien we dat de inhoud correct is opgeslagen:
+
+```{r}
 directions # nominaal
 temperature # ordinaal
 exam_points # interval/ratio
 ```
+
 
 ### Modus
 
