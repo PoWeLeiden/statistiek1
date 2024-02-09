@@ -169,7 +169,9 @@ Een ander veelgebruikt formaat is het R Markdown bestand. Een R Markdown documen
 
 Zodra je een RMarkdown bestand exporteert, kun je je tekst omzetten in documenten, rapporten, presentaties en dashboards van hoge kwaliteit. Dit document, bijvoorbeeld, is een R Markdown bestand.
 
-> RStudio zal automatisch het benodigde `rmarkdown` package installeren en laden wanneer nodig.
+::: {.callout-note}
+RStudio zal automatisch het benodigde `rmarkdown` package installeren en laden wanneer nodig.
+:::
 
 ### R Markdown bestanden bewerken
 
@@ -410,7 +412,9 @@ Dit voorbeelddataframe bevat informatie over vijf studenten (één per rij). Het
 
 Het is mogelijk om een dataframe te maken door handmatig gegevens in te voeren; normaal zullen we een dataframe laden vanuit een bestand.
 
-> Je kunt later de term `tibble` tegenkomen, wat in wezen hetzelfde is als een dataframe.
+::: {.callout-note}
+Je kunt later de term `tibble` tegenkomen, wat in wezen hetzelfde is als een dataframe.
+:::
 
 ### De data bekijken
 
@@ -493,7 +497,9 @@ Met behulp van de `import` functie uit het pakket [rio](https://cran.r-project.o
 
 Stel dat we een door komma's gescheiden waarden (comma-separated values, CSV) bestand willen openen. Een .csv-bestand is het meest gebruikte bestandsformaat voor het opslaan van gegevens. Ons voorbeeldbestand heet "deniro.csv" (beschikbaar [hier)](https://people.sc.fsu.edu/~jburkardt/data/csv/deniro.csv) en bevat Rotten Tomato beoordelingen van films met Robert De Niro. Er zijn 87 records. We hebben drie variabelen: Year, Rating en Title.
 
-> Zorg ervoor dat je het bestand opslaat in je projectmap, want dat is waar R naar het bestand zal zoeken wanneer je het opent.
+::: {.callout-tip}
+Zorg ervoor dat je het bestand opslaat in je projectmap, want dat is waar R naar het bestand zal zoeken wanneer je het opent.
+:::
 
 Je kunt deze dataset in R importeren met de volgende code:
 
@@ -520,7 +526,9 @@ deniro_data <- import("data/deniro.csv")
 
     In dit voorbeeld laden we een bestand genaamd `deniro.csv` en slaan het op in een data frame genaamd `deniro_data`. Je kunt elke naam opgeven die je wilt voor een dataframe.
 
-> Belangrijk is dat als je alleen een bestandsnaam invult (hier: deniro.csv), R aanneemt dat dit bestand zich in je **huidige werkdirectory** bevindt. Als je in een R-project werkt, is deze werkdirectory dezelfde als je projectmap.
+::: {.callout-warning}
+Belangrijk is dat als je alleen een bestandsnaam invult (hier: deniro.csv), R aanneemt dat dit bestand zich in je **huidige werkdirectory** bevindt. Als je in een R-project werkt, is deze werkdirectory dezelfde als je projectmap.
+:::
 
 We kunnen nu de inhoud van dit dataframe weergeven:
 
@@ -618,7 +626,7 @@ Dit is de foutmelding:
 
 ### Pipes en dataframes
 
-We kunnen de pipe operator ook gebruiken voor dataframes. Volgende week zullen we leren over verschillende handige functies in het `dplyr` pakket waarmee we nieuwe variabelen kunnen maken, gegevens kunnen filteren of variabelen kunnen selecteren. Deze week zullen we niet actief gebruik maken van de pipe, maar we zullen wel wat code tegenkomen die er gebruik van maakt. Nu weet je dat het simpelweg betekent dat we datgene wat links staat nemen en doorgeven aan de functie rechts.
+We kunnen de pipe operator ook gebruiken voor dataframes. In [hoofdstuk @sec-data-filtering-selecting] en [-@sec-data-variables] zullen we leren over verschillende handige functies in het `dplyr` pakket waarmee we nieuwe variabelen kunnen maken, gegevens kunnen filteren of variabelen kunnen selecteren. Nu weet je dat het simpelweg betekent dat we datgene wat links staat nemen en doorgeven aan de functie rechts.
 
 ::: {.callout-note}
 Je kunt `%>%` tegenkomen in code geschreven door anderen. Dit is ook een pipe operator, die voor onze doeleinden op dezelfde manier werkt als `|>`.
