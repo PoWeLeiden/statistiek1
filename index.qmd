@@ -22,4 +22,4 @@ Voor elke week in de cursus moet je relevante hoofdstukken in beide secties leze
 | 4    | @sec-data-variables & @sec-data-missing-data | @sec-analysis-proportions                                                          |
 | 5    | @sec-data-advanced-recoding                    | @sec-analysis-chi-squared                                                          |
 | 6    | \-                                             | @sec-analysis-t-test                                                               |
-| 7    | @sec-data-merging-data                         | @sec-analysis-power-analysis and @sec-analysis-anova                               |
+| 7    | @sec-data-merging-data                         | @sec-analysis-power-analysis & @sec-analysis-anova                               |
