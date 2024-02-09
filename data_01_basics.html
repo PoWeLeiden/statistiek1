@@ -519,9 +519,19 @@ Waarschuwing
 <h2 data-number="1.4" class="anchored" data-anchor-id="r-markdown-bestand"><span class="header-section-number">1.4</span> R Markdown bestand</h2>
 <p>Een ander veelgebruikt formaat is het R Markdown bestand. Een R Markdown document is een combinatie van geschreven tekst met simpele opmaak en stukken ingesloten R code (zogenoemde <em>code chunks</em>). Het mooie aan R Markdown is dat je code chunks (en in-line code) kan invoegen om uitvoer en statistische analyse te rapporteren.</p>
 <p>Zodra je een RMarkdown bestand exporteert, kun je je tekst omzetten in documenten, rapporten, presentaties en dashboards van hoge kwaliteit. Dit document, bijvoorbeeld, is een R Markdown bestand.</p>
-<blockquote class="blockquote">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Opmerking
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>RStudio zal automatisch het benodigde <code>rmarkdown</code> package installeren en laden wanneer nodig.</p>
-</blockquote>
+</div>
+</div>
 <section id="r-markdown-bestanden-bewerken" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="r-markdown-bestanden-bewerken"><span class="header-section-number">1.4.1</span> R Markdown bestanden bewerken</h3>
 <p>Voorlopig hoef je niet te weten hoe je R Markdown bestanden maakt. We zullen ze echter in de loop van de cursus gebruiken voor oefeningen en opdrachten, dus je moet weten hoe je erin moet werken.</p>
@@ -784,9 +794,19 @@ Levels: low &lt; medium &lt; high</code></pre>
 </div>
 <p>Dit voorbeelddataframe bevat informatie over vijf studenten (één per rij). Het bevat drie variabelen: Student ID (stud_id), hun naam (stud_name) en hun cijfer (grade). We hebben dus drie kolommen.</p>
 <p>Het is mogelijk om een dataframe te maken door handmatig gegevens in te voeren; normaal zullen we een dataframe laden vanuit een bestand.</p>
-<blockquote class="blockquote">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Opmerking
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Je kunt later de term <code>tibble</code> tegenkomen, wat in wezen hetzelfde is als een dataframe.</p>
-</blockquote>
+</div>
+</div>
 <section id="de-data-bekijken" class="level3" data-number="1.7.1">
 <h3 data-number="1.7.1" class="anchored" data-anchor-id="de-data-bekijken"><span class="header-section-number">1.7.1</span> De data bekijken</h3>
 <section id="de-data-in-rstudio-bekijken" class="level4" data-number="1.7.1.1">
@@ -915,9 +935,19 @@ Levels: low &lt; medium &lt; high</code></pre>
 <p>Je kunt gegevens importeren in R voor analyse en databewerking (variabele namen veranderen, cases selecteren, de waarden van variabelen hercoderen, etc.).</p>
 <p>Met behulp van de <code>import</code> functie uit het pakket <a href="https://cran.r-project.org/web/packages/rio/index.html">rio</a>, kunnen we verschillende bestandsformaten importeren in R, waaronder Microsoft Excel bestanden, CSV bestanden, SPSS, Stata of R bestanden:</p>
 <p>Stel dat we een door komma’s gescheiden waarden (comma-separated values, CSV) bestand willen openen. Een .csv-bestand is het meest gebruikte bestandsformaat voor het opslaan van gegevens. Ons voorbeeldbestand heet “deniro.csv” (beschikbaar <a href="https://people.sc.fsu.edu/~jburkardt/data/csv/deniro.csv">hier)</a> en bevat Rotten Tomato beoordelingen van films met Robert De Niro. Er zijn 87 records. We hebben drie variabelen: Year, Rating en Title.</p>
-<blockquote class="blockquote">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Zorg ervoor dat je het bestand opslaat in je projectmap, want dat is waar R naar het bestand zal zoeken wanneer je het opent.</p>
-</blockquote>
+</div>
+</div>
 <p>Je kunt deze dataset in R importeren met de volgende code:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio) </span>
@@ -934,9 +964,19 @@ Levels: low &lt; medium &lt; high</code></pre>
 <p>In dit voorbeeld laden we een bestand genaamd <code>deniro.csv</code> en slaan het op in een data frame genaamd <code>deniro_data</code>. Je kunt elke naam opgeven die je wilt voor een dataframe.</p>
 </dd>
 </dl>
-<blockquote class="blockquote">
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Waarschuwing
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Belangrijk is dat als je alleen een bestandsnaam invult (hier: deniro.csv), R aanneemt dat dit bestand zich in je <strong>huidige werkdirectory</strong> bevindt. Als je in een R-project werkt, is deze werkdirectory dezelfde als je projectmap.</p>
-</blockquote>
+</div>
+</div>
 <p>We kunnen nu de inhoud van dit dataframe weergeven:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(deniro_data)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1110,7 +1150,7 @@ Levels: low &lt; medium &lt; high</code></pre>
 </section>
 <section id="pipes-en-dataframes" class="level3" data-number="1.8.2">
 <h3 data-number="1.8.2" class="anchored" data-anchor-id="pipes-en-dataframes"><span class="header-section-number">1.8.2</span> Pipes en dataframes</h3>
-<p>We kunnen de pipe operator ook gebruiken voor dataframes. Volgende week zullen we leren over verschillende handige functies in het <code>dplyr</code> pakket waarmee we nieuwe variabelen kunnen maken, gegevens kunnen filteren of variabelen kunnen selecteren. Deze week zullen we niet actief gebruik maken van de pipe, maar we zullen wel wat code tegenkomen die er gebruik van maakt. Nu weet je dat het simpelweg betekent dat we datgene wat links staat nemen en doorgeven aan de functie rechts.</p>
+<p>We kunnen de pipe operator ook gebruiken voor dataframes. In <a href="data_02_filtering_selecting.html" class="quarto-xref">hoofdstuk&nbsp;<span>2</span></a> en <a href="data_03_variables.html" class="quarto-xref"><span>3</span></a> zullen we leren over verschillende handige functies in het <code>dplyr</code> pakket waarmee we nieuwe variabelen kunnen maken, gegevens kunnen filteren of variabelen kunnen selecteren. Nu weet je dat het simpelweg betekent dat we datgene wat links staat nemen en doorgeven aan de functie rechts.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">

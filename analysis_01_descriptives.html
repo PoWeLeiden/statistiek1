@@ -347,19 +347,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>directions <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>, <span class="st">"North"</span>, <span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>temperature <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"high"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>, <span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>exam_points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>directions <span class="co"># nominaal</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>exam_points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Als we deze variabelen vervolgens printen, zien we dat de inhoud correct is opgeslagen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>directions <span class="co"># nominaal</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] East  West  East  North North East  West  West  West  East  North
 Levels: East North West</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="co"># ordinaal</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="co"># ordinaal</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] low    high   medium high   low    medium high  
 Levels: low &lt; medium &lt; high</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>exam_points <span class="co"># interval/ratio</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>exam_points <span class="co"># interval/ratio</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2 7 3 4 2 0</code></pre>
 </div>
@@ -368,23 +370,23 @@ Levels: low &lt; medium &lt; high</code></pre>
 <h3 data-number="7.1.1" class="anchored" data-anchor-id="modus"><span class="header-section-number">7.1.1</span> Modus</h3>
 <p>De modus is de waarde die het vaakst voorkomt in een verzameling gegevens. We kunnen eerst de verdeling van de waarden bekijken met de <code>table()</code> functie:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(directions)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(directions)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Op basis hiervan kunnen we zien dat er twee modi zijn (Oost en West).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>directions</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a> East North  West </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4</span>     <span class="dv">3</span>     <span class="dv">4</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>directions</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a> East North  West </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4</span>     <span class="dv">3</span>     <span class="dv">4</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Als we de modus willen berekenen, kunnen we gebruik maken van een pakket met de naam <a href="https://www.rdocumentation.org/packages/DescTools/versions/0.99.19">DescTools</a>. Dit is een verzameling van diverse statistische basisfuncties voor het efficiënt beschrijven van gegevens. Het pakket bevat de functie <code>Mode()</code> (let op de hoofdletter M).</p>
 <p>We installeren en laden het benodigde <em>package</em> as volgt:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"DescTools"</span>) <span class="co"># DescTools package installeren (hoeft slechts één keer)</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools) <span class="co"># DescTools package laden</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"DescTools"</span>) <span class="co"># DescTools package installeren (hoeft slechts één keer)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools) <span class="co"># DescTools package laden</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Om de modus te berekenen, schrijven we:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Mode</span>(directions, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Mode</span>(directions, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] East West
 attr(,"freq")
@@ -404,7 +406,7 @@ Levels: East North West</code></pre>
 <h3 data-number="7.1.2" class="anchored" data-anchor-id="mediaan"><span class="header-section-number">7.1.2</span> Mediaan</h3>
 <p>De mediaan is de waarde die, in de veronderstelling dat de dataset van klein naar groot is geordend, in het midden valt. Om deze te berekenen, gebruiken we het <code>Mediaan()</code> commando uit het <a href="https://www.rdocumentation.org/packages/DescTools/versions/0.99.19">DescTools</a> package (zie hierboven voor het installeren en laden van dit package). De functie <code>Median</code> uit package <code>DescTools</code> kan omgaan met factors:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Median</span>(temperature, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Median</span>(temperature, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] medium
 Levels: low &lt; medium &lt; high</code></pre>
@@ -421,7 +423,7 @@ Levels: low &lt; medium &lt; high</code></pre>
 <h3 data-number="7.1.3" class="anchored" data-anchor-id="gemiddelde"><span class="header-section-number">7.1.3</span> Gemiddelde</h3>
 <p>Het gemiddelde van een verzameling waarnemingen wordt berekend door alle waarden bij elkaar op te tellen en dan te delen door het totaal aantal waarden<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(exam_points, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(exam_points, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
@@ -438,12 +440,12 @@ Levels: low &lt; medium &lt; high</code></pre>
 <h2 data-number="7.2" class="anchored" data-anchor-id="spreidingsmaten"><span class="header-section-number">7.2</span> Spreidingsmaten</h2>
 <p>Om de minimum- en maximumwaarde van een vector of een kolom in een data frame te vinden, kunnen we de functies <code>max()</code> en <code>min()</code> gebruiken. Toegepast op de ordinale en interval/ratio variabele die we hebben gemaakt:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(temperature, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(temperature, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] low
 Levels: low &lt; medium &lt; high</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(exam_points, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(exam_points, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 7</code></pre>
 </div>
@@ -458,7 +460,7 @@ Levels: low &lt; medium &lt; high</code></pre>
 <h3 data-number="7.2.1" class="anchored" data-anchor-id="spreidingsbreedte"><span class="header-section-number">7.2.1</span> Spreidingsbreedte</h3>
 <p><code>range()</code> geeft een vector terug die het minimum en maximum bevat:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(exam_points, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(exam_points, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0 7</code></pre>
 </div>
@@ -478,7 +480,7 @@ Levels: low &lt; medium &lt; high</code></pre>
 <h3 data-number="7.2.2" class="anchored" data-anchor-id="interkwartielafstand"><span class="header-section-number">7.2.2</span> Interkwartielafstand</h3>
 <p>Om een overzicht te krijgen van de interkwartielafstand, kunnen we de <code>summary()</code> functie gebruiken:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(exam_points)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(exam_points)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    0.00    2.00    2.50    3.00    3.75    7.00 </code></pre>
@@ -490,7 +492,7 @@ Levels: low &lt; medium &lt; high</code></pre>
 <h3 data-number="7.2.3" class="anchored" data-anchor-id="standaardafwijking-en-variantie"><span class="header-section-number">7.2.3</span> Standaardafwijking en variantie</h3>
 <p>Je kunt de standaardafwijking in R berekenen met de <code>sd()</code> functie. Standaard genereert deze de steekproef-standaardafwijking. Als je de standaardafwijking van de populatie wilt berekenen, kun je een aanpassing maken (vermenigvuldigen met sqrt((n-1)/n)).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(exam_points, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(exam_points, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.366432</code></pre>
 </div>
@@ -503,7 +505,7 @@ Levels: low &lt; medium &lt; high</code></pre>
 </dl>
 <p>Om de variantie te berekenen, kunnen we de <code>var()</code> functie gebruiken:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(exam_points, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(exam_points, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.6</code></pre>
 </div>
@@ -521,15 +523,15 @@ Levels: low &lt; medium &lt; high</code></pre>
 <p>Zoals hierboven uitgelegd, gebruik je het symbool “$” om variabelen in dataframes aan te roepen. Daarom, als we een van de functies willen gebruiken die tot nu toe zijn behandeld (<code>mean()</code>, <code>table()</code>, <code>sd()</code>, <code>var()</code>, enz.) gebruik je gewoon die operator om specifieke variabelen in data frames te gebruiken.</p>
 <p><strong>Voorbeeld:</strong> als we het gemiddelde en de standaardafwijking van filmscores (‘Score’) in ‘deniro_data’ willen berekenen, zouden we schrijven:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)  <span class="co"># Laad package rio voor het importeren van de data met functie 'import'</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>deniro_data <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="at">file =</span> <span class="st">"deniro.csv"</span>) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)  <span class="co"># Laad package rio voor het importeren van de data met functie 'import'</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>deniro_data <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="at">file =</span> <span class="st">"deniro.csv"</span>) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(deniro_data<span class="sc">$</span>Score, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(deniro_data<span class="sc">$</span>Score, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 58.1954</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(deniro_data<span class="sc">$</span>Score, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(deniro_data<span class="sc">$</span>Score, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 28.06754</code></pre>
 </div>
@@ -546,7 +548,7 @@ Levels: low &lt; medium &lt; high</code></pre>
 <p>Er zijn veel samenvattende statistieken beschikbaar in R. Een eenvoudige manier om een basisoverzicht van een dataframe te krijgen is de <code>describe()</code> functie uit het <a href="https://www.rdocumentation.org/packages/psych/versions/1.0-17/topics/describe">‘psych’ pakket</a>. Als je dit package moet installeren type je <code>install.packages("psych")</code> in de R console (niet nodig op universiteits-pc’s).</p>
 <p>Om de <a href="https://www.rdocumentation.org/packages/psych/versions/1.0-17/topics/describe"><code>describe()</code></a> functie uit het `psych’ pakket te gebruiken, schrijven we:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'psych'</code></pre>
@@ -556,7 +558,7 @@ Attaching package: 'psych'</code></pre>
 
     AUC, ICC, SD</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(deniro_data, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">skew =</span> <span class="cn">FALSE</span>, <span class="at">ranges =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe</span>(deniro_data, <span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">skew =</span> <span class="cn">FALSE</span>, <span class="at">ranges =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       vars  n    mean    sd  min  max range   se
 Year      1 87 1995.98 12.94 1968 2016    48 1.39
@@ -587,7 +589,7 @@ Title*    3 87   44.00 25.26    1   87    86 2.71</code></pre>
 <ol>
 <li id="fn1"><p>We kunnen het gemiddelde ook berekenen door de som te berekenen en dan te delen door het aantal observaties:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(exam_points) <span class="sc">/</span> <span class="fu">length</span>(exam_points)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(exam_points) <span class="sc">/</span> <span class="fu">length</span>(exam_points)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
