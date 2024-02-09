@@ -1,0 +1,193 @@
+# Geavanceerd hercoderen van variabelen {#sec-data-advanced-recoding}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE
+)
+
+library(rio)
+canada <- import(here::here("data/2019 Canadian Election Study.rds"))
+
+data <- data.frame(oecd = c(rep("no", 9), rep("no", 1), rep("yes", 2), rep("yes", 8)), 
+                   econ = c(rep("low", 9), rep("high", 1), rep("low", 2), rep("high", 8)))
+data   
+
+```
+
+## Variabelen hercoderen met case_when
+
+Vaak moeten we data wijzigen of transformeren op basis van verschillende mogelijke condities. We kunnen dit doen met de `case_when()` functie uit het `dplyr` package.
+
+We zullen het gebruik van deze functie illustreren met behulp van een dataset met GPA-cijfers beschikbaar in het `openintro` package.
+
+Het dataframe bevat de variabelen `gpa` en `study_hours` voor een steekproef van 193 studenten die in 2012 een inleidende cursus statistiek volgden aan een particuliere Amerikaanse universiteit. De gegevens zijn hieronder weergegeven als `tibble`:
+
+```{r, include=TRUE}
+library(openintro) # In dit package is de dataset gpa_study_hours opgenomen
+library(tidyverse) # Nodig om een tibble te kunnen maken en weergeven
+as_tibble(gpa_study_hours)
+```
+
+Stel dat we de numerieke "gpa"-scores willen hercoderen naar een karaktervariabele "grades" die de letter "A" als hoogste cijfer hanteert. Omwille van de eenvoud maken we geen onderscheid in A+, A, A-, enz. maar richten we ons alleen op "hele cijfers" (A, B, C, enz.).
+
+Volgens een gangbare cijferomrekening willen wij dat de uitkomst is: A (GPA tussen 3,7 - 4,0), B (2,7 - 3,3), C (1,7 -- 2,3), D (1,0 -- 1,3). De letter F als cijfer komt overeen met een 0,0 GPA. Onze hercoderingsregels zijn dus:
+
+-   Als de score groter of gelijk is aan 3,7, transformeren we dit in een "A".
+-   Anders, als de score groter is dan of gelijk aan (\>=) 2,7, een "B" toekennen.
+-   Anders, als de score groter is dan of gelijk is aan (\>=) 1.7, geef dan een "C".
+-   Anders, als de score groter of gelijk is aan (\>=) 1.3, geef dan een "D".
+-   Anders een "F" toekennen
+
+`case_when()` werkt door aan twee "kanten" informatie te geven: aan de "linkerkant" staat een conditie en aan de "rechterkant" hebben we de waarde als deze voorwaarde waar is. Beide worden gescheiden door een tilde (`~`):
+
+```{r, include=TRUE, eval = F}
+case_when(conditie ~ waarde)
+```
+
+Er zijn een aantal belangrijke functies en operatoren die nuttig zijn bij het construeren van de expressies die worden gebruikt om de gegevens te hercoderen:
+
+-   `==` betekent "gelijk aan"
+
+-   `!=` betekent "niet gelijk aan".
+
+-   `<` betekent "kleiner dan"
+
+-   `>` betekent "groter dan"
+
+-   `<=` betekent "gelijk aan of kleiner dan"
+
+-   `>=` betekent "gelijk aan of groter dan"
+
+-   `&` betekent "EN".
+
+-   `|` betekent "OF".
+
+-   `!` betekent "NIET".
+
+::: {.callout-note}
+
+Om `case_when()` te gebruiken, moeten we R vertellen waar het resultaat moet worden opgeslagen: ofwel door het resultaat toe te wijzen aan de huidige variabele, ofwel door het toe te wijzen aan een nieuwe variabele in onze hercoderingsprocedure. Hiervoor gebruiken we `mutate()`. Het is erg belangrijk dat je een nieuwe variabele specificeert met `mutate()` tijdens het hercoderen (of een bestaande variabele die wordt overschreven). Anders weet R niet waar het de nieuwe, hergecodeerde gegevens moet plaatsen.
+
+:::
+
+Met behulp van onderstaande code kunnen we het numerieke cijfer hercoderen naar een letter (*grade*) van A t/m F:
+
+```{r, include=TRUE}
+gpa_study_hours <- gpa_study_hours |>
+  mutate(gpa_grade = case_when(
+    gpa >= 3.7 ~ "A",
+    gpa >= 2.7 ~ "B",
+    gpa >= 1.7 ~ "C",
+    gpa >= 1.3 ~ "D",
+    gpa < 1.3 ~ "F"))  # Let op de twee haakjes: één om case_when af te sluiten en één om mutate af te sluiten
+gpa_study_hours
+```
+
+`gpa_study_hours <-`
+
+:   Dit eerste deel van de code zegt dat we het bestaande dataframe `gpa_study_hours` overschrijven.
+
+`gpa_study_hours |>`
+
+:   Dit deel van de code geeft aan dat we werken met de `gpa_study_hours` dataset. `|>` is the *pipe operator*.
+
+`mutate(gpa_grade = case_when(`
+
+:   Hier creëren we een nieuwe variabele genaamd `gpa_grade` met behulp van `mutate()`. De inhoud van de nieuwe variabelen bepalen we met `case_when(`. Voor je eigen gegevens moet je de naam van de nieuwe variabele veranderen.
+
+`gpa >= 3.7 ~ "A",`
+
+:   Hier beginnen we met het specificeren van onze condities en de bijbehorende waardes. Als de GPA scores (variabele `gpa`) gelijk is aan of groter dan 3,7, wordt de uitkomstvariabele (`gpa_grade`) gelijk aan `"A"` (let op de aanhalingstekens rond de letter).
+
+    **Noot:** de algemene vorm is dus `conditie ~ waarde` . Meerdere statements worden gescheiden door een komma.
+
+`gpa >= 2.7 ~ "B", gpa >= 1.7 ~ "C", gpa >= 1.3 ~ "D",`
+
+:   Hier gaan we verder met het specificeren van onze condities en de bijbehorende waarden. Elke nieuwe regel betekent in wezen "en ander als", d.w.z. anders als `gpa` gelijk is aan of groter dan 2,7 wijs een `"B"` toe, anders als `gpa` gelijk is aan of groter dan 1,7 wijs een `"C"` toe, enzovoorts.
+
+`gpa < 1.3 ~ "F"))`
+
+:   Ten slotte bepalen wij dat de letter F moet worden toegekend aan alle `gpa`-waarden kleiner dan 1,3.
+
+::: {.callout-note}
+Als geen van de bovenstaande condities waar is (bijvoorbeeld als `gpa` een missende waarde (`NA`) heeft), dan geeft `case_when` een missende waarde (`NA`) voor die casus.
+:::
+
+::: {.callout-tip}
+De `case_when()` functie is zeer veelzijdig en kan gebruikt worden om verschillende situaties aan te pakken. Het is bijvoorbeeld mogelijk om verschillende statements met elkaar te combineren met behulp van "AND" of "OR" statements. Wie meer wil weten, kan de RDocumentatie van het package bekijken [hier](https://www.rdocumentation.org/packages/dplyr/versions/1.0.10/topics/case_when).
+:::
+
+We zullen meestal te maken krijgen met het hercoderen van numerieke variabelen of karaktervariabelen. Zorg ervoor dat je aanhalingstekens gebruikt rond karaktervariabelen. Als je bijvoorbeeld de karaktervariabele `gpa_grade` wilt hercoderen naar een numerieke variabele `gpa_num` (die de waarden 1, 2, 3, 4, 6 heeft), dan schrijf je:
+
+```{r, include=TRUE, evaluate = F}
+gpa_study_hours <- gpa_study_hours |>
+  mutate(gpa_num = case_when(
+    gpa_grade == "A" ~ 1,
+    gpa_grade == "B" ~ 2,
+    gpa_grade == "C" ~ 3,
+    gpa_grade == "D" ~ 4,
+    gpa_grade == "F" ~ 6))
+```
+
+`gpa_study_hours <-`
+
+:   Dit eerste deel van de code geeft aan dat we de bestaande dataframe `gpa_study_hours` overschrijven.
+
+`gpa_study_hours |>`
+
+:   Dit deel van de code geeft aan dat we werken met de `gpa_study_hours` dataset. `|>` is the *pipe operator*.
+
+`mutate(gpa_num = case_when(`
+
+:   Hier creëren we een nieuwe variabele genaamd `gpa_num` met behulp van `mutate()`. De inhoud van de nieuwe variabelen bepalen we met `case_when(`. Voor je eigen gegevens moet je de naam van de nieuwe variabele veranderen.
+
+`gpa_grade == "A" ~ 1,`
+
+:   Hier beginnen we met het specificeren van onze condities en de bijbehorende uitvoerwaarden. Omdat `gpa_grade` een karaktervariabele is, gebruiken we dubbele aanhalingstekens. Het GPA-cijfer `"A"` moet worden gehercodeerd in het getal `1` (zonder aanhalingstekens).
+
+`gpa_grade == "B" ~ 2,` `gpa_grade == "C" ~ 3,` `gpa_grade == "D" ~ 4,`
+
+:   Hier gaan we verder met het specificeren van onze condities en bijbehorende waarden.
+
+`gpa_grade == "F" ~ 6))`
+
+:   Tenslotte geven we aan dat het cijfer `6` moet worden toegekend aan alle waarden met een `"F"` in `gpa_grade`.
+
+Als je een numerieke variabele wilt hercoderen naar een numerieke variabele, gebruik je natuurlijk **geen** aanhalingstekens. Die worden alleen gebruikt als één van de variabelen een tekenvariabele is.
+
+### Meervoudige vergelijkingen
+
+De voorwaarden gebruikt door `case_when` kunnen verwijzen naar meerdere variabelen. In het onderstaande voorbeeld willen we een variabele `cum laude` berekenen, die gelijk is aan 1 wanneer de `gpa` 3,3 of hoger is ***en*** het aantal studie-uren meer dan 30 bedraagt, en anders gelijk is aan 0:
+
+```{r}
+gpa_study_hours <- gpa_study_hours |>
+  mutate(cum_laude = case_when(
+    gpa >= 3.3 & study_hours > 30 ~ 1, 
+    gpa >= 3.3 ~ 0,
+    gpa < 3.3 ~ 0))
+```
+
+`mutate(cum_laude = case_when(`
+
+:   Hier creëren we een nieuwe variabele genaamd `cum_laude` met behulp van `mutate()`.
+
+`gpa >= 3.3 & study_hours > 30 ~ 1,`
+
+:   Onze eerste voorwaarde is dat `gpa` 3.3 of hoger moet zijn ***en*** dat `study_hours` groter dan 30 moet zijn. Als aan deze voorwaarde is voldaan, zal `cum_laude` gelijk zijn aan 1.
+
+`gpa >= 3.3 ~ 0, gpa < 3.3 ~ 0))`
+
+:   We moeten ook de alternatieven specificeren. Ten eerste, als niet aan de vorige conditie is voldaan, maar `gpa` is hoger dan 3.3, wijs dan een 0 toe. Daarnaast, als niet aan de vorige conditie is voldaan, maar `gpa` is lager dan 3.3, wijs dan een 0 toe aan de nieuwe variabele `cum_laude`.
+
+Door de eerste 10 rijen te printen en te inspecteren, kunnen we nagaan of de hercodering heeft gewerkt zoals bedoeld:
+
+```{r}
+gpa_study_hours
+```
+
+
+::: {.callout-warning}
+Als je met je eigen (bestaande) datasets werkt, kijk dan goed naar de 'bestaande' variabelen, d.w.z. de variabelen die je wilt hercoderen. Zorg ervoor dat je alle alternatieven correct specificeert, vooral als je gegevens missende waarden (`NA`) hebben op één (of meerdere) variabelen. Na hercodering raden wij je aan de uitkomstvariabele zorgvuldig te inspecteren om te zien of de uitkomst precies is zoals je hem bedoeld had. Dat kan bijvoorbeeld door een kruistabel te maken van de oude en nieuwe variabele.
+:::
