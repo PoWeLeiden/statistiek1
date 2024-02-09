@@ -233,7 +233,7 @@ prop.test(table(example_data$party_choice),
 
 of, equivalent (waarbij we de z-waarde rapporteren, die gelijk is aan de wortel van bovengenoemde $\chi^2$-waarde):
 
-- Het in onze steekproef (N = 1000) gevonden percentage steun voor de Conservatieve partij (23%) wijkt statistisch significant af de testwaarde (25%), z = 1{,}42, p = 0,154.
+- Het in onze steekproef (N = 1000) gevonden percentage steun voor de Conservatieve partij (23%) wijkt statistisch significant af de testwaarde (25%), z = 1,42, p = 0,154.
 
 Neem dus naast een inhoudelijke omschrijving in je rapportage op:
 
