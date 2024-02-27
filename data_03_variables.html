@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.480">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -96,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "meer overeenkomst in dit document",
     "search-more-matches-text": "meer overeenkomsten in dit document",
     "search-clear-button-title": "Wissen",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Annuleren",
     "search-submit-button-title": "Verzenden",
     "search-label": "Zoeken"
@@ -710,14 +711,14 @@ Opmerking
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Als je veel unieke waarden hebt, is dit misschien niet de meest efficiënte manier om een numerieke variabele te hercoderen. In zulke gevallen zal het gebruik van <code>ifelse</code> of <code>case_when</code> efficiënter werken, zie <a href="data_05_advanced_recoding.html" class="quarto-xref"><span>Hoofdstuk&nbsp;5</span></a>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Er zijn ook andere packages die hercodeerfuncties bieden (zoals <a href="https://rdrr.io/cran/car/man/recode.html"><code>recode</code></a> uit package <code>car</code> of <a href="https://strengejacke.github.io/sjmisc/reference/rec.html"><code>rec</code></a> uit pacakge <code>sjmisc</code>), maar die zullen we hier niet bespreken.</p>
+<p>Als je veel unieke waarden hebt, is dit misschien niet de meest efficiënte manier om een numerieke variabele te hercoderen. In zulke gevallen zal het gebruik van <code>ifelse</code> of <code>case_when</code> efficiënter werken, zie <a href="data_05_advanced_recoding.html" class="quarto-xref"><span>Hoofdstuk 5</span></a>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Er zijn ook andere packages die hercodeerfuncties bieden (zoals <a href="https://rdrr.io/cran/car/man/recode.html"><code>recode</code></a> uit package <code>car</code> of <a href="https://strengejacke.github.io/sjmisc/reference/rec.html"><code>rec</code></a> uit pacakge <code>sjmisc</code>), maar die zullen we hier niet bespreken.</p>
 </div>
 </div>
 
 
 </section>
 </section>
-<aside id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn1"><p>In ons voorbeeld zouden we kunnen gebruiken:</p>
@@ -736,7 +737,7 @@ Opmerking
 </div>
 <a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></li>
 </ol>
-</aside>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -867,38 +868,28 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -907,8 +898,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
