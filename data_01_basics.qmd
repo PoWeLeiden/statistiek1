@@ -78,13 +78,13 @@ Merk op hoe je de volgorde van evaluatie kunt bepalen door haakjes te gebruiken.
 
 1.  Intern berekent R eerst `18 * 4 ^ 2` (`= 288`). Het volgt de hierboven beschreven regels, dus er is geen noodzaak om een haakje rond `4^2` te zetten. Exponenten worden berekend vóór de vermenigvuldiging, dus hoeven we dit niet aan te geven via een haakje.
 2.  Hiervan trekken we `5 + 4` af (`288 - 9 = 279`).
-3.  Tenslotte delen we door 3.
+3.  Ten slotte delen we door 3.
 
 ## *base R* en *packages*
 
 Wanneer je R downloadt van het Comprehensive R Archive Network (CRAN), krijg je het 'basis' R-systeem (*'base R'*). Deze software bevat basisfunctionaliteit en implementeert de R-taal. Een van de redenen waarom R zo nuttig is, is echter de grote verzameling van aanvullende pakketten (*packages*) die de basisfunctionaliteit van R uitbreiden. R-pakketten worden ontwikkeld en gepubliceerd door de grote R-gemeenschap. Er zijn duizenden packages beschikbaar die een breed scala van onderwerpen bestrijken.
 
-De primaire locatie voor het verkrijgen van R packages is CRAN. Er zijn enkele bijkomende locaties, maar daar hoeft u zich voorlopig geen zorgen over te maken.
+De primaire locatie voor het verkrijgen van R packages is CRAN. Er zijn enkele bijkomende locaties, maar daar hoef je je voorlopig geen zorgen over te maken.
 
 ### Installeren en laden van een R package
 
@@ -147,7 +147,7 @@ Om een commando in een R script uit te voeren, heb je verschillende opties:
 
 Nadat je op 'Run' of CTRL + ENTER hebt gedrukt, zal R het commando uitvoeren.
 
-Als u een annotatie hebt toegevoegd (zie hierboven), zal R maar de tekst achter `#` uitsluiten.
+Als je een annotatie hebt toegevoegd (zie hierboven), zal R de tekst achter `#` uitsluiten.
 
 Je kunt natuurlijk meerdere regels uitvoeren. Bijvoorbeeld, als je R Script deze drie commando's bevat:
 
@@ -167,10 +167,14 @@ Je kunt je script opslaan door te klikken op File → "Save as..." of door te kl
 
 Een ander veelgebruikt formaat is het R Markdown bestand. Een R Markdown document is een combinatie van geschreven tekst met simpele opmaak en stukken ingesloten R code (zogenoemde *code chunks*). Het mooie aan R Markdown is dat je code chunks (en in-line code) kan invoegen om uitvoer en statistische analyse te rapporteren.
 
-Zodra je een RMarkdown bestand exporteert, kun je je tekst omzetten in documenten, rapporten, presentaties en dashboards van hoge kwaliteit. Dit document, bijvoorbeeld, is een R Markdown bestand.
+Zodra je een RMarkdown bestand exporteert, kun je je tekst omzetten in documenten, rapporten, presentaties en dashboards van hoge kwaliteit.
 
 ::: {.callout-note}
 RStudio zal automatisch het benodigde `rmarkdown` package installeren en laden wanneer nodig.
+:::
+
+::: {.callout-note}
+Naast Rmarkdown bestaat er ook een Quarto document. Dit is een zeer vergelijkbaar type document. Dit boek is gemaakt met behulp van Quarto.
 :::
 
 ### R Markdown bestanden bewerken
@@ -351,7 +355,7 @@ Om R te laten weten dat dit een categoriale variabele is, moeten we specificeren
 directions <- factor(c("East", "West", "East", "North", "North", "East", "West", "West", "West", "East", "North"))
 ```
 
-Intern slaat R deze factoren op als gehele getallen (=gehele getallen), en gebruikt de strings als labels. Als we de inhoud van dit object laten zien, krijgen we:
+Intern slaat R deze factoren op als gehele getallen (*integers*), en gebruikt de strings als labels. Als we de inhoud van dit object laten zien, krijgen we:
 
 ```{r, include=TRUE}
 directions
@@ -426,7 +430,7 @@ Zodra je gegevens hebt ingevoerd of geladen, toont R studio deze in het 'Environ
 
 #### Dataframes aanmaken op basis van vectoren
 
-Om individuele vectoren te combineren tot één dataframe kunnen wij de functie `data.frame()` gebruiken. Dit voegt vectoren samen: elke vector zal in een aparte **kolom** staan. Elke **rij** vertegenwoordigt **een geval** waarover we informatie hebben. Hieronder maak ik drie vectoren (een over de dag van de week, een over de temperatuur op die dag en een factor variabele over het weertype) en combineer ze tot een dataframe met de naam 'weer'. Merk op dat we `factor()` gebruiken voor de factorvariabele.
+Om individuele vectoren te combineren tot één dataframe kunnen wij de functie `data.frame()` gebruiken. Dit voegt vectoren samen: elke vector zal in een aparte **kolom** staan. Elke **rij** vertegenwoordigt **een geval** waarover we informatie hebben. Hieronder maken we drie vectoren (een over de dag van de week, een over de temperatuur op die dag en een factor variabele over het weertype) en combineer ze tot een dataframe met de naam 'weer'. Merk op dat we `factor()` gebruiken voor de factorvariabele.
 
 ```{r include=TRUE}
 dag = c("maandag", "dinsdag", "woensdag", "donderdag", "vrijdag")
@@ -440,13 +444,13 @@ weer
 
 `weer <- data.frame(dag, temp, type)`
 
-:   Dit creëert een nieuw dataframe met de naam "weer" dat de drie vectoren "dag", "temp" en "type" combineert. Vervang de namen van het dataframe en de vectoren door jullie gegevens.
+:   Dit creëert een nieuw dataframe met de naam "weer" dat de drie vectoren "dag", "temp" en "type" combineert. Vervang de namen van het dataframe en de vectoren door je eigen gegevens.
 
 `str(weer)`
 
 :   Deze code geeft de interne structuur van de dataframe weer.
 
-#### De operator \$
+#### De operator \$ {#sec-data-basics-dollar-operator}
 
 De operator met het "dollarteken" (\$) is nuttig wanneer we werken met dataframes. Ten eerste kan het worden gebruikt om variabelen in dataframes te ***bekijken***. Bijvoorbeeld, we kunnen de variabele "grade" bekijken door te schrijven:
 
@@ -461,7 +465,7 @@ weer$vochtigheid <- c(71, 84, 89, 76, 85)
 weer
 ```
 
-Zorg ervoor dat het aantal observaties van de nieuwe vectoren gelijk is aan het aantal observaties in het dataframe. Hieronder probeer ik bijvoorbeeld nog een variabele over de windsnelheid toe te voegen. Maar omdat deze variabele maar 4 waarnemingen heeft, geeft R een foutmelding:
+Zorg ervoor dat het aantal observaties van de nieuwe vectoren gelijk is aan het aantal observaties in het dataframe. Hieronder proberen we bijvoorbeeld nog een variabele over de windsnelheid toe te voegen. Maar omdat deze variabele maar 4 waarnemingen heeft, geeft R een foutmelding:
 
 ```{r, include=TRUE, error = TRUE}
 weer$wind <- c(27, 14, 21, 18) #deze vector heeft slechts 4 observaties
@@ -528,6 +532,17 @@ deniro_data <- import("data/deniro.csv")
 
 ::: {.callout-warning}
 Belangrijk is dat als je alleen een bestandsnaam invult (hier: deniro.csv), R aanneemt dat dit bestand zich in je **huidige werkdirectory** bevindt. Als je in een R-project werkt, is deze werkdirectory dezelfde als je projectmap.
+:::
+
+::: {.callout-note}
+Als je projecten hebt met veel bestanden, kan het overzichtelijk zijn om databestanden in een aparte map op te slaan. Als je het bestand `deniro.csv` bijvoorbeeld in de map `data` opslaat (binnen je R project), kun je het als volgt laden:
+
+```{r}
+#| eval: false
+library(rio)
+deniro_data <- import("data/deniro.csv") 
+```
+
 :::
 
 We kunnen nu de inhoud van dit dataframe weergeven:
@@ -608,9 +623,9 @@ x |>
   mean()     # Dit berekent het gemiddelde
 ```
 
-Als je ze voor de pipe zet, denkt R dat de pipe deel uitmaakt van de annotaties en zal het een error[^1] weergeven:
+Als je ze voor de pipe zet, denkt R dat de pipe deel uitmaakt van de annotaties en zal het een error[^3] weergeven:
 
-[^1]: R verwerkt de pipe operator na sqrt() niet omdat deze na de hashtag (\^#) staat en dus deel uitmaakt van de annotaties. Het resultaat is dat R de code `x |> sqrt()` uitvoert en het resultaat weergeeft. Daarna gaat R door naar de regel `mean()` en geeft een foutmelding, omdat er geen argumenten zijn voor de functie.
+[^3]: R verwerkt de pipe operator na sqrt() niet omdat deze na de hashtag (\^#) staat en dus deel uitmaakt van de annotaties. Het resultaat is dat R de code `x |> sqrt()` uitvoert en het resultaat weergeeft. Daarna gaat R door naar de regel `mean()` en geeft een foutmelding, omdat er geen argumenten zijn voor de functie.
 
 ```{r, eval = FALSE, error=TRUE}
 x |> 

@@ -1,8 +1,10 @@
 # Centrum- en spreidingsmaten {#sec-analysis-descriptives}
 
+In dit hoofdstuk bespreken we hoe je in R centrum- en spreidingsmaten voor variabelen met diverse meetniveaus kunt berekenen.
+
 ## Centrummaten
 
-De meest gebruikte centrummaten zijn het gemiddelde, de mediaan en de modus. Om te tonen hoe we ze berekenen met R, zullen we de drie variabelen gebruiken:
+De meest gebruikte centrummaten zijn het gemiddelde, de mediaan en de modus. Om te tonen hoe we ze berekenen met R, zullen we de volgende drie variabelen gebruiken:
 
 ```{r eval=TRUE, include=TRUE}
 directions <- factor(c("East", "West", "East", "North", "North", "East", "West", "West", "West", "East", "North"))
@@ -153,7 +155,7 @@ var(exam_points, na.rm = TRUE)
 
 ## Bewerkingen doen in dataframes
 
-Zoals hierboven uitgelegd, gebruik je het symbool "\$" om variabelen in dataframes aan te roepen. Daarom, als we een van de functies willen gebruiken die tot nu toe zijn behandeld (`mean()`, `table()`, `sd()`, `var()`, enz.) gebruik je gewoon die operator om specifieke variabelen in data frames te gebruiken.
+Zoals uitgelegd in @sec-data-basics-dollar-operator, gebruik je het symbool "\$" om variabelen in dataframes aan te roepen. Daarom, als we een van de functies willen gebruiken die tot nu toe zijn behandeld (`mean()`, `table()`, `sd()`, `var()`, enz.) gebruik je gewoon die operator om specifieke variabelen in data frames te gebruiken.
 
 **Voorbeeld:** als we het gemiddelde en de standaardafwijking van filmscores ('Score') in 'deniro_data' willen berekenen, zouden we schrijven:
 
