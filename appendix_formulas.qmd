@@ -30,7 +30,7 @@ $$IQR = \ Q_{3} - Q_{1}$$
 
 $$E(X) = \ \sum_{i = 1}^{k}{x_{i}P(X = x_{i})}$$
 
-#### Algemene Formule voor de Variantie (*General Variance Formula*)
+### Algemene Formule voor de Variantie (*General Variance Formula*)
 
 $$\sigma^{2} = \sum_{j = 1}^{k}{{(x_{j} - \mu)}^{2}P(X = x_{j})}$$
 
