@@ -1,4 +1,4 @@
-# Formules Statistiek I 
+# Formules Statistiek I
 
 ::: {.content-visible when-format="html"}
 ::: callout-tip
@@ -109,6 +109,8 @@ $$\chi^{2} = \sum_{i = 1}^{k}\frac{{(O_{i} - E_{i})}^{2}}{E_{i}}$$
 $$df = k - 1$$
 
 ### Chi^2^ ($\chi^{2}$) two-way
+
+$$ E_{i,j} = \frac{kolomtotaal_j * rijtotaal_i}{tabeltotaal} $$
 
 $$\chi^{2} = \sum_{i,\ j}^{}\frac{{(O_{i,j} - E_{i,j})}^{2}}{E_{i,j}}$$
 
