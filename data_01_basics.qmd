@@ -31,7 +31,19 @@ Wanneer je RStudio opent, zie je vier vensters (ook wel panes genoemd). Je kunt 
 
 R kan gebruikt worden als een krachtige rekenmachine. Je kunt eenvoudig wiskundige bewerkingen direct op de prompt in de console invoeren. Typ gewoon je rekenkundige bewerkingen en druk op ENTER op Windows-toetsenborden en op RETURN op Mac-toetsenborden.
 
-Voor eenvoudige rekenkundige bewerkingen gebruikt R de volgende operatoren:
+Voor eenvoudige rekenkundige bewerkingen gebruikt R de volgende operatoren:[^data_01_basics-1]
+
+[^data_01_basics-1]: Strikt genomen geen operator is de functie `sqrt` waarmee je de wortel kan trekken:
+
+    ```{r}
+    sqrt(16) 
+    ```
+
+    Dit geeft hetzelfde resultaat als verheffen tot de 1/2e macht:
+
+    ```{r}
+    16^(1/2)
+    ```                     
 
 ```{r eval=FALSE, include=TRUE}
 +    Optellen
@@ -53,9 +65,9 @@ Als je 6 en 3 wilt optellen en daarna het resultaat met 2 wilt vermenigvuldigen,
 
 Je kunt meer complexe uitdrukkingen schrijven die haakjes en operatoren gebruiken.
 
-De volgorde waarin R bovenstaande operatoren uitvoert is[^1]:
+De volgorde waarin R bovenstaande operatoren uitvoert is[^data_01_basics-2]:
 
-[^1]: Dit is een vereenvoudigde weergave. Typ `?Syntax` in de Console om de volledige lijst te zien.
+[^data_01_basics-2]: Dit is een vereenvoudigde weergave. Typ `?Syntax` in de Console om de volledige lijst te zien.
 
 -   haakjes
 -   machtsverheffen en worteltrekken
@@ -65,20 +77,21 @@ De volgorde waarin R bovenstaande operatoren uitvoert is[^1]:
 Neem de volgende vergelijking:
 
 $$
-\frac{18 * 4^2 - (4+2)}{3}
+\frac{18 * 4^2 - (4+2)}{3} + \sqrt{16}
 $$
 
 Je voert dit als volgt in de RStudio *console* in:
 
 ```{r, include=TRUE}
-(18 * 4 ^ 2 - (5 + 4))/3
+(18 * 4 ^ 2 - (4 + 2))/3 + sqrt(16)
 ```
 
 Merk op hoe je de volgorde van evaluatie kunt bepalen door haakjes te gebruiken.
 
 1.  Intern berekent R eerst `18 * 4 ^ 2` (`= 288`). Het volgt de hierboven beschreven regels, dus er is geen noodzaak om een haakje rond `4^2` te zetten. Exponenten worden berekend vóór de vermenigvuldiging, dus hoeven we dit niet aan te geven via een haakje.
-2.  Hiervan trekken we `5 + 4` af (`288 - 9 = 279`).
-3.  Ten slotte delen we door 3.
+2.  Hiervan trekken we `4 + 2` af (`288 - 6 = 282`).
+3.  Daarna delen we door 3.
+4.  Ten slotte tellen we de wortel van 16 erbij op.
 
 ## *base R* en *packages*
 
@@ -96,8 +109,7 @@ install.packages("rio")
 
 R installeert automatisch alles wat het nodig heeft. Als je eenmaal een package hebt geïnstalleerd, blijft het op je laptop staan. Het installeren van een R-pakket hoeft dus maar één keer gedaan te worden (totdat je R opnieuw installeert).
 
-
-::: {.callout-warning}
+::: callout-warning
 Let op: Packages die nodig zijn voor deze cursus zijn voorgeïnstalleerd op alle PC's van de Universiteit Leiden. Daarom kan deze stap overgeslagen worden als je op PC's van de universiteit werkt en kun je ze gewoon laden (zie volgende stap). Als je een eigen laptop gebruikt, moet je het package wel eerst installeren.
 :::
 
@@ -169,11 +181,11 @@ Een ander veelgebruikt formaat is het R Markdown bestand. Een R Markdown documen
 
 Zodra je een RMarkdown bestand exporteert, kun je je tekst omzetten in documenten, rapporten, presentaties en dashboards van hoge kwaliteit.
 
-::: {.callout-note}
+::: callout-note
 RStudio zal automatisch het benodigde `rmarkdown` package installeren en laden wanneer nodig.
 :::
 
-::: {.callout-note}
+::: callout-note
 Naast Rmarkdown bestaat er ook een Quarto document. Dit is een zeer vergelijkbaar type document. Dit boek is gemaakt met behulp van Quarto.
 :::
 
@@ -213,11 +225,11 @@ Wanneer je met R werkt, zal je waarschijnlijk verschillende bestanden hebben: ee
 
 3.  Voer je projectnaam in bij 'Directory name' en geef aan in welke map het project komt te staan door op 'Browse' te klikken en een map te selecteren. Klik dan op "Create Project" (Project aanmaken)
 
-![Setting up a Project in RStudio](figures/overview_r_functions_week1_screenshot_new_project.png){alt="Een project opzetten in RStudio"}
+![Een project opzetten in RStudio](figures/overview_r_functions_week1_screenshot_new_project.png)
 
 R zal nu het project aanmaken en de map openen in de Bestanden weergave onderaan het project.
 
-::: {.callout-tip}
+::: callout-tip
 Stel een Project op voor deze cursus, en bewaar alle opdrachten, oefeningen en gegevensbestanden voor deze cursus in de projectmap/directory.
 :::
 
@@ -363,9 +375,9 @@ directions
 
 Zoals je kunt zien, behandelt R dit nu als een categoriale (nominale) variabele.
 
-We kunnen ook meer informatie krijgen over de unieke waarden van onze factor door `levels()` te gebruiken[^2]:
+We kunnen ook meer informatie krijgen over de unieke waarden van onze factor door `levels()` te gebruiken[^data_01_basics-3]:
 
-[^2]: Onder de motorkap koppelt R elk level aan een getal en bewaart de gegevens op deze manier:
+[^data_01_basics-3]: Onder de motorkap koppelt R elk level aan een getal en bewaart de gegevens op deze manier:
 
     ```{r}
     str(directions)
@@ -416,7 +428,7 @@ Dit voorbeelddataframe bevat informatie over vijf studenten (één per rij). Het
 
 Het is mogelijk om een dataframe te maken door handmatig gegevens in te voeren; normaal zullen we een dataframe laden vanuit een bestand.
 
-::: {.callout-note}
+::: callout-note
 Je kunt later de term `tibble` tegenkomen, wat in wezen hetzelfde is als een dataframe.
 :::
 
@@ -501,7 +513,7 @@ Met behulp van de `import` functie uit het pakket [rio](https://cran.r-project.o
 
 Stel dat we een door komma's gescheiden waarden (comma-separated values, CSV) bestand willen openen. Een .csv-bestand is het meest gebruikte bestandsformaat voor het opslaan van gegevens. Ons voorbeeldbestand heet "deniro.csv" (beschikbaar [hier)](https://people.sc.fsu.edu/~jburkardt/data/csv/deniro.csv) en bevat Rotten Tomato beoordelingen van films met Robert De Niro. Er zijn 87 records. We hebben drie variabelen: Year, Rating en Title.
 
-::: {.callout-tip}
+::: callout-tip
 Zorg ervoor dat je het bestand opslaat in je projectmap, want dat is waar R naar het bestand zal zoeken wanneer je het opent.
 :::
 
@@ -519,7 +531,6 @@ library(rio)
 deniro_data <- import("data/deniro.csv") 
 ```
 
-
 `library(rio)`
 
 :   Dit laadt het pakket 'rio' in R. Je hoeft dit maar één keer te doen aan het begin van je R-sessie.
@@ -530,11 +541,11 @@ deniro_data <- import("data/deniro.csv")
 
     In dit voorbeeld laden we een bestand genaamd `deniro.csv` en slaan het op in een data frame genaamd `deniro_data`. Je kunt elke naam opgeven die je wilt voor een dataframe.
 
-::: {.callout-warning}
+::: callout-warning
 Belangrijk is dat als je alleen een bestandsnaam invult (hier: deniro.csv), R aanneemt dat dit bestand zich in je **huidige werkdirectory** bevindt. Als je in een R-project werkt, is deze werkdirectory dezelfde als je projectmap.
 :::
 
-::: {.callout-note}
+::: callout-note
 Als je projecten hebt met veel bestanden, kan het overzichtelijk zijn om databestanden in een aparte map op te slaan. Als je het bestand `deniro.csv` bijvoorbeeld in de map `data` opslaat (binnen je R project), kun je het als volgt laden:
 
 ```{r}
@@ -542,7 +553,6 @@ Als je projecten hebt met veel bestanden, kan het overzichtelijk zijn om databes
 library(rio)
 deniro_data <- import("data/deniro.csv") 
 ```
-
 :::
 
 We kunnen nu de inhoud van dit dataframe weergeven:
@@ -577,7 +587,6 @@ Hierna kunnen we het weer importeren op dezelfde manier als we eerder deden:
 #| eval: false
 student_scores <- import("student_scores.rds")
 ```
-
 
 ## De *pipe operator* \|\> {#sec-data-basics-pipes}
 
@@ -623,9 +632,9 @@ x |>
   mean()     # Dit berekent het gemiddelde
 ```
 
-Als je ze voor de pipe zet, denkt R dat de pipe deel uitmaakt van de annotaties en zal het een error[^3] weergeven:
+Als je ze voor de pipe zet, denkt R dat de pipe deel uitmaakt van de annotaties en zal het een error[^data_01_basics-4] weergeven:
 
-[^3]: R verwerkt de pipe operator na sqrt() niet omdat deze na de hashtag (\^#) staat en dus deel uitmaakt van de annotaties. Het resultaat is dat R de code `x |> sqrt()` uitvoert en het resultaat weergeeft. Daarna gaat R door naar de regel `mean()` en geeft een foutmelding, omdat er geen argumenten zijn voor de functie.
+[^data_01_basics-4]: R verwerkt de pipe operator na sqrt() niet omdat deze na de hashtag (\^#) staat en dus deel uitmaakt van de annotaties. Het resultaat is dat R de code `x |> sqrt()` uitvoert en het resultaat weergeeft. Daarna gaat R door naar de regel `mean()` en geeft een foutmelding, omdat er geen argumenten zijn voor de functie.
 
 ```{r, eval = FALSE, error=TRUE}
 x |> 
@@ -643,6 +652,6 @@ Dit is de foutmelding:
 
 We kunnen de pipe operator ook gebruiken voor dataframes. In [hoofdstuk @sec-data-filtering-selecting] en [-@sec-data-variables] zullen we leren over verschillende handige functies in het `dplyr` pakket waarmee we nieuwe variabelen kunnen maken, gegevens kunnen filteren of variabelen kunnen selecteren. Nu weet je dat het simpelweg betekent dat we datgene wat links staat nemen en doorgeven aan de functie rechts.
 
-::: {.callout-note}
+::: callout-note
 Je kunt `%>%` tegenkomen in code geschreven door anderen. Dit is ook een pipe operator, die voor onze doeleinden op dezelfde manier werkt als `|>`.
 :::
