@@ -382,19 +382,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="interactie-met-de-console-r-als-rekenmachine-gebruiken" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="interactie-met-de-console-r-als-rekenmachine-gebruiken"><span class="header-section-number">1.1</span> Interactie met de <em>console</em>: R als rekenmachine gebruiken</h2>
 <p>R kan gebruikt worden als een krachtige rekenmachine. Je kunt eenvoudig wiskundige bewerkingen direct op de prompt in de console invoeren. Typ gewoon je rekenkundige bewerkingen en druk op ENTER op Windows-toetsenborden en op RETURN op Mac-toetsenborden.</p>
-<p>Voor eenvoudige rekenkundige bewerkingen gebruikt R de volgende operatoren:</p>
+<p>Voor eenvoudige rekenkundige bewerkingen gebruikt R de volgende operatoren:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>    Optellen</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>    Aftrekken</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="sc">*</span>    Vermenigvuldigen</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span>    Delen</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="sc">^</span>    Machtsverheffen</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>    Optellen</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>    Aftrekken</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="sc">*</span>    Vermenigvuldigen</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span>    Delen</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="sc">^</span>    Machtsverheffen</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="haakjes-gebruiken" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="haakjes-gebruiken"><span class="header-section-number">1.1.1</span> Haakjes gebruiken</h3>
 <p>Als je 6 en 3 wilt optellen en daarna het resultaat met 2 wilt vermenigvuldigen, moet je haakjes toevoegen. Dit legt een volgorde op voor de berekening van het resultaat (d.w.z. eerst 6 en 3 optellen en dan delen door 2). In het geval van dit voorbeeld, zou je kunnen invoeren</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">6</span> <span class="sc">+</span> <span class="dv">3</span>) <span class="sc">*</span> <span class="dv">2</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">6</span> <span class="sc">+</span> <span class="dv">3</span>) <span class="sc">*</span> <span class="dv">2</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 18</code></pre>
 </div>
@@ -403,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="meer-complexe-vergelijkingen" class="level3" data-number="1.1.2">
 <h3 data-number="1.1.2" class="anchored" data-anchor-id="meer-complexe-vergelijkingen"><span class="header-section-number">1.1.2</span> Meer complexe vergelijkingen</h3>
 <p>Je kunt meer complexe uitdrukkingen schrijven die haakjes en operatoren gebruiken.</p>
-<p>De volgorde waarin R bovenstaande operatoren uitvoert is<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<p>De volgorde waarin R bovenstaande operatoren uitvoert is<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
 <ul>
 <li>haakjes</li>
 <li>machtsverheffen en worteltrekken</li>
@@ -412,20 +412,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Neem de volgende vergelijking:</p>
 <p><span class="math display">\[
-\frac{18 * 4^2 - (4+2)}{3}
+\frac{18 * 4^2 - (4+2)}{3} + \sqrt{16}
 \]</span></p>
 <p>Je voert dit als volgt in de RStudio <em>console</em> in:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">18</span> <span class="sc">*</span> <span class="dv">4</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">-</span> (<span class="dv">5</span> <span class="sc">+</span> <span class="dv">4</span>))<span class="sc">/</span><span class="dv">3</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">18</span> <span class="sc">*</span> <span class="dv">4</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">-</span> (<span class="dv">4</span> <span class="sc">+</span> <span class="dv">2</span>))<span class="sc">/</span><span class="dv">3</span> <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">16</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 93</code></pre>
+<pre><code>[1] 98</code></pre>
 </div>
 </div>
 <p>Merk op hoe je de volgorde van evaluatie kunt bepalen door haakjes te gebruiken.</p>
 <ol type="1">
 <li>Intern berekent R eerst <code>18 * 4 ^ 2</code> (<code>= 288</code>). Het volgt de hierboven beschreven regels, dus er is geen noodzaak om een haakje rond <code>4^2</code> te zetten. Exponenten worden berekend vóór de vermenigvuldiging, dus hoeven we dit niet aan te geven via een haakje.</li>
-<li>Hiervan trekken we <code>5 + 4</code> af (<code>288 - 9 = 279</code>).</li>
-<li>Ten slotte delen we door 3.</li>
+<li>Hiervan trekken we <code>4 + 2</code> af (<code>288 - 6 = 282</code>).</li>
+<li>Daarna delen we door 3.</li>
+<li>Ten slotte tellen we de wortel van 16 erbij op.</li>
 </ol>
 </section>
 </section>
@@ -437,7 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="installeren-en-laden-van-een-r-package"><span class="header-section-number">1.2.1</span> Installeren en laden van een R package</h3>
 <p>Om een package te installeren, gebruik je de <code>install.packages()</code> functie en dan schrijf je de naam van het package. Je moet aanhalingstekens plaatsen rond de naam van het pakket, dus <code>install.packages("&lt;de naam van het pakket&gt;")</code>. Als je bijvoorbeeld het pakket <code>rio</code> wilt installeren (een R-pakket dat het importeren en exporteren van gegevens in R heel snel maakt), dan schrijf je:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rio"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rio"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>R installeert automatisch alles wat het nodig heeft. Als je eenmaal een package hebt geïnstalleerd, blijft het op je laptop staan. Het installeren van een R-pakket hoeft dus maar één keer gedaan te worden (totdat je R opnieuw installeert).</p>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -455,7 +456,7 @@ Waarschuwing
 </div>
 <p>Het installeren van een package maakt het niet direct beschikbaar voor je in R. Voordat je het package en de bijbehorende functies kunt gebruiken, moet je het in R laden. Om packages in R te laden, wordt de <code>library()</code> functie gebruikt. Bij het laden van een package, gebruik je geen aanhalingstekens. Om het ‘rio’ pakket in R te laden, schrijf je:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Als je een pakket probeert te laden dat niet is geïnstalleerd, krijg je een foutmelding (‘<code>Error in library(rio) : there is no package called 'rio'</code>’).</p>
 </section>
@@ -467,16 +468,16 @@ Waarschuwing
 <p>Het is gemakkelijk om een nieuw script te maken in RStudio. We kunnen daarvoor het menu gebruiken (“File” → “New File” → “R Script”) of met de sneltoets “Command+Shift+N” op een Mac of “Ctrl+Shift+N” op Windows en Linux. Daarna verschijnt de editor als een nieuw deelvenster in de linkerbovenhoek van het RStudio venster.</p>
 <p>In een R Script kun je alle code schrijven die nodig is voor je project. We zouden bijvoorbeeld deze drie regels kunnen schrijven:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Dit is mijn eerste R Script"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="dv">17-8</span><span class="sc">*</span><span class="dv">2</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Dit is mijn eerste R Script"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="dv">17-8</span><span class="sc">*</span><span class="dv">2</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="r-scripts-annoteren" class="level3" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="r-scripts-annoteren"><span class="header-section-number">1.3.1</span> R Scripts annoteren</h3>
 <p>Je kan commentaar toevoegen door het R Script te annoteren (van commentaar voorzien). Het annoteren maakt het veel gemakkelijker voor jezelf of mensen met wie je samenwerkt. Je gebruikt het symbool <code>#</code> om een annotatie te starten. Wanneer je een commando uitvoert, zal R alles na dit symbool negeren. In een script negeert R alles wat na # komt op de betreffende regel, maar zal het wel de volgende regels weer uitvoeren.</p>
 <p>Terugkomend op het eerdere voorbeeld, stel dat je een commentaar wilt toevoegen na de formule dan kun je schrijven:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">18</span> <span class="sc">*</span> <span class="dv">4</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">-</span> (<span class="dv">5</span> <span class="sc">+</span> <span class="dv">4</span>))<span class="sc">/</span><span class="dv">3</span>   <span class="co"># Dit is een prachtige rekensom</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">18</span> <span class="sc">*</span> <span class="dv">4</span> <span class="sc">^</span> <span class="dv">2</span> <span class="sc">-</span> (<span class="dv">5</span> <span class="sc">+</span> <span class="dv">4</span>))<span class="sc">/</span><span class="dv">3</span>   <span class="co"># Dit is een prachtige rekensom</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="uitvoeren-van-code-in-r-scripts" class="level3" data-number="1.3.2">
@@ -497,9 +498,9 @@ Waarschuwing
 <p>Als je een annotatie hebt toegevoegd (zie hierboven), zal R de tekst achter <code>#</code> uitsluiten.</p>
 <p>Je kunt natuurlijk meerdere regels uitvoeren. Bijvoorbeeld, als je R Script deze drie commando’s bevat:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Dit is mijn eerste R Script"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="dv">17-8</span><span class="sc">*</span><span class="dv">2</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Dit is mijn eerste R Script"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="dv">17-8</span><span class="sc">*</span><span class="dv">2</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Je kunt alles wat je wilt uitvoeren (dus de hele tekst of de eerste twee regels, enz.) selecteren met je muiscursor en dan klikken op de knop ‘Uitvoeren’ bovenin het bestandsvenster of op CTRL + ENTER drukken op Windows PC’s of COMMAND ⌘ + RETURN op Mac.</p>
 </section>
@@ -616,56 +617,56 @@ Tip
 <p>R kan omgaan met veel verschillende vormen van invoer (tekst, getallen, data, enz,). Je kan bepalen welk soort gegevens in een object worden opgeslagen. Stel dat we de numerieke waarde 12 willen toewijzen aan een object met de naam <code>my_first_variable</code>.</p>
 <p>We maken een object aan met de naam <code>my_first_variable</code> (merk op dat er geen spatie in de naam mag staan) en kennen er één waarde (12) aan toe. Om dit in R te doen gebruiken we <code>&lt;-</code>. De code wordt dan:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>my_first_variable <span class="ot">&lt;-</span> <span class="dv">12</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>my_first_variable <span class="ot">&lt;-</span> <span class="dv">12</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We kunnen vervolgens laten printen wat de inhoud van <code>my_first_variable</code> is door de naam in te typen (en daarna de code te draaien):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>my_first_variable </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>my_first_variable </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12</code></pre>
 </div>
 </div>
 <p>Als we het datatype controleren via <code>class()</code>, kunnen we zien dat dit een ‘numeriek’ object is. Dit wordt gebruikt voor getallen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(my_first_variable)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(my_first_variable)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "numeric"</code></pre>
 </div>
 </div>
 <p>Op dit punt is het misschien goed om op te merken dat R een <strong>hoofdlettergevoelige</strong> programmeertaal is. Dit betekent dat alle variabelen, functies en objecten moeten worden aangeroepen met hun exacte spelling. Als je het object <code>my_first_variable</code> probeert aan te roepen door <code>My_first_variable</code> te schrijven (let op de hoofdletter ‘M’), zal R het object niet kunnen vinden en een foutmelding weergeven:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>My_first_variable</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>My_first_variable</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in eval(expr, envir, enclos): object 'My_first_variable' not found</code></pre>
 </div>
 </div>
 <p>Natuurlijk kunnen we ook decimale getallen invoeren. Je moet hiervoor een ‘punt’ als decimaalscheidingsteken gebruiken:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>my_second_variable <span class="ot">&lt;-</span> <span class="fl">6.521</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>my_second_variable </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>my_second_variable <span class="ot">&lt;-</span> <span class="fl">6.521</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>my_second_variable </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6.521</code></pre>
 </div>
 </div>
 <p>Wanneer we de <code>class</code> van dit object inspecteren, zien we dat het weer een numeriek (<em>numeric</em>) object is.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(my_second_variable)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(my_second_variable)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "numeric"</code></pre>
 </div>
 </div>
 <p>We kunnen ook tekst opslaan. In R wordt tekst een <em>‘character’</em> (karakter) object of <em>‘string’</em> (tekenreeks) genoemd. Een string is een stuk tekst dat wordt voorgesteld als een opeenvolging van tekens (letters, cijfers en symbolen). Hij kan uit één of meerdere tekens bestaan. Elke waarde die in R binnen een paar enkele of dubbele aanhalingstekens wordt geschreven, wordt behandeld als een tekenreeks. Het is gebruikelijker om dubbele aanhalingstekens (““) dan enkele aanhalingstekens (’’) rond de tekst te gebruiken. Dit zal een character variabele creëren.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>a_text_variable <span class="ot">&lt;-</span> <span class="st">"Hallo, wereld"</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>a_text_variable</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>a_text_variable <span class="ot">&lt;-</span> <span class="st">"Hallo, wereld"</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>a_text_variable</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Hallo, wereld"</code></pre>
 </div>
 </div>
 <p>Zoals hierboven uitgelegd, kun je dubbele aanhalingstekens of enkele aanhalingstekens gebruiken. Hoewel dit tot hetzelfde resultaat zal leiden, raden we aan dubbele aanhalingstekens te gebruiken.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>a_text_variable <span class="ot">&lt;-</span> <span class="st">'Hallo wereld'</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>a_text_variable</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>a_text_variable <span class="ot">&lt;-</span> <span class="st">'Hallo wereld'</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>a_text_variable</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Hallo wereld"</code></pre>
 </div>
@@ -675,45 +676,45 @@ Tip
 <h3 data-number="1.6.2" class="anchored" data-anchor-id="een-vector-creëren"><span class="header-section-number">1.6.2</span> Een vector creëren</h3>
 <p>Tot nu toe bevat ons object slechts één waarde. Als we verschillende waarden willen opslaan, moeten we een vector maken. Vectoren zijn essentiële objecten in R. Zij zijn de bouwsteen voor data frames die wij later zullen behandelen. Laten we een numerieke vector maken die alle getallen van 1 tot 5 en de waarde 8.5 bevat. Om dit te doen gebruiken we <code>c()</code>. De “c” in <code>c()</code> staat voor combineren.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>my_first_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="fl">8.5</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>my_first_vector</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>my_first_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="fl">8.5</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>my_first_vector</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.0 2.0 3.0 4.0 5.0 8.5</code></pre>
 </div>
 </div>
 <p>Als we het datatype controleren via <code>class()</code>, kunnen we zien dat dit een ‘numeriek’ object is. Dit wordt gebruikt als de waarden getallen zijn of als de waarden decimalen bevatten.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(my_first_vector)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(my_first_vector)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "numeric"</code></pre>
 </div>
 </div>
 <p>We kunnen ook een vector maken met tekst in plaats van getallen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>color_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"yellow"</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>color_vector</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>color_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"yellow"</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>color_vector</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "blue"   "red"    "green"  "white"  "black"  "yellow"</code></pre>
 </div>
 </div>
 <p>Zoals hierboven is aangegeven, gebruikt R het datatype <code>karakter' bij het opslaan van tekst. Als we het datatype controleren via</code>class()`, kunnen we zien dat dit een ‘character’ object is.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(color_vector)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(color_vector)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "character"</code></pre>
 </div>
 </div>
 <p>Kunnen we getallen en tekst combineren? Nee. Vectoren zijn beperkt tot 1 type gegevens (d.w.z. je kunt getallen of tekenreeksen opslaan, maar niet beide). Wat gebeurt er als we getallen en tekenreeksen mixen?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>mixed_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="st">"red"</span>, <span class="dv">3</span>, <span class="st">"white"</span>, <span class="st">"black"</span>, <span class="dv">6</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>mixed_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="st">"red"</span>, <span class="dv">3</span>, <span class="st">"white"</span>, <span class="st">"black"</span>, <span class="dv">6</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>R maakt de vector, maar maakt er automatisch een character vector van (zie de dubbele aanhalingstekens als we de vector aanroepen en de output van <code>class(mixed_vector)</code>):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>mixed_vector</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>mixed_vector</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "1"     "red"   "3"     "white" "black" "6"    </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(mixed_vector)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(mixed_vector)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "character"</code></pre>
 </div>
@@ -729,11 +730,11 @@ Tip
 <h5 data-number="1.6.3.1.1" class="anchored" data-anchor-id="nominale-variabelen"><span class="header-section-number">1.6.3.1.1</span> Nominale variabelen</h5>
 <p>Stel dat we een nominale variabele met windrichtingen hebben. Eerst maken we een vector als invoer:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>, <span class="st">"North"</span>, <span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>, <span class="st">"North"</span>, <span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Tot nu toe is dit gewoon een character vector. Als we de inhoud ervan printen krijgen we:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "East"  "West"  "East"  "North" "North" "East"  "West"  "West"  "West" 
 [10] "East"  "North"</code></pre>
@@ -741,20 +742,20 @@ Tip
 </div>
 <p>Om R te laten weten dat dit een categoriale variabele is, moeten we specificeren dat het een factor is. We kunnen dit doen door <code>factor()</code> toe te voegen rond de expressie:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>directions <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>, <span class="st">"North"</span>, <span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>directions <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>, <span class="st">"North"</span>, <span class="st">"East"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"North"</span>))</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Intern slaat R deze factoren op als gehele getallen (<em>integers</em>), en gebruikt de strings als labels. Als we de inhoud van dit object laten zien, krijgen we:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>directions</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>directions</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] East  West  East  North North East  West  West  West  East  North
 Levels: East North West</code></pre>
 </div>
 </div>
 <p>Zoals je kunt zien, behandelt R dit nu als een categoriale (nominale) variabele.</p>
-<p>We kunnen ook meer informatie krijgen over de unieke waarden van onze factor door <code>levels()</code> te gebruiken<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>:</p>
+<p>We kunnen ook meer informatie krijgen over de unieke waarden van onze factor door <code>levels()</code> te gebruiken<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(directions)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(directions)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "East"  "North" "West" </code></pre>
 </div>
@@ -765,10 +766,10 @@ Levels: East North West</code></pre>
 <h5 data-number="1.6.3.1.2" class="anchored" data-anchor-id="ordinale-factor-niveaus-in-r"><span class="header-section-number">1.6.3.1.2</span> Ordinale factor niveaus in R</h5>
 <p>In het vorige voorbeeld werd een nominale variabele gebruikt (d.w.z. geen duidelijke ordening van de categorieën). Ordinale variabelen daarentegen hebben een duidelijke rangschikking van de categorieën. Dit kunnen waarden zijn als laag, gemiddeld en hoog. Om dit te doen, maken we factoren met een inherente ordening van de categorieën door <code>levels = c(), ordered = TRUE</code> toe te voegen. Bijvoorbeeld, we kunnen een factor met temperatuur maken met “laag”, “gemiddeld”, “hoog”.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"high"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>, <span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"high"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>, <span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>), <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>temperature</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>temperature</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] low    high   medium high   low    medium high  
 Levels: low &lt; medium &lt; high</code></pre>
@@ -780,7 +781,7 @@ Levels: low &lt; medium &lt; high</code></pre>
 <h4 data-number="1.6.3.2" class="anchored" data-anchor-id="interval-ratiovariabelen"><span class="header-section-number">1.6.3.2</span> Interval-ratiovariabelen</h4>
 <p>Interval/ratiogegevens kunnen worden gecodeerd als variabelen met gehele getallen (getallen en decimalen). Om een continue variabele te maken, kunnen we eenvoudigweg een vector met gehele getallen of decimalen maken:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>exam_points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>exam_points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -829,19 +830,19 @@ Opmerking
 <h4 data-number="1.7.1.2" class="anchored" data-anchor-id="dataframes-aanmaken-op-basis-van-vectoren"><span class="header-section-number">1.7.1.2</span> Dataframes aanmaken op basis van vectoren</h4>
 <p>Om individuele vectoren te combineren tot één dataframe kunnen wij de functie <code>data.frame()</code> gebruiken. Dit voegt vectoren samen: elke vector zal in een aparte <strong>kolom</strong> staan. Elke <strong>rij</strong> vertegenwoordigt <strong>een geval</strong> waarover we informatie hebben. Hieronder maken we drie vectoren (een over de dag van de week, een over de temperatuur op die dag en een factor variabele over het weertype) en combineer ze tot een dataframe met de naam ‘weer’. Merk op dat we <code>factor()</code> gebruiken voor de factorvariabele.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>dag <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"maandag"</span>, <span class="st">"dinsdag"</span>, <span class="st">"woensdag"</span>, <span class="st">"donderdag"</span>, <span class="st">"vrijdag"</span>)</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">8</span>)</span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>type <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"bewolkt"</span>, <span class="st">"buien"</span>, <span class="st">"regenachtig"</span>, <span class="st">"bewolkt"</span>, <span class="st">"regenachtig"</span>))</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>weer <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(dag, temp, type)</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(weer)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>dag <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"maandag"</span>, <span class="st">"dinsdag"</span>, <span class="st">"woensdag"</span>, <span class="st">"donderdag"</span>, <span class="st">"vrijdag"</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">8</span>)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>type <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"bewolkt"</span>, <span class="st">"buien"</span>, <span class="st">"regenachtig"</span>, <span class="st">"bewolkt"</span>, <span class="st">"regenachtig"</span>))</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>weer <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(dag, temp, type)</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(weer)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   5 obs. of  3 variables:
  $ dag : chr  "maandag" "dinsdag" "woensdag" "donderdag" ...
  $ temp: num  7 5 7 8 8
  $ type: Factor w/ 3 levels "bewolkt","buien",..: 1 2 3 1 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>weer</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>weer</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        dag temp        type
 1   maandag    7     bewolkt
@@ -866,15 +867,15 @@ Opmerking
 <h4 data-number="1.7.1.3" class="anchored" data-anchor-id="sec-data-basics-dollar-operator"><span class="header-section-number">1.7.1.3</span> De operator $</h4>
 <p>De operator met het “dollarteken” ($) is nuttig wanneer we werken met dataframes. Ten eerste kan het worden gebruikt om variabelen in dataframes te <strong><em>bekijken</em></strong>. Bijvoorbeeld, we kunnen de variabele “grade” bekijken door te schrijven:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>student.data<span class="sc">$</span>grade</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>student.data<span class="sc">$</span>grade</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 6.5 5.5 7.0 9.0 8.5</code></pre>
 </div>
 </div>
 <p>We kunnen ook nieuwe variabelen <strong><em>creëren</em></strong>. Hiervoor gebruiken we de operator ‘&lt;-’. Laten we een nieuwe variabele aanmaken in ons ‘weer’-dataframe: een numerieke variabele over de vochtigheid op die dag.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>weer<span class="sc">$</span>vochtigheid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">71</span>, <span class="dv">84</span>, <span class="dv">89</span>, <span class="dv">76</span>, <span class="dv">85</span>) </span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>weer</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>weer<span class="sc">$</span>vochtigheid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">71</span>, <span class="dv">84</span>, <span class="dv">89</span>, <span class="dv">76</span>, <span class="dv">85</span>) </span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>weer</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        dag temp        type vochtigheid
 1   maandag    7     bewolkt          71
@@ -886,7 +887,7 @@ Opmerking
 </div>
 <p>Zorg ervoor dat het aantal observaties van de nieuwe vectoren gelijk is aan het aantal observaties in het dataframe. Hieronder proberen we bijvoorbeeld nog een variabele over de windsnelheid toe te voegen. Maar omdat deze variabele maar 4 waarnemingen heeft, geeft R een foutmelding:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>weer<span class="sc">$</span>wind <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">27</span>, <span class="dv">14</span>, <span class="dv">21</span>, <span class="dv">18</span>) <span class="co">#deze vector heeft slechts 4 observaties</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>weer<span class="sc">$</span>wind <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">27</span>, <span class="dv">14</span>, <span class="dv">21</span>, <span class="dv">18</span>) <span class="co">#deze vector heeft slechts 4 observaties</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in `$&lt;-.data.frame`(`*tmp*`, wind, value = c(27, 14, 21, 18)): replacement has 4 rows, data has 5</code></pre>
 </div>
@@ -896,7 +897,7 @@ Opmerking
 <h4 data-number="1.7.1.4" class="anchored" data-anchor-id="head-and-tail"><span class="header-section-number">1.7.1.4</span> head() and tail()</h4>
 <p>Als je een data frame hebt met veel waarnemingen, kan het nuttig zijn om alleen de eerste paar rijen af te drukken. Onze voorbeeldgegevensverzameling is klein, maar we kunnen ze toch gebruiken om het gebruik van de twee functies te illustreren:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(student.data)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(student.data)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  stud_id stud_name grade
 1       1    Arnold   6.5
@@ -905,14 +906,14 @@ Opmerking
 4       4    George   9.0
 5       5    Sophie   8.5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(student.data, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(student.data, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  stud_id stud_name grade
 1       1    Arnold   6.5
 2       2       Dan   5.5
 3       3       Ina   7.0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(student.data, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(student.data, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  stud_id stud_name grade
 3       3       Ina   7.0
@@ -956,8 +957,8 @@ Tip
 </div>
 <p>Je kunt deze dataset in R importeren met de volgende code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio) </span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>deniro_data <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"deniro.csv"</span>) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio) </span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>deniro_data <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"deniro.csv"</span>) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <dl>
 <dt><code>library(rio)</code></dt>
@@ -995,14 +996,14 @@ Opmerking
 <div class="callout-body-container callout-body">
 <p>Als je projecten hebt met veel bestanden, kan het overzichtelijk zijn om databestanden in een aparte map op te slaan. Als je het bestand <code>deniro.csv</code> bijvoorbeeld in de map <code>data</code> opslaat (binnen je R project), kun je het als volgt laden:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>deniro_data <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"data/deniro.csv"</span>) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>deniro_data <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"data/deniro.csv"</span>) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 <p>We kunnen nu de inhoud van dit dataframe weergeven:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(deniro_data)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(deniro_data)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Year Score                                   Title
 1  1968    86                               Greetings
@@ -1099,7 +1100,7 @@ Opmerking
 <h3 data-number="1.7.3" class="anchored" data-anchor-id="een-dataframe-exporteren"><span class="header-section-number">1.7.3</span> Een dataframe exporteren</h3>
 <p>Om een data frame op te slaan, gebruiken we de <code>export()</code> functie. We zullen het gebruiken om ons data frame met leerlingenscores op te slaan:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(student.data, <span class="st">"student_scores.csv"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(student.data, <span class="st">"student_scores.csv"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <dl>
 <dt><code>export(student.data, "student_scores.csv")</code></dt>
@@ -1109,11 +1110,11 @@ Opmerking
 </dl>
 <p><code>rio</code> ondersteunt ook de export naar het standaard bestandsformaat van R dat de .rds extensie gebruikt. Om dit te doen, schrijven we:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(student.data, <span class="st">"student_scores.rds"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(student.data, <span class="st">"student_scores.rds"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Hierna kunnen we het weer importeren op dezelfde manier als we eerder deden:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>student_scores <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"student_scores.rds"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>student_scores <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"student_scores.rds"</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -1122,18 +1123,18 @@ Opmerking
 <p>In statistische analyses voeren we vaak meerdere bewerkingen uit op een dataset of een enkele variabele. De pipe operator <code>|&gt;</code> (we vertalen deze term niet, maar je zou het ook de ‘pijp-operator’ kunnen noemen) wordt gebruikt om nettere code te schrijven.</p>
 <p>De pipe operator neemt in principe wat links staat en voert dat in als de eerste parameter aan de rechterkant. Bijvoorbeeld, als we een vector x hebben:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Je weet dat we het gemiddelde van x als volgt kunnen berekenen:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
 </div>
 <p>We kunnen ook de pipe operator gebruiken om deze operatie uit te voeren:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
@@ -1141,9 +1142,9 @@ Opmerking
 <p>Je kunt deze code lezen als `neem <em>x</em> en plaats dat als eerste argument van de functie mean’.</p>
 <p>Dit voorbeeld is natuurlijk triviaal (en normaal gesproken zou je gewoon <code>mean(x)</code> gebruiken), maar het mooie van de pipe operator is dat we meerdere bewerkingen achter elkaar kunnen uitvoeren, bijvoorbeeld:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.676466</code></pre>
 </div>
@@ -1153,22 +1154,22 @@ Opmerking
 <h3 data-number="1.8.1" class="anchored" data-anchor-id="annoteren-van-code-in-de-pipe"><span class="header-section-number">1.8.1</span> Annoteren van code in de pipe</h3>
 <p>Als je annotaties in de pijp wilt opnemen, zet ze dan <strong>na</strong> de pijp, zoals dit:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span></span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>() <span class="sc">|&gt;</span>  <span class="co"># Dit berekent de vierkantswortel</span></span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()     <span class="co"># Dit berekent het gemiddelde</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>() <span class="sc">|&gt;</span>  <span class="co"># Dit berekent de vierkantswortel</span></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()     <span class="co"># Dit berekent het gemiddelde</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.676466</code></pre>
 </div>
 </div>
-<p>Als je ze voor de pipe zet, denkt R dat de pipe deel uitmaakt van de annotaties en zal het een error<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> weergeven:</p>
+<p>Als je ze voor de pipe zet, denkt R dat de pipe deel uitmaakt van de annotaties en zal het een error<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> weergeven:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
-<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>()  Zo moet het het niet doen <span class="sc">|&gt;</span>   </span>
-<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">|&gt;</span> </span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>()  Zo moet het het niet doen <span class="sc">|&gt;</span>   </span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Dit is de foutmelding:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Error in mean.default(): argument "x" is missing, with no default</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Error in mean.default(): argument "x" is missing, with no default</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="pipes-en-dataframes" class="level3" data-number="1.8.2">
@@ -1194,16 +1195,31 @@ Opmerking
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Dit is een vereenvoudigde weergave. Typ <code>?Syntax</code> in de Console om de volledige lijst te zien.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Onder de motorkap koppelt R elk level aan een getal en bewaart de gegevens op deze manier:</p>
+<li id="fn1"><p>Strikt genomen geen operator is de functie <code>sqrt</code> waarmee je de wortel kan trekken:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(directions)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">16</span>) </span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>Dit geeft hetzelfde resultaat als verheffen tot de 1/2e macht:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span><span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<li id="fn2"><p>Dit is een vereenvoudigde weergave. Typ <code>?Syntax</code> in de Console om de volledige lijst te zien.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Onder de motorkap koppelt R elk level aan een getal en bewaart de gegevens op deze manier:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(directions)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> Factor w/ 3 levels "East","North",..: 1 3 1 2 2 1 3 3 3 1 ...</code></pre>
 </div>
 </div>
-<p>In onze factor staat 1 dus voor East, 2 voor North en 3 vooor West.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>R verwerkt de pipe operator na sqrt() niet omdat deze na de hashtag (^#) staat en dus deel uitmaakt van de annotaties. Het resultaat is dat R de code <code>x |&gt; sqrt()</code> uitvoert en het resultaat weergeeft. Daarna gaat R door naar de regel <code>mean()</code> en geeft een foutmelding, omdat er geen argumenten zijn voor de functie.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<p>In onze factor staat 1 dus voor East, 2 voor North en 3 vooor West.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>R verwerkt de pipe operator na sqrt() niet omdat deze na de hashtag (^#) staat en dus deel uitmaakt van de annotaties. Het resultaat is dat R de code <code>x |&gt; sqrt()</code> uitvoert en het resultaat weergeeft. Daarna gaat R door naar de regel <code>mean()</code> en geeft een foutmelding, omdat er geen argumenten zijn voor de functie.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
