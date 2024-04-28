@@ -20,16 +20,16 @@ Als voorbeeld gebruiken we een enquête onder kiezers waarin 23% aangeeft de Con
 
 ```{r}
 # Input definiëren (verander deze waarden)
-p_hat = 0.23
-n = 1000
-confidence = 0.95
+p_hat <- 0.23
+n <- 1000
+confidence <- 0.95
 
 
 # Voer berekeningen uit (je hoeft hier niets te veranderen)
-se = sqrt(p_hat * (1 - p_hat)/ n)     # Standaardfout berekenen
-z_star = qnorm((1 + confidence) / 2)  # Z*-waarde berekenen
-lower = p_hat - z_star * se           # Ondergrens betrouwbaarheidsinterval
-upper = p_hat + z_star * se           # Bovengrens betrouwbaarheidsinterval
+se <- sqrt(p_hat * (1 - p_hat)/ n)     # Standaardfout berekenen
+z_star <- qnorm((1 + confidence) / 2)  # Z*-waarde berekenen
+lower <- p_hat - z_star * se           # Ondergrens betrouwbaarheidsinterval
+upper <- p_hat + z_star * se           # Bovengrens betrouwbaarheidsinterval
 c(lower, upper)
 ```
 
@@ -41,10 +41,10 @@ Wanneer je alleen beknopte gegevens hebt, d.w.z. informatie over de steekproefgr
 
 ```{r, eval = FALSE}
 # Input definiëren (verander deze waarden)
-p_hat = 0.23
-n = 1000
+p_hat <- 0.23
+n <- 1000
 
-# Voer berekeningen uit (je hoeft hier niets te veranderen)
+# Voer berekeningen uit (pas zo nodig alleen conf.level aan)
 prop.test(x = p_hat * n, 
           n = n, 
           conf.level = 0.95)
@@ -68,10 +68,10 @@ prop.test(x = p_hat * n,
 
 ```{r, echo  = FALSE}
 # Input definiëren (verander deze waarden)
-p_hat = 0.23
-n = 1000
+p_hat <- 0.23
+n <- 1000
 
-# Voer berekeningen uit (je hoeft hier niets te veranderen)
+# Voer berekeningen uit (pas zo nodig alleen conf.level aan)
 prop.test(x = p_hat * n, 
           n = n, 
           conf.level = 0.95)
@@ -85,7 +85,7 @@ Als je een dataframe hebt met een variabele die voor elk geval het succes (of ni
 
 ```{r}
 # Voor dit voorbeeld maken we een dataset van 1000 respondenten waarvan er 230 een voorkeur voor de Conservatieven hebben.
-example_data = data.frame(party_choice = factor(c(rep("Conservatives", 230), 
+example_data <- data.frame(party_choice = factor(c(rep("Conservatives", 230), 
                                                   rep("Other party", 770))))
 table(example_data$party_choice)
 ```
@@ -152,8 +152,8 @@ Wanneer je alleen informatie hebt over de steekproefgrootte en de proportie, rad
 
 ```{r, eval = FALSE}
 # Input definiëren (verander deze waarden)
-p_hat = 0.23
-n = 1000
+p_hat <- 0.23
+n <- 1000
 
 # Voer berekeningen uit
 prop.test(x = p_hat * n, 
@@ -184,8 +184,8 @@ prop.test(x = p_hat * n,
 
 ```{r, echo = FALSE}
 # Input definiëren (verander deze waarden)
-p_hat = 0.23
-n = 1000
+p_hat <- 0.23
+n <- 1000
 
 # Voer berekeningen uit
 prop.test(x = p_hat * n, 
@@ -291,18 +291,18 @@ Om een 90 % betrouwbaarheidsinterval van het verschil voor de overlevingspercent
 
 ```{r}
 # Definieer invoer (pas deze aan voor je eigen berekeningen)
-p_hat_1 = 14 / 40  # Treatment group
-p_hat_2 = 11 / 50  # Control group
-n_1 = 40
-n_2 = 50
+p_hat_1 <- 14 / 40  # Treatment group
+p_hat_2 <- 11 / 50  # Control group
+n_1 <- 40
+n_2 <- 50
 confidence = 0.9
 
 # Voer berekeningen uit (je hoeft hier niets te veranderen)
-p_hat = p_hat_1 - p_hat_2
-se = sqrt((p_hat_1*(1-p_hat_1)/n_1) + (p_hat_2*(1-p_hat_2)/n_2))
-z_star = qnorm((1 + confidence) / 2)  # Bereken z*-value 
-lower = p_hat - z_star * se   # Ondergrens betrouwbaarheidsinterval
-upper = p_hat + z_star * se   # Bovengrens betrouwbaarheidsinterval
+p_hat <- p_hat_1 - p_hat_2
+se <- sqrt((p_hat_1*(1-p_hat_1)/n_1) + (p_hat_2*(1-p_hat_2)/n_2))
+z_star <- qnorm((1 + confidence) / 2)  # Bereken z*-value 
+lower <- p_hat - z_star * se   # Ondergrens betrouwbaarheidsinterval
+upper <- p_hat + z_star * se   # Bovengrens betrouwbaarheidsinterval
 c(lower, upper)
 ```
 
@@ -403,17 +403,17 @@ Om de hypothese of er een verschil was in borstkankersterfte in de twee groepen 
 
 ```{r}
 # Definieer invoer (pas deze aan voor je eigen berekeningen)
-p_hat_1 = 500 / (500 + 44425)
-p_hat_2 = 505 / (505 + 44405)
-n_1 = 500 + 44425 # Totaal aantal deelnemers in de eerste groep
-n_2 = 505 + 44405 # Totaal aantal deelnemers in de tweede groep
-null_value = 0
+p_hat_1 <- 500 / (500 + 44425)
+p_hat_2 <- 505 / (505 + 44405)
+n_1 <- 500 + 44425 # Totaal aantal deelnemers in de eerste groep
+n_2 <- 505 + 44405 # Totaal aantal deelnemers in de tweede groep
+null_value <- 0
 
 # Voer berekeningen uit (je hoeft hier niets te veranderen)
-p_hat_pooled = (p_hat_1 * n_1 + p_hat_2 * n_2) / (n_1 + n_2)
-point_est = p_hat_1 - p_hat_2
-se = sqrt((p_hat_pooled*(1-p_hat_pooled)/n_1)+(p_hat_pooled*(1-p_hat_pooled)/n_2))
-z = (point_est - null_value)/se
+p_hat_pooled <- (p_hat_1 * n_1 + p_hat_2 * n_2) / (n_1 + n_2)
+point_est <- p_hat_1 - p_hat_2
+se <- sqrt((p_hat_pooled*(1-p_hat_pooled)/n_1)+(p_hat_pooled*(1-p_hat_pooled)/n_2))
+z <- (point_est - null_value)/se
 pnorm(z)
 ```
 
