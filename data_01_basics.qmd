@@ -445,8 +445,8 @@ Zodra je gegevens hebt ingevoerd of geladen, toont R studio deze in het 'Environ
 Om individuele vectoren te combineren tot één dataframe kunnen wij de functie `data.frame()` gebruiken. Dit voegt vectoren samen: elke vector zal in een aparte **kolom** staan. Elke **rij** vertegenwoordigt **een geval** waarover we informatie hebben. Hieronder maken we drie vectoren (een over de dag van de week, een over de temperatuur op die dag en een factor variabele over het weertype) en combineer ze tot een dataframe met de naam 'weer'. Merk op dat we `factor()` gebruiken voor de factorvariabele.
 
 ```{r include=TRUE}
-dag = c("maandag", "dinsdag", "woensdag", "donderdag", "vrijdag")
-temp = c(7, 5, 7, 8, 8)
+dag <- c("maandag", "dinsdag", "woensdag", "donderdag", "vrijdag")
+temp <- c(7, 5, 7, 8, 8)
 type <- factor(c("bewolkt", "buien", "regenachtig", "bewolkt", "regenachtig"))
 weer <- data.frame(dag, temp, type)
 
@@ -595,7 +595,7 @@ In statistische analyses voeren we vaak meerdere bewerkingen uit op een dataset 
 De pipe operator neemt in principe wat links staat en voert dat in als de eerste parameter aan de rechterkant. Bijvoorbeeld, als we een vector x hebben:
 
 ```{r}
-x = c(1,2,3,4,5)
+x <- c(1,2,3,4,5)
 ```
 
 Je weet dat we het gemiddelde van x als volgt kunnen berekenen:
