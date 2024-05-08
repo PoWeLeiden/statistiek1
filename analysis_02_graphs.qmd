@@ -20,6 +20,16 @@ library(scales)    # Dit laadt scales
 library(openintro) # We maken gebruik van data uit het package openintro
 ```
 
+We maken gebruik van de dataset `loan50` die deel uitmaakt van het package `openintro` met behulp van de functie `data`.
+
+```{r}
+data(loan50)
+```
+
+::: callout-note
+Onthoud dat we de functie `data` alleen kunnen gebruiken voor datasets die bij een package horen. Voor het laden van datasets vanuit een bestand zie @sec-data-basics-gegevens-laden.
+:::
+
 ## Algemene inleiding tot ggplot
 
 Plots met ggplot 2 worden ontworpen in lagen (*layers*).
@@ -27,7 +37,6 @@ Plots met ggplot 2 worden ontworpen in lagen (*layers*).
 Elke ggplot begint met de `ggplot` functie, waarin je de dataset definieert die wordt gebruikt en de belangrijkste variabelen. Bijvoorbeeld in de grafiek hieronder definiëren we `loan50` als de `data` . Vervolgens koppelen ("mapping") we de variabelen die we gebruiken met behulp van de `aes` functie, die variabelen koppelt aan elementen van de grafiek. In onderstaand voorbeeld geven we aan dat we de variabele `total_income` op de x-as willen gebruiken en `loan_amount` op de y-as.
 
 ```{r}
-data(loan50) # Hiermee laden we de dataset loan50 van openintro
 ggplot(data = loan50, 
        mapping = aes(x = total_income, y = loan_amount))
 ```
@@ -75,7 +84,6 @@ Een puntenwolk geeft een overzicht van elk uniek punt voor twee numerieke waarde
 In het onderstaande voorbeeld zetten we `total_income` op de x-as (horizontaal) en `loan_amount` op de y-as (verticaal).
 
 ```{r}
-data(loan50) # This loads the dataset loan50 from openintro
 ggplot(data = loan50, 
        mapping = aes(x = total_income, y = loan_amount)) +
   geom_point()
@@ -173,7 +181,6 @@ ggplot(data = loan50,
 Een dot plot vat de waarden voor een enkele variabele samen.
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = interest_rate)) +
   geom_dotplot()
@@ -194,7 +201,6 @@ ggplot(data = loan50,
 ### Dot plot: extra opties
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = interest_rate)) +
   geom_dotplot() +
@@ -224,7 +230,6 @@ ggplot(data = loan50,
 Een histogram geeft een overzicht van een numerieke variabele, door de tellingen van (gegroepeerde) waarden weer te geven.
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = interest_rate)) +
   geom_histogram()
@@ -249,7 +254,6 @@ Er zijn verschillende mogelijkheden om te bepalen hoe de gegevens van de variabe
 #### Breedte van de bins
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = interest_rate)) +
   geom_histogram(binwidth = 2.5)
@@ -262,7 +266,6 @@ ggplot(data = loan50,
 #### Aantal bins
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = interest_rate)) +
   geom_histogram(bins = 10)
@@ -275,7 +278,6 @@ ggplot(data = loan50,
 #### Handmatige breekpunten
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = interest_rate)) +
   geom_histogram(breaks=seq(5,27.5,by=2.5))
@@ -314,7 +316,6 @@ ggplot(data = loan50,
 Een boxplot geeft een samenvatting van een variabele, met behulp van vijf statistieken, waaronder de mediaan, Q1 en Q3.
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = interest_rate)) +
   geom_boxplot()
@@ -335,7 +336,6 @@ ggplot(data = loan50,
 ### Box plot: extra opties
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(y = interest_rate)) +
   geom_boxplot(fill = "grey") +
@@ -368,7 +368,6 @@ ggplot(data = loan50,
 ### Box plot: meerdere groepen
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = interest_rate, y = homeownership)) +
   geom_boxplot() 
@@ -385,7 +384,6 @@ Een staafdiagram kan worden gebruikt om tellingen of proporties van categoriale 
 > Merk op dat een **histogram** wordt gebruikt voor de weergave van frequenties van numerieke (interval-ratio) variabelen, terwijl een **staafdiagram** wordt gebruikt voor de weergave van frequenties van categoriale variabelen.
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = homeownership)) +
   geom_bar()
@@ -406,7 +404,6 @@ ggplot(data = loan50,
 ### Bar plot: extra opties
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = homeownership)) +
   geom_bar(fill = "grey", colour = "black") +
@@ -435,7 +432,6 @@ Wanneer je twee categoriale variabelen hebt, kun je een staafdiagram maken dat b
 #### Gestapelde staafdiagram (*stacked bar plot*)
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = homeownership)) +
   geom_bar(aes(fill = verified_income))
@@ -450,7 +446,6 @@ ggplot(data = loan50,
 #### Staven naast elkaar
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = homeownership)) +
   geom_bar(aes(fill = verified_income), position="dodge")
@@ -465,7 +460,6 @@ ggplot(data = loan50,
 Dit type staafdiagram stapelt de subcategorieën, maar berekent ze als een percentage.
 
 ```{r}
-data(loan50)
 ggplot(data = loan50,
        mapping = aes(x = homeownership)) +
   geom_bar(aes(fill = verified_income), position = "fill") +
@@ -492,7 +486,6 @@ We kunnen ook staafdiagrammen gebruiken om statistieken weer te geven (bijvoorbe
 Eerst moeten we een dataframe maken dat de gemiddelde rente per type huiseigendom laat zien. Dit kunnen we doen met `group_by` en `summarise` uit het `dplyr` pakket. We zullen deze functies later in de cursus in meer detail bespreken. Voor nu is het voldoende om te begrijpen dat we de gemiddelde rente voor elk type huizenbezit berekenen:
 
 ```{r}
-data(loan50)
 loan50_means <- loan50 |>
   group_by(homeownership) |>
   summarise(interest_rate = mean(interest_rate, na.rm=TRUE))

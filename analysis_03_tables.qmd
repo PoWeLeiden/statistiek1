@@ -8,10 +8,9 @@ library(flextable)
 library(huxtable)
 ```
 
-
 ## Frequentietabellen
 
-Een frequentietabel toont het aantal keren dat een waarde voorkomt in de data. We hebben al kennis gemaakt met de functie `table`, die een eenvoudige tabel met tellingen oplevert. Om een uitgebreidere frequentietabel te maken die ook percentages bevat, gebruiken we package `expss`. Ons voorbeeld gebruikt gegevens uit package `openintro`:
+Een frequentietabel toont het aantal keren dat een waarde voorkomt in de data. We hebben al kennis gemaakt met de functie `table`, die een eenvoudige tabel met tellingen oplevert. Om een uitgebreidere frequentietabel te maken die ook percentages bevat, gebruiken we package `expss`. Ons voorbeeld gebruikt gegevens uit package `openintro`. We laden eerst de packages:
 
 ```{r}
 #| eval: false
@@ -19,10 +18,19 @@ library(expss)
 library(openintro)
 ```
 
-We maken een frequentietabel met de functie `fre`:
+We laden daarna de dataset `loan50` die deel uitmaakt van het package `openintro` met behulp van de functie `data`.
 
 ```{r}
 data(loan50)
+```
+
+::: callout-note
+Onthoud dat we de functie `data` alleen kunnen gebruiken voor datasets die bij een package horen. Voor het laden van datasets vanuit een bestand zie @sec-data-basics-gegevens-laden.
+:::
+
+Nu maken we maken een frequentietabel met de functie `fre`:
+
+```{r}
 fre(loan50$homeownership)
 ```
 
@@ -34,7 +42,6 @@ fre(loan50$homeownership)
 
 :   We specificeren de gebruikte dataset en variabele met behulp van de dollartekennotatie, d.w.z. de naam van het dataframe vóór het dollarteken en de naam van de variabele na het dollarteken.
 
-
 ::: callout-tip
 ## Rapportage
 
@@ -43,8 +50,10 @@ Voor een frequentietabel is het meestal voldoende om de aantallen en geldige per
 ```{r}
 fre(loan50$homeownership)[,1:3] |> drop_na()
 ```
+
 ::: {.callout-tip collapse="true"}
 ## Rapportage voor gevorderden
+
 Als je het helemaal netjes wil doen, zonder de tabel nog handmatig te bewerken, kun je onderstaande code gebruiken en aanpassen.
 
 ```{r}
@@ -58,8 +67,6 @@ loan50 |>                                            # Start met je data frame
 :::
 :::
 
-
-
 ## Kruistabellen
 
 Een kruistabel (*contingency table* of *cross table*) geeft een samenvatting van gegevens voor twee categoriale variabelen. Hieronder staat een kruistabel van twee variabelen: het geslacht van een respondent en of de respondent rookt.
@@ -67,11 +74,12 @@ Een kruistabel (*contingency table* of *cross table*) geeft een samenvatting van
 ![](figures/overview_r_functions_week2_000.png)
 
 ### Twee lay-outs van een kruistabel
+
 De bovenstaande tabel toont de waargenomen frequenties. Dit is niet de manier waarop kruistabel moeten worden gepresenteerd. In plaats daarvan zijn er twee manieren die worden gebruikt en die beide voor deze cursus kunnen worden gebruikt.
 
 #### Lay-out 1
 
-In de eerste lay-out worden alleen de percentages per categorie van de variabele in de rijen, behalve de totaalrij onderaan,  getoond. Je berekent de percentages per kolom door het aantal waargenomen frequenties te delen door het totale aantal waarnemingen in die kolom. In de laatste kolom toon je ook de percentages.
+In de eerste lay-out worden alleen de percentages per categorie van de variabele in de rijen, behalve de totaalrij onderaan, getoond. Je berekent de percentages per kolom door het aantal waargenomen frequenties te delen door het totale aantal waarnemingen in die kolom. In de laatste kolom toon je ook de percentages.
 
 ![](figures/overview_r_functions_week2_001.png)
 
@@ -81,7 +89,7 @@ Toegepast op bovenstaande gegevens (geslacht van de respondent en roken) zou de 
 
 #### Lay-out 2
 
-In de tweede lay-out worden naast de percentages per categorie van de variabele in de rijen ook de waargenomen frequenties getoond. Ook hier deel je voor de percentages de waargenomen frequenties door het totale aantal waarnemingen in elke kolom. In de kolom "rijtotalen" worden echter alleen de waargenomen frequenties getoond. 
+In de tweede lay-out worden naast de percentages per categorie van de variabele in de rijen ook de waargenomen frequenties getoond. Ook hier deel je voor de percentages de waargenomen frequenties door het totale aantal waarnemingen in elke kolom. In de kolom "rijtotalen" worden echter alleen de waargenomen frequenties getoond.
 
 ![](figures/overview_r_functions_week2_002.png)
 
@@ -91,25 +99,24 @@ Toegepast op bovenstaande gegevens zou de kruistabel er als volgt uitzien:
 
 Vanzelfsprekend mogen de engelstalige termen 'Frequency', 'Column %', 'Row totals' en 'Column totals' ook vervangen worden door een Nederlandstalig equivalent (Frequentie, Kolompercentage, Rijtotaal, Kolomtotaal).
 
-::: {.callout-tip}
+::: callout-tip
 ## Rapportage: aanwijzingen
 
-- Gebruik een eenvoudige lay-out met een beperkt aantal (horizontale) lijnen. Verticale lijnen zijn niet nodig. De hierboven gebruikte standaard is acceptabel, maar ook een variant met slechts drie lijnen (boven, onder de titelrij en onder) is prima.
+-   Gebruik een eenvoudige lay-out met een beperkt aantal (horizontale) lijnen. Verticale lijnen zijn niet nodig. De hierboven gebruikte standaard is acceptabel, maar ook een variant met slechts drie lijnen (boven, onder de titelrij en onder) is prima.
 
-- Zet de onafhankelijke variabele in de kolommen en de afhankelijke variabele in de rijen. Dit is een conventie (de statistiek verandert op zich niet als je het omdraait); het is voor je lezers makkelijker als je daaraan voldoet.
+-   Zet de onafhankelijke variabele in de kolommen en de afhankelijke variabele in de rijen. Dit is een conventie (de statistiek verandert op zich niet als je het omdraait); het is voor je lezers makkelijker als je daaraan voldoet.
 
--  Percenteer variabelen over de kolommen. Elke kolom moet optellen tot 100%.
+-   Percenteer variabelen over de kolommen. Elke kolom moet optellen tot 100%.
 
-- Omdat we weten dat de totalen van de kolommen 100% zijn, vermeld je daar de aantallen (in de laatste rij). Op die manier kan de lezer de aantallen van elke cel desgewenst terugrekenen. Het is ook acceptabel om zowel kolompercentages als aantallen in elke cel te vermelden (layout 1).
+-   Omdat we weten dat de totalen van de kolommen 100% zijn, vermeld je daar de aantallen (in de laatste rij). Op die manier kan de lezer de aantallen van elke cel desgewenst terugrekenen. Het is ook acceptabel om zowel kolompercentages als aantallen in elke cel te vermelden (layout 1).
 
-- Doorgaans kan worden afgerond op gehele getallen of één decimaal. 
+-   Doorgaans kan worden afgerond op gehele getallen of één decimaal.
 
-- Zet een titel boven de tabel. Begin de titel met ‘Tabel’ en het nummer van de tabel. 
+-   Zet een titel boven de tabel. Begin de titel met ‘Tabel’ en het nummer van de tabel.
 
-- Onderaan de tabel kan desgewenst de bron worden vermeld.
+-   Onderaan de tabel kan desgewenst de bron worden vermeld.
 
-- Bij de interpretatie van de tabel worden de percentages over de rijen vergeleken, bijvoorbeeld: van de mannen rookte 56%, terwijl van de vrouwen 46% rookte.
-
+-   Bij de interpretatie van de tabel worden de percentages over de rijen vergeleken, bijvoorbeeld: van de mannen rookte 56%, terwijl van de vrouwen 46% rookte.
 :::
 
 ### Kruistabellen in R
@@ -176,10 +183,15 @@ Merk op dat deze tabel nog enige (handmatige) bewerking vereist als je alleen de
 <!-- **Table 1: Example of a cross table** -->
 
 <!-- |                      |                | Homeownership |         |          | Total | -->
+
 <!-- |------------|------------|------------|------------|------------|------------| -->
+
 <!-- |                      |                | **Mortgage**  | **Own** | **Rent** |       | -->
+
 <!-- | **Application Type** | **Individual** | 80%           | 86%     | 91%      | 85%   | -->
+
 <!-- |                      | **Joint**      | 20%           | 14%     | 9%       | 15%   | -->
+
 <!-- | **Total (N)**        |                | 4789          | 1353    | 3858     | 10000 | -->
 
 ### Kruistabellen in R met expss
@@ -192,7 +204,6 @@ library(huxtable)
 library(expss)
 
 ```
-
 
 ```{r results="asis"}
 data(loans_full_schema)
@@ -280,4 +291,3 @@ quick_html(cross_table,
 `file = "cross_table.docx"`
 
 :   Dit specificeert de bestandsnaam voor het te exporteren bestand.
-

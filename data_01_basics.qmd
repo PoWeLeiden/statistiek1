@@ -505,7 +505,7 @@ tail(student.data, n = 3)
 
 :   `tail()` geeft de laatste *n* rijen gegevens weer. Als je n = ... weglaat, worden de laatste 5 rijen gegevens weergegeven.
 
-### Gegevens in R laden
+### Gegevens in R laden {#sec-data-basics-gegevens-laden}
 
 Je kunt gegevens importeren in R voor analyse en databewerking (variabele namen veranderen, cases selecteren, de waarden van variabelen hercoderen, etc.).
 
