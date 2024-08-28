@@ -20,16 +20,6 @@
     ]
   },
   {
-    "objectID": "part_working_data.html",
-    "href": "part_working_data.html",
-    "title": "Werken met data in R",
-    "section": "",
-    "text": "Dit deel van het materiaal richt zich op het werken met gegevens in R. Je leert hoe je:\n\nBasisprincipes van het gebruik van R en RStudio\nGegevens laden/importeren in R\nGegevens creëren in R\nGegevens wijzigen in R",
-    "crumbs": [
-      "Werken met data in R"
-    ]
-  },
-  {
     "objectID": "data_01_basics.html",
     "href": "data_01_basics.html",
     "title": "1  Werken met R en RStudio: de basis",
@@ -360,16 +350,6 @@
     ]
   },
   {
-    "objectID": "part_statistical_analysis.html",
-    "href": "part_statistical_analysis.html",
-    "title": "Statistische analyse in R",
-    "section": "",
-    "text": "In dit deel bespreken we de R-code die nodig is voor het uitvoeren van verschillende soorten statistische analyses die in de cursus zijn besproken.",
-    "crumbs": [
-      "Statistische analyse in R"
-    ]
-  },
-  {
     "objectID": "analysis_01_descriptives.html",
     "href": "analysis_01_descriptives.html",
     "title": "7  Centrum- en spreidingsmaten",
@@ -517,7 +497,7 @@
     "href": "analysis_03_tables.html",
     "title": "9  Tabellen",
     "section": "",
-    "text": "9.1 Frequentietabellen\nEen frequentietabel toont het aantal keren dat een waarde voorkomt in de data. We hebben al kennis gemaakt met de functie table, die een eenvoudige tabel met tellingen oplevert. Om een uitgebreidere frequentietabel te maken die ook percentages bevat, gebruiken we package expss. Ons voorbeeld gebruikt gegevens uit package openintro. We laden eerst de packages:\nlibrary(expss)\nlibrary(openintro)\nWe laden daarna de dataset loan50 die deel uitmaakt van het package openintro met behulp van de functie data.\ndata(loan50)\nNu maken we maken een frequentietabel met de functie fre:\nfre(loan50$homeownership)\n\n\n\n\n\nloan50$homeownership\n Count \n Valid percent \n Percent \n Responses, % \n Cumulative responses, % \n\n\n\n\n rent \n21\n42\n42\n42\n42\n\n\n mortgage \n26\n52\n52\n52\n94\n\n\n own \n3\n6\n6\n6\n100\n\n\n #Total \n50\n100\n100\n100\n\n\n\n &lt;NA&gt; \n0\n\n0",
+    "text": "9.1 Frequentietabellen\nEen frequentietabel toont het aantal keren dat een waarde voorkomt in de data. We hebben al kennis gemaakt met de functie table, die een eenvoudige tabel met tellingen oplevert. Om een uitgebreidere frequentietabel te maken die ook percentages bevat, gebruiken we package expss. Ons voorbeeld gebruikt gegevens uit package openintro. We laden eerst de packages:\nlibrary(expss)\nlibrary(openintro)\nWe laden daarna de dataset loan50 die deel uitmaakt van het package openintro met behulp van de functie data.\ndata(loan50)\nNu maken we maken een frequentietabel met de functie fre:\nfre(loan50$homeownership)\n\n\n\n\nloan50$homeownership\n Count \n Valid percent \n Percent \n Responses, % \n Cumulative responses, % \n\n\n\n\n rent \n21\n42\n42\n42\n42\n\n\n mortgage \n26\n52\n52\n52\n94\n\n\n own \n3\n6\n6\n6\n100\n\n\n #Total \n50\n100\n100\n100\n\n\n\n &lt;NA&gt; \n0\n\n0",
     "crumbs": [
       "Statistische analyse in R",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Tabellen</span>"
@@ -528,7 +508,7 @@
     "href": "analysis_03_tables.html#frequentietabellen",
     "title": "9  Tabellen",
     "section": "",
-    "text": "Opmerking\n\n\n\nOnthoud dat we de functie data alleen kunnen gebruiken voor datasets die bij een package horen. Voor het laden van datasets vanuit een bestand zie Paragraaf 1.7.2.\n\n\n\n\n\nfre\n\nDit is de functie om een frequentietabel te maken met behulp van het expss package\n\nloan50$homeownership\n\nWe specificeren de gebruikte dataset en variabele met behulp van de dollartekennotatie, d.w.z. de naam van het dataframe vóór het dollarteken en de naam van de variabele na het dollarteken.\n\n\n\n\n\n\n\n\nRapportage\n\n\n\nVoor een frequentietabel is het meestal voldoende om de aantallen en geldige percentages te rapporteren. Dit wordt bereikt door de eerste drie kolommen van een frequentietabel te selecteren en ontbrekende waarden te verwijderen.\n\nfre(loan50$homeownership)[,1:3] |&gt; drop_na()\n\n\n\n\n\nloan50$homeownership\n Count \n Valid percent \n\n\n\n\n rent \n21\n42\n\n\n mortgage \n26\n52\n\n\n own \n3\n6\n\n\n #Total \n50\n100\n\n\n\n\n\n\n\n\n\n\n\n\nRapportage voor gevorderden\n\n\n\n\n\nAls je het helemaal netjes wil doen, zonder de tabel nog handmatig te bewerken, kun je onderstaande code gebruiken en aanpassen.\n\nloan50 |&gt;                                            # Start met je data frame\n  pull(homeownership) |&gt;                             # Selecteer de juiste variabele\n  set_var_lab(\"Homeownership\") |&gt;                    # Geef deze een nette naam\n  fre(stat_lab = c(\"Frequentie\", \"Percentage\")) |&gt;   # Gebruik Nederlandse labels\n  _[,1:3] |&gt;                                         # Selecteer kolom 1 t/m 3\n  drop_na()                                          # Laat lege rijen weg\n\n\n\n\n\nHomeownership\n Frequentie \n Percentage \n\n\n\n\n rent \n21\n42\n\n\n mortgage \n26\n52\n\n\n own \n3\n6\n\n\n #Total \n50\n100",
+    "text": "Opmerking\n\n\n\nOnthoud dat we de functie data alleen kunnen gebruiken voor datasets die bij een package horen. Voor het laden van datasets vanuit een bestand zie Paragraaf 1.7.2.\n\n\n\n\n\nfre\n\nDit is de functie om een frequentietabel te maken met behulp van het expss package\n\nloan50$homeownership\n\nWe specificeren de gebruikte dataset en variabele met behulp van de dollartekennotatie, d.w.z. de naam van het dataframe vóór het dollarteken en de naam van de variabele na het dollarteken.\n\n\n\n\n\n\n\n\nRapportage\n\n\n\nVoor een frequentietabel is het meestal voldoende om de aantallen en geldige percentages te rapporteren. Dit wordt bereikt door de eerste drie kolommen van een frequentietabel te selecteren en ontbrekende waarden te verwijderen.\n\nfre(loan50$homeownership)[,1:3] |&gt; drop_na()\n\n\n\n\nloan50$homeownership\n Count \n Valid percent \n\n\n\n\n rent \n21\n42\n\n\n mortgage \n26\n52\n\n\n own \n3\n6\n\n\n #Total \n50\n100\n\n\n\n\n\n\n\n\n\n\n\nRapportage voor gevorderden\n\n\n\n\n\nAls je het helemaal netjes wil doen, zonder de tabel nog handmatig te bewerken, kun je onderstaande code gebruiken en aanpassen.\n\nloan50 |&gt;                                            # Start met je data frame\n  pull(homeownership) |&gt;                             # Selecteer de juiste variabele\n  set_var_lab(\"Homeownership\") |&gt;                    # Geef deze een nette naam\n  fre(stat_lab = c(\"Frequentie\", \"Percentage\")) |&gt;   # Gebruik Nederlandse labels\n  _[,1:3] |&gt;                                         # Selecteer kolom 1 t/m 3\n  drop_na()                                          # Laat lege rijen weg\n\n\n\n\nHomeownership\n Frequentie \n Percentage \n\n\n\n\n rent \n21\n42\n\n\n mortgage \n26\n52\n\n\n own \n3\n6\n\n\n #Total \n50\n100",
     "crumbs": [
       "Statistische analyse in R",
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Tabellen</span>"
@@ -726,7 +706,7 @@
     "href": "analysis_08_t-test.html",
     "title": "14  T-toets voor het gemiddelde",
     "section": "",
-    "text": "14.1 Standaardfout van het gemiddelde\nDe standaardfout van het gemiddelde kan worden geschat als \\(\\frac{s}{\\sqrt{n}}\\). In R kunnen we de functie MeanSE uit package DescTools gebruiken:\nlibrary(DescTools)\nexample_vector &lt;- rnorm(20)  # Voorbeeldgegevens van 20 normaal verdeelde willekeurige getallen.\n\nMeanSE(x = example_vector, \n       na.rm = TRUE)\n\n[1] 0.248909\nJe kunt ook MeanSE gebruiken voor een variabele in een dataframe:\n# $ gebruiken om een variabele uit een dataframe te selecteren\nMeanSE(canada$cps19_age, na.rm = TRUE)  \n\n[1] 0.08541655\n\n# Met behulp van de functie summarise\ncanada |&gt;\n  summarise(SE_age = MeanSE(cps19_age, na.rm = TRUE))\n\n      SE_age\n1 0.08541655\nDe functie describe in package psych geeft de standaardfout voor de gemiddelde voor alle variabelen in een dataframe. Dit is vooral nuttig wanneer we snel de standaardfout voor meerdere variabelen willen berekenen. In dit voorbeeld selecteren we drie interval-ratio variabelen uit de Canadian Election Study van 2019 (die we hierboven hebben geïmporteerd):\nlibrary(psych)\n\n# Selecteer drie variabelen van \"canada\" en wijs toe aan dataset \"canada_selectie\"\ncanada_selection &lt;- canada |&gt; \n  select(cps19_age, cps19_lr_parties_1, cps19_lr_parties_2)\n\n# Gebruik describe om samenvattende statistieken te berekenen voor \"canada_selectie\"\ndescribe(canada_selection)\n\n                   vars     n  mean    sd median trimmed   mad min max range\ncps19_age             1 37822 48.69 16.61     49   48.66 20.76  18  99    81\ncps19_lr_parties_1    2 27743  4.27  2.79      4    4.19  2.97   0  10    10\ncps19_lr_parties_2    3 28210  6.90  2.79      8    7.28  2.97   0  10    10\n                    skew kurtosis   se\ncps19_age           0.04    -0.91 0.09\ncps19_lr_parties_1  0.19    -0.77 0.02\ncps19_lr_parties_2 -0.97     0.14 0.02\nDe kolom se geeft de standaardfout van het gemiddelde weer (standaard afgerond op twee decimalen).",
+    "text": "14.1 Standaardfout van het gemiddelde\nDe standaardfout van het gemiddelde kan worden geschat als \\(\\frac{s}{\\sqrt{n}}\\). In R kunnen we de functie MeanSE uit package DescTools gebruiken:\nlibrary(DescTools)\nexample_vector &lt;- rnorm(20)  # Voorbeeldgegevens van 20 normaal verdeelde willekeurige getallen.\n\nMeanSE(x = example_vector, \n       na.rm = TRUE)\n\n[1] 0.2473089\nJe kunt ook MeanSE gebruiken voor een variabele in een dataframe:\n# $ gebruiken om een variabele uit een dataframe te selecteren\nMeanSE(canada$cps19_age, na.rm = TRUE)  \n\n[1] 0.08541655\n\n# Met behulp van de functie summarise\ncanada |&gt;\n  summarise(SE_age = MeanSE(cps19_age, na.rm = TRUE))\n\n      SE_age\n1 0.08541655\nDe functie describe in package psych geeft de standaardfout voor de gemiddelde voor alle variabelen in een dataframe. Dit is vooral nuttig wanneer we snel de standaardfout voor meerdere variabelen willen berekenen. In dit voorbeeld selecteren we drie interval-ratio variabelen uit de Canadian Election Study van 2019 (die we hierboven hebben geïmporteerd):\nlibrary(psych)\n\n# Selecteer drie variabelen van \"canada\" en wijs toe aan dataset \"canada_selectie\"\ncanada_selection &lt;- canada |&gt; \n  select(cps19_age, cps19_lr_parties_1, cps19_lr_parties_2)\n\n# Gebruik describe om samenvattende statistieken te berekenen voor \"canada_selectie\"\ndescribe(canada_selection)\n\n                   vars     n  mean    sd median trimmed   mad min max range\ncps19_age             1 37822 48.69 16.61     49   48.66 20.76  18  99    81\ncps19_lr_parties_1    2 27743  4.27  2.79      4    4.19  2.97   0  10    10\ncps19_lr_parties_2    3 28210  6.90  2.79      8    7.28  2.97   0  10    10\n                    skew kurtosis   se\ncps19_age           0.04    -0.91 0.09\ncps19_lr_parties_1  0.19    -0.77 0.02\ncps19_lr_parties_2 -0.97     0.14 0.02\nDe kolom se geeft de standaardfout van het gemiddelde weer (standaard afgerond op twee decimalen).",
     "crumbs": [
       "Statistische analyse in R",
       "<span class='chapter-number'>14</span>  <span class='chapter-title'>T-toets voor het gemiddelde</span>"
@@ -1005,6 +985,26 @@
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>C</span>  <span class='chapter-title'>Alle packages installeren</span>"
+    ]
+  },
+  {
+    "objectID": "part_working_data.html",
+    "href": "part_working_data.html",
+    "title": "Werken met data in R",
+    "section": "",
+    "text": "Dit deel van het materiaal richt zich op het werken met gegevens in R. Je leert hoe je:\n\nBasisprincipes van het gebruik van R en RStudio\nGegevens laden/importeren in R\nGegevens creëren in R\nGegevens wijzigen in R",
+    "crumbs": [
+      "Werken met data in R"
+    ]
+  },
+  {
+    "objectID": "part_statistical_analysis.html",
+    "href": "part_statistical_analysis.html",
+    "title": "Statistische analyse in R",
+    "section": "",
+    "text": "In dit deel bespreken we de R-code die nodig is voor het uitvoeren van verschillende soorten statistische analyses die in de cursus zijn besproken.",
+    "crumbs": [
+      "Statistische analyse in R"
     ]
   }
 ]
