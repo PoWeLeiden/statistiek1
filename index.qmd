@@ -8,18 +8,20 @@ We hebben het boek in twee delen verdeeld:
 
 2.  **Statistische analyse in R**. Dit deel richt zich op het uitvoeren van statistische analyses in R.
 
-
 ## Overzicht per week
 
-Voor elke week in de cursus moet je relevante hoofdstukken in beide secties lezen. In 2023-2024 is dit:
+Voor elke week in de cursus moet je relevante hoofdstukken in beide secties lezen.
 
+| Week | Werken met data in R | Statistische analyse in R |
+|-----------------|---------------------|----------------------------------|
+| 1 | @sec-data-basics, par. 1 tot 7 | @sec-analysis-descriptives |
+| 2 | @sec-data-basics, par. 8 | @sec-analysis-graphs, @sec-analysis-tables & @sec-analysis-probability |
+| 3 | @sec-data-filtering-selecting | @sec-analysis-normal-distribution & @sec-analysis-proportions, par. 1 & 2 |
+| 4 | @sec-data-variables & @sec-data-missing-data | @sec-analysis-proportions |
+| 5 | @sec-data-advanced-recoding | @sec-analysis-chi-squared |
+| 6 | \- | @sec-analysis-t-test |
+| 7 | @sec-data-merging-data | @sec-analysis-power-analysis & @sec-analysis-anova |
 
-| Week | Werken met data in R                           | Statistische analyse in R                                                      |
-|--------------|----------------------|------------------------------------|
-| 1    | @sec-data-basics, par. 1 tot 7             | @sec-analysis-descriptives                                                         |
-| 2    | @sec-data-basics, par. 8                  | @sec-analysis-graphs, @sec-analysis-tables & @sec-analysis-probability           |
-| 3    | @sec-data-filtering-selecting                  | @sec-analysis-normal-distribution & @sec-analysis-proportions, par. 1 & 2 |
-| 4    | @sec-data-variables & @sec-data-missing-data | @sec-analysis-proportions                                                          |
-| 5    | @sec-data-advanced-recoding                    | @sec-analysis-chi-squared                                                          |
-| 6    | \-                                             | @sec-analysis-t-test                                                               |
-| 7    | @sec-data-merging-data                         | @sec-analysis-power-analysis & @sec-analysis-anova                               |
+## Statistiek II
+
+Voor de cursus Statistiek II is een soortgelijk [online boek beschikbaar]([https://poweleiden.github.io/statistiek2/).
