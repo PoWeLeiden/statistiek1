@@ -24,4 +24,4 @@ Voor elke week in de cursus moet je relevante hoofdstukken in beide secties leze
 
 ## Statistiek II
 
-Voor de cursus Statistiek II is een soortgelijk [online boek beschikbaar]([https://poweleiden.github.io/statistiek2/).
+Voor de cursus Statistiek II is een soortgelijk [online boek beschikbaar](https://poweleiden.github.io/statistiek2/).
