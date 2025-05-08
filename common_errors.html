@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -421,7 +421,7 @@ Opmerking
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>MyVariable <span class="ot">=</span> <span class="st">"Hello"</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(myvariable)  <span class="co"># Object not found, because we're using lower case here</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error in eval(expr, envir, enclos): object 'myvariable' not found</code></pre>
+<pre><code>Error: object 'myvariable' not found</code></pre>
 </div>
 </div>
 <p>Fix by using the correct case:</p>
@@ -487,7 +487,7 @@ Opmerking
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>my_text <span class="ot">&lt;-</span> Hello, this won<span class="st">'t work</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error: &lt;text&gt;:1:17: unexpected ','
+<pre><code>Error in parse(text = input): &lt;text&gt;:1:17: unexpected ','
 1: my_text &lt;- Hello,
                     ^</code></pre>
 </div>
@@ -504,7 +504,7 @@ Opmerking
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error: &lt;text&gt;:2:0: unexpected end of input
+<pre><code>Error in parse(text = input): &lt;text&gt;:2:0: unexpected end of input
 1: x &lt;- c(1,2,3,4
    ^</code></pre>
 </div>
@@ -512,7 +512,7 @@ Opmerking
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="st">"Hello</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error: &lt;text&gt;:1:6: unexpected INCOMPLETE_STRING
+<pre><code>Error in parse(text = input): &lt;text&gt;:1:6: unexpected INCOMPLETE_STRING
 1: y &lt;- "Hello
          ^</code></pre>
 </div>
@@ -520,7 +520,7 @@ Opmerking
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)<span class="er">)</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error: &lt;text&gt;:1:16: unexpected ')'
+<pre><code>Error in parse(text = input): &lt;text&gt;:1:16: unexpected ')'
 1: x &lt;- c(1,2,3,4))
                    ^</code></pre>
 </div>
@@ -528,7 +528,7 @@ Opmerking
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="st">"Hello""</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error: &lt;text&gt;:1:13: unexpected INCOMPLETE_STRING
+<pre><code>Error in parse(text = input): &lt;text&gt;:1:13: unexpected INCOMPLETE_STRING
 1: y &lt;- "Hello""
                 ^</code></pre>
 </div>
@@ -536,7 +536,7 @@ Opmerking
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="st">"You cannot put a "</span>string<span class="st">" inside a string"</span></span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error: &lt;text&gt;:1:25: unexpected symbol
+<pre><code>Error in parse(text = input): &lt;text&gt;:1:25: unexpected symbol
 1: z &lt;- "You cannot put a "string
                             ^</code></pre>
 </div>
@@ -950,7 +950,7 @@ Caused by error in `setup_params()`:
 <span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> total_income, <span class="at">y =</span> loan_amount)) <span class="sc">+</span></span>
 <span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> homeownership)</span></code><button title="Kopieer naar klembord" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error in eval(expr, envir, enclos): object 'homeownership' not found</code></pre>
+<pre><code>Error: object 'homeownership' not found</code></pre>
 </div>
 </div>
 <p>R will interpret the above as setting the colour of all points to <code>homeownership</code> . It will look for an object called <code>homeownership</code> , which does not exist. You need to tell R that you are trying to map the colour of the points to the variable homeownership from the data frame you are using. Do that by putting <code>aes()</code> around <code>colour = homeownership</code>:</p>
